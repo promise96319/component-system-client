@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+}
+
+.sidebar {
+  width: 200px;
+  height: 500px;
+  background-color: lightgreen;
+  a  {
+    display: block;
+  }
+}

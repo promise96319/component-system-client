@@ -1,14 +1,13 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 组件库管理系统客户端
 
-## Getting Started
+使用技术：nextjs + swr
 
-First, run the development server:
+## 启动
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# 安装依赖
+pnpm i
+# 启动
 pnpm dev
 ```
 
