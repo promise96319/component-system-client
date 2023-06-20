@@ -1,3 +1,4 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "./node_modules/eslint-config-next/core-web-vitals.js"
+  // "extends": "next/core-web-vitals"
 }
