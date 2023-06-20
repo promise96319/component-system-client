@@ -13,5 +13,6 @@ export const useFetch = (url: string, option?: RequestInit, swrConfig?: SWRConfi
   // todo 权限校验及错误处理，post 请求处理等
 
   const cacheKey = `${option?.method ?? 'get'}-${url}`;
+
   return useSWR(cacheKey, () => fetcher(url, option), swrConfig);
 };

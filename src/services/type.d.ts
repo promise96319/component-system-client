@@ -1,3 +1,5 @@
+// 该文件需要与服务端 `prisma generate` 生成的接口保持一致
+
 /**
  * Model Version
  *

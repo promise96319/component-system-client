@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  nextjs-deploy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 37021:3000
+    networks:
+      - nextjs-network
+
+networks:
+  nextjs-network:
+    driver: bridge

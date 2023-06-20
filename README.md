@@ -1,33 +1,48 @@
 # 组件库管理系统客户端
 
-使用技术：nextjs + swr
+使用技术：
+
+- 框架：Next.js
+- 请求：SWR
+- 组件库：@qt/design（公司内部组件库）
 
 ## 启动
 
 ```bash
 # 安装依赖
-pnpm i
+# 建议使用 yarn，因为 pnpm 偶尔会出一些奇怪的问题，暂未解决。
+yarn
 # 启动
-pnpm dev
+yarn run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+在浏览器中打开 [http://localhost:3001](http://localhost:3001) 查看效果。
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## 开发
 
-To learn more about Next.js, take a look at the following resources:
+### 请求方法
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+项目内请求分为两种：
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- 一种请求是用于服务端组件，通过 `serverFetch` 方法进行请求数据，直接返回相应的结果。。
+- 另一种请求适用于客户端组件，通过 `swr` 封装，使用 `useFetch` 钩子进行请求，返回 `data` 和 `error` 等信息。
 
-## Deploy on Vercel
+在 `service` 文件中定义接口时，注意区分这两种请求。
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 请求数据类型
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+为了方便开发，在 `service` 里定义了 `type.d.ts` 文件，该文件是服务端项目通过 `npx prisma generate` 生成的类型文件。
+
+### 路由
+
+该项目采用的是 `Next.js` 的 `App Router`，详细使用方法见 [官方路由文档](https://nextjs.org/docs/app/building-your-application/routing)
+
+## 部署
+
+```bash
+docker-compose up -d
+```
+
+默认会部署到 `37021` 端口。
