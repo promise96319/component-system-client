@@ -18,9 +18,39 @@ yarn run dev
 
 在浏览器中打开 [http://localhost:3001](http://localhost:3001) 查看效果。
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
 ## 开发
+
+### 目录
+
+`src` 目录下的文件结构如下：
+
+```js
+.
+├── app
+│   ├── _components // layout 对应的组件
+│   ├── admin  // 管理模块
+│   ├── auth   // 登录模块
+│   ├── docs   // 文档模块
+│   ├── favicon.ico
+│   ├── globals.scss // 全局样式
+│   └── layout.tsx  // 布局组件
+├── assets  // 静态资源
+├── components // 全局公用组件
+├── hooks // 通用 hooks
+├── services // 请求服务
+│   ├── api-doc.ts
+│   ├── component.ts
+│   ├── demand.ts
+│   ├── design-doc.ts
+│   ├── discussion.ts
+│   ├── fetch.client.ts // 客户端请求函数
+│   ├── fetch.server.ts // 服务端请求函数
+│   ├── index.ts
+│   ├── type.d.ts  // 数据库模型对应的类型
+│   ├── user.ts
+│   └── version.ts
+└── utils // 通用工具函数
+```
 
 ### 请求方法
 
@@ -46,3 +76,7 @@ docker-compose up -d
 ```
 
 默认会部署到 `37021` 端口。
+
+## 资料
+
+- [SWR](https://swr.vercel.app/)
