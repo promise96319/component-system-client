@@ -10,7 +10,7 @@
 
 ```bash
 # 安装依赖
-# 建议使用 yarn，因为 pnpm 偶尔会出一些奇怪的问题，暂未解决。
+# 建议使用 yarn，因为用 pnpm 会出一些问题，暂未排查相关原因。
 yarn
 # 启动
 yarn run dev
@@ -31,6 +31,7 @@ yarn run dev
 │   ├── admin  // 管理模块
 │   ├── auth   // 登录模块
 │   ├── docs   // 文档模块
+│   ├── error  // 错误模块
 │   ├── favicon.ico
 │   ├── globals.scss // 全局样式
 │   └── layout.tsx  // 布局组件
@@ -38,17 +39,19 @@ yarn run dev
 ├── components // 全局公用组件
 ├── hooks // 通用 hooks
 ├── services // 请求服务
+│   ├── index.ts
 │   ├── api-doc.ts
 │   ├── component.ts
 │   ├── demand.ts
 │   ├── design-doc.ts
 │   ├── discussion.ts
-│   ├── fetch.client.ts // 客户端请求函数
-│   ├── fetch.server.ts // 服务端请求函数
 │   ├── index.ts
-│   ├── type.d.ts  // 数据库模型对应的类型
 │   ├── user.ts
-│   └── version.ts
+│   ├── version.ts
+│   └── common // 通用内容
+│       ├── fetch.client.ts // 客户端请求函数
+│       ├── fetch.server.ts // 服务端请求函数
+│       └── type.d.ts  // 数据库模型对应的类型
 └── utils // 通用工具函数
 ```
 
@@ -80,3 +83,4 @@ docker-compose up -d
 ## 资料
 
 - [SWR](https://swr.vercel.app/)
+- [Server Component](https://nextjs.org/docs/getting-started/react-essentials)

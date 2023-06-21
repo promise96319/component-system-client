@@ -1,5 +1,5 @@
-export * from './fetch.server';
-export * from './fetch.client';
+export * from './common/fetch.server';
+export * from './common/fetch.client';
 
 export * from './component';
 export * from './user';
