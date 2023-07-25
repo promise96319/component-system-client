@@ -1,10 +1,10 @@
 'use client';
 
+import { CodeDependency, JSDependency, codeRuntimePlugin } from '@/components/code-runner';
 import React, { useCallback } from 'react';
 import { Editor } from '@bytemd/react';
 import { useState } from 'react';
 import gfm from '@bytemd/plugin-gfm';
-import { codeRuntimePlugin } from '../../../components/code-runner/code-runtime-plugin';
 import { throttle } from 'lodash-es';
 
 import 'bytemd/dist/index.css';
@@ -14,9 +14,6 @@ const code = `
 \`\`\`
 import  React from 'react';
 import { Button } from '@qt/design';
-import dayjs from 'dayjs'
-
-console.log(dayjs())
 
 export default () => {
   const a  = 'hee';
@@ -34,11 +31,25 @@ export default function APIDoc() {
     []
   );
 
+  const jsDependencies: JSDependency[] = [
+    {
+      module: 'esm',
+      url: 'http://localhost:8080/dist/index.js',
+      globalName: 'QtDesign',
+      importName: '@qt/design'
+    }
+  ];
+
   return (
     <div className="editor">
       <header>头部内容 TODO:</header>
 
       <main className="editor-container">
+        <CodeDependency
+          cssDependencies={['http://localhost:8080/dist/index.css']}
+          jsDependencies={jsDependencies}
+        ></CodeDependency>
+
         <Editor
           mode="auto"
           value={value}
@@ -53,7 +64,7 @@ export default function APIDoc() {
           //     }
           //   ]);
           // }}
-          plugins={[gfm(), codeRuntimePlugin()]}
+          plugins={[gfm(), codeRuntimePlugin({ jsDependencies })]}
         ></Editor>
       </main>
     </div>

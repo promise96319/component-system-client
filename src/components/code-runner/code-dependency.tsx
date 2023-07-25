@@ -1,50 +1,30 @@
-/* eslint-disable @next/next/no-before-interactive-script-outside-document */
-import Head from 'next/head';
-import Script from 'next/script';
+'use client';
 
-export interface CssDependency {
-  type: 'css';
-  url: string;
-}
+/* eslint-disable @next/next/no-before-interactive-script-outside-document */
+import Script from 'next/script';
+import { useEffect } from 'react';
 
 export interface JSDependency {
-  type: 'js';
   module?: 'esm' | 'umd';
   url: string;
   globalName: string;
   importName: string;
 }
 
-export type CodeDependency = CssDependency | JSDependency;
-
-export const codeDependencies: CodeDependency[] = [
+export const builtInJsDependencies: JSDependency[] = [
   {
-    type: 'css',
-    url: 'http://localhost:8080/dist/index.css'
-  },
-  {
-    type: 'js',
-    module: 'esm',
-    url: 'http://localhost:8080/dist/index.js',
-    globalName: 'QtDesign',
-    importName: '@qt/design'
-  },
-  {
-    type: 'js',
     module: 'umd',
     url: 'https://unpkg.com/react@18/umd/react.development.js',
     globalName: 'React',
     importName: 'react'
   },
   {
-    type: 'js',
     module: 'umd',
     url: 'https://unpkg.com/react-dom@18/umd/react-dom.development.js',
     globalName: 'ReactDOM',
     importName: 'react-dom'
   },
   {
-    type: 'js',
     module: 'umd',
     url: 'https://cdn.jsdelivr.net/npm/dayjs@1.11.9/dayjs.min.js',
     globalName: 'dayjs',
@@ -52,25 +32,30 @@ export const codeDependencies: CodeDependency[] = [
   }
 ];
 
-export const loadCodeDependencyScripts = (dependencies: CodeDependency[] = codeDependencies) => {
-  let cssDependencies: CssDependency[] = [];
-  let jsDependencies: JSDependency[] = [];
-  dependencies.forEach((dependency) => {
-    if (dependency.type === 'js') {
-      jsDependencies.push(dependency);
-    } else if (dependency.type === 'css') {
-      cssDependencies.push(dependency);
-    }
-  });
+// next.js 无法通过 link / metadata 加载远程 css
+export const loadCss = (url: string) => {
+  return new Promise((resolve, reject) => {
+    const linkNodes = [].slice.call(document.querySelectorAll('link')).map((item: any) => item.href);
+    if (linkNodes.includes(url)) return resolve(null);
 
+    const link = document.createElement('link');
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    link.href = url;
+    document.head.appendChild(link);
+    link.onload = () => {
+      resolve(null);
+    };
+    link.onerror = (err) => {
+      reject(err);
+    };
+  });
+};
+
+export const createScripts = (dependencies: JSDependency[] = []) => {
   return (
     <>
-      <Head>
-        {cssDependencies.map((dependency) => {
-          return <link key={dependency.url} type="text/css" rel="stylesheet" href={dependency.url} />;
-        })}
-      </Head>
-      {jsDependencies.map((dependency) => {
+      {dependencies.map((dependency) => {
         if (dependency.module === 'esm') {
           const { importName, globalName, url } = dependency;
 
@@ -97,11 +82,9 @@ export const loadCodeDependencyScripts = (dependencies: CodeDependency[] = codeD
   );
 };
 
-export const importCodeDependency = (
-  name: JSDependency['importName'],
-  dependencies: CodeDependency[] = codeDependencies
-) => {
-  const dependency = dependencies.find((dependency) => dependency.type === 'js' && dependency.importName === name);
+export const importCodeDependency = (name: JSDependency['importName'], dependencies: JSDependency[] = []) => {
+  dependencies = [...builtInJsDependencies, ...dependencies];
+  const dependency = dependencies.find((dependency) => dependency.importName === name);
   if (!dependency) {
     throw new Error(`Cannot find module '${name}'`);
   }
@@ -109,3 +92,16 @@ export const importCodeDependency = (
   const { globalName } = dependency as JSDependency;
   return (window as any)[globalName];
 };
+
+export function CodeDependency(props: { jsDependencies?: JSDependency[]; cssDependencies?: string[] }) {
+  useEffect(() => {
+    props.cssDependencies?.forEach((url) => loadCss(url));
+  });
+
+  return (
+    <>
+      {createScripts(builtInJsDependencies)}
+      {createScripts(props.jsDependencies)}
+    </>
+  );
+}

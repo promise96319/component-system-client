@@ -8,7 +8,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import CodeErrorBoundary from './code-error-boundary';
 import CodeError from './code-error';
-import { importCodeDependency } from './code-dependency';
+import { importCodeDependency, JSDependency } from './code-dependency';
 
 const CODE_TAG = 'div';
 const CODE_CLASSNAME = 'react-code';
@@ -39,10 +39,10 @@ function rehypeCode(): Transformer<Root> {
   };
 }
 
-export const codeRuntimePlugin = (opts?: any): BytemdPlugin => {
+export const codeRuntimePlugin = (opts?: { jsDependencies?: JSDependency[] }): BytemdPlugin => {
   return {
     rehype(processor: Processor) {
-      return processor.use(rehypeCode, opts);
+      return processor.use(rehypeCode);
     },
     viewerEffect({ markdownBody }) {
       markdownBody.querySelectorAll(`${CODE_TAG}.${CODE_CLASSNAME}`).forEach((el: any) => {
@@ -57,7 +57,7 @@ export const codeRuntimePlugin = (opts?: any): BytemdPlugin => {
             transforms: ['jsx', 'imports']
           })?.code;
 
-          const req = (name: string) => importCodeDependency(name);
+          const req = (name: string) => importCodeDependency(name, opts?.jsDependencies);
 
           Component = eval(`
             (function(require, exports) {
