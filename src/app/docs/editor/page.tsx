@@ -5,19 +5,21 @@ import React, { useCallback } from 'react';
 import { Editor } from '@bytemd/react';
 import { useState } from 'react';
 import gfm from '@bytemd/plugin-gfm';
+import highlight from '@bytemd/plugin-highlight';
 import { throttle } from 'lodash-es';
 
 import 'bytemd/dist/index.css';
+import 'highlight.js/styles/github.css';
 import './page.scss';
 
 const code = `
 \`\`\`
 import  React from 'react';
-import { Button } from '@qt/design';
+import { Button, Modal } from '@qt/design';
 
 export default () => {
   const a  = 'hee';
-  return <Button onClick={console.log}>Hello World!</Button>
+  return <Button onClick={() => Modal.confirm({ title: '点击提示？' })}>Hello World!</Button>
 }
 \`\`\`
 `;
@@ -55,16 +57,16 @@ export default function APIDoc() {
           value={value}
           onChange={handleChange}
           // TODO: 图片上传
-          // uploadImages={(files: any[]) => {
-          //   return Promise.resolve([
-          //     {
-          //       title: 'guanghui',
-          //       url: 'https://p3-passport.byteimg.com/img/user-avatar/7bfe5fcd764682d97401eae5d338c64e~100x100.awebp',
-          //       alt: 'guanghui'
-          //     }
-          //   ]);
-          // }}
-          plugins={[gfm(), codeRuntimePlugin({ jsDependencies })]}
+          uploadImages={(files: any[]) => {
+            return Promise.resolve([
+              {
+                title: 'guanghui',
+                url: 'https://p3-passport.byteimg.com/img/user-avatar/7bfe5fcd764682d97401eae5d338c64e~100x100.awebp',
+                alt: 'guanghui'
+              }
+            ]);
+          }}
+          plugins={[gfm(), codeRuntimePlugin({ jsDependencies }), highlight()]}
         ></Editor>
       </main>
     </div>

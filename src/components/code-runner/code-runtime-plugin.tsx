@@ -8,6 +8,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import CodeErrorBoundary from './code-error-boundary';
 import CodeError from './code-error';
+import CodeBlockComponent from './code-block';
 import { importCodeDependency, JSDependency } from './code-dependency';
 
 const CODE_TAG = 'div';
@@ -39,7 +40,12 @@ function rehypeCode(): Transformer<Root> {
   };
 }
 
-export const codeRuntimePlugin = (opts?: { jsDependencies?: JSDependency[] }): BytemdPlugin => {
+export const codeRuntimePlugin = (opts?: {
+  jsDependencies?: JSDependency[];
+  CodeBlock?: typeof CodeBlockComponent;
+}): BytemdPlugin => {
+  const { jsDependencies, CodeBlock = CodeBlockComponent } = opts || {};
+
   return {
     rehype(processor: Processor) {
       return processor.use(rehypeCode);
@@ -57,7 +63,7 @@ export const codeRuntimePlugin = (opts?: { jsDependencies?: JSDependency[] }): B
             transforms: ['jsx', 'imports']
           })?.code;
 
-          const req = (name: string) => importCodeDependency(name, opts?.jsDependencies);
+          const req = (name: string) => importCodeDependency(name, jsDependencies);
 
           Component = eval(`
             (function(require, exports) {
@@ -69,15 +75,15 @@ export const codeRuntimePlugin = (opts?: { jsDependencies?: JSDependency[] }): B
           error = err;
         }
 
-        const codeBlock = error ? (
+        const codePreviewer = error ? (
           <CodeError error={error}></CodeError>
         ) : (
           <CodeErrorBoundary>
-            <Component></Component>
+            <Component />
           </CodeErrorBoundary>
         );
 
-        createRoot(el).render(codeBlock);
+        createRoot(el).render(<CodeBlock source={code}>{codePreviewer}</CodeBlock>);
       });
     }
   };

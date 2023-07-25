@@ -1,0 +1,40 @@
+.code-block {
+  border: 1px solid #e0e0e0;
+
+  & &-previewer {
+    padding: 24px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  & &-operations {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  & &-source {
+    white-space: pre;
+    border-top: 1px solid #e0e0e0;
+    &:not(.visible) {
+      height: 0;
+      overflow: hidden;
+      border-top: none;
+    }
+    &.visible {
+      height: auto;
+    }
+
+    .markdown-body {
+      padding: 24px;
+      margin: 0;
+      max-width: auto;
+      pre {
+        margin: 0;
+        code {
+          padding: 0;
+        }
+      }
+    }
+  }
+}
