@@ -1,2 +1,7 @@
-@import '@qt/style/lib/index.scss';
-@import '@qt/design/lib/index.scss';
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+@import '@arco-design/web-react/dist/css/arco.css';
