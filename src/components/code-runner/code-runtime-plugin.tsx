@@ -19,7 +19,6 @@ function rehypeCode(): Transformer<Root> {
       if (isElement(node, 'pre') && node.children.length === 1 && isElement(node.children[0], 'code')) {
         const codeNode: Element = node.children[0];
         const languages = codeNode.properties?.className;
-        console.log('languages', languages);
         if (Array.isArray(languages) && languages.length > 0) {
           // 按源码显示
           return;

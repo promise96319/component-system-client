@@ -11,6 +11,7 @@ import { Anchor } from '@arco-design/web-react';
 import doc from '@/mock/template.md';
 
 import 'bytemd/dist/index.css';
+import '@/styles/markdown.scss';
 import './page.scss';
 
 const jsDependencies: JSDependency[] = [

@@ -7,11 +7,12 @@ import { useState } from 'react';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import { throttle } from 'lodash-es';
+import doc from '@/mock/template.md';
 
 import 'bytemd/dist/index.css';
 import 'highlight.js/styles/github.css';
 import './page.scss';
-import doc from '@/mock/template.md';
+import '@/styles/markdown.scss';
 
 const code2 = `
 \`\`\`
