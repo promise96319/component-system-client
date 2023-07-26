@@ -4,9 +4,20 @@ import path from 'path';
 import useSWR, { SWRConfiguration } from 'swr';
 
 export const fetcher = (url: string, option?: RequestInit) => {
-  const fullUrl = path.join(process.env.NEXT_PUBLIC_SERVER_HOST ?? '/', url);
+  let fetchOptions;
 
-  return fetch(fullUrl, option).then((res) => res.json());
+  if (localStorage.getItem('token')) {
+    fetchOptions = {
+      ...option,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    };
+  } else {
+    fetchOptions = option;
+  }
+
+  return fetch('/api/v1' + url, fetchOptions).then((res) => res.json());
 };
 
 export const useFetch = (url: string, option?: RequestInit, swrConfig?: SWRConfiguration) => {

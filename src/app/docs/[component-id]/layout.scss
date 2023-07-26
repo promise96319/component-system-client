@@ -1,20 +1,29 @@
-.container {
-  display: flex;
-}
+.docs-content {
+  flex: 1;
+  &-banner {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    height: 190px;
+    padding: 40px 56px 0;
+    border-bottom: 1px solid #ebedf0;
 
-.sidebar {
-  width: 200px;
-  height: 500px;
-  background-color: lightgreen;
-  a  {
-    display: block;
+    // 去除 arco-design tab 自带下边框
+    .arco-tabs-header-nav::before {
+      display: none;
+    }
+
+    .tab {
+      margin-left: -16px;
+
+      a {
+        color: #7b8794;
+      }
+    }
+
+    h1 {
+      font-size: 24px;
+    }
   }
-}
-
-.tab {
-  display: flex;
-  align-items: center;
-  height: 40px;
-  width: 100%;
-  background-color: lightblue;
 }

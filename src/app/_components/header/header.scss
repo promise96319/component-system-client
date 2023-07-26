@@ -1,4 +1,22 @@
-nav {
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   height: 64px;
-  background-color: pink;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ebedf0;
+  line-height: 64px;
+  padding: 0 24px;
+  box-sizing: border-box;
+
+  &-search {
+    width: 300px;
+    height: 32px;
+    margin-left: 136px;
+  }
+
+  &-rightContent {
+    display: flex;
+    align-items: center;
+  }
 }

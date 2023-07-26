@@ -1,47 +1,48 @@
-import Link from 'next/link';
-import './layout.scss';
-import { getComponents } from '@/services/component';
+'use client';
 
-export default async function RootLayout({
-  children,
-  params
-}: {
-  children: React.ReactNode;
-  params: {
-    slug: string;
+import './layout.scss';
+import { Tabs } from '@arco-design/web-react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
+const TabPane = Tabs.TabPane;
+
+const tabsData = [
+  { key: 'api', icon: '/assets/link.svg', label: 'API文档' },
+  { key: 'design', icon: '/assets/label.svg', label: '设计文档' },
+  { key: 'changelog', icon: '/assets/file.svg', label: '版本记录' },
+  { key: 'discussion', icon: '/assets/filter.svg', label: '讨论区' },
+  { key: 'demand', icon: '/assets/user.svg', label: '需求' }
+];
+
+export default function RootLayout({ children, params }: { children: React.ReactNode; params: any }) {
+  const styleName = 'docs-content';
+  const router = useRouter();
+
+  const handleTabChange = (key: string) => {
+    router.push(`/docs/${params['component-id']}/${key}`);
   };
-}) {
-  const components = await getComponents();
-  console.log('components', components);
 
   return (
-    <div className="container">
-      <div className="sidebar">
-        {components.map((comp) => {
-          return (
-            <div key={comp.category}>
-              {comp.category}
-              {comp.components.map((item) => {
-                return (
-                  <Link key={item.componentId} href={`/docs/${item.componentId}/api`}>
-                    {item.description}
-                  </Link>
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
-
-      <div>
-        当前页面：{params.slug}
+    <div className={styleName}>
+      <div className={`${styleName}-banner`}>
+        <h1>{params['component-id']}</h1>
         <div className="tab">
-          <Link href={`/docs/${params.slug}/api`}>API 文档</Link>
-          <Link href={`/docs/${params.slug}/design`}>设计文档</Link>
+          <Tabs defaultActiveTab="api" onChange={handleTabChange}>
+            {tabsData.map((tab) => (
+              <TabPane
+                key={tab.key}
+                title={
+                  <>
+                    <Image width={16} height={16} src={tab.icon} alt="" style={{ marginRight: '4px' }} /> {tab.label}
+                  </>
+                }
+              />
+            ))}
+          </Tabs>
         </div>
-        -----------------
-        {children}
       </div>
+      <div>{children}</div>
     </div>
   );
 }

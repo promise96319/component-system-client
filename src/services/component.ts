@@ -1,4 +1,4 @@
-import { serverFetch } from '.';
+import { fetcher } from '.';
 import { Component } from './common/type';
 
-export const getComponents = (): Promise<Component[]> => serverFetch('component');
+export const getComponents = (majorVersionId: string) => fetcher(`/component?majorVersionId=${majorVersionId}`, {});
