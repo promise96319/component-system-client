@@ -3,7 +3,7 @@
 import React from 'react';
 import CodeError from './code-error';
 
-export default class CodeErrorBoundary extends React.PureComponent<{
+export default class CodeErrorBoundary extends React.Component<{
   children: React.ReactNode;
 }> {
   state = {
@@ -15,7 +15,8 @@ export default class CodeErrorBoundary extends React.PureComponent<{
   }
 
   render() {
+    const { children } = this.props;
     const { error } = this.state;
-    return error ? <CodeError error={error}></CodeError> : this.props.children;
+    return error ? <CodeError error={error}></CodeError> : children;
   }
 }

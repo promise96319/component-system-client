@@ -5,7 +5,7 @@ import { visit } from 'unist-util-visit';
 import { isElement, Element } from 'hast-util-is-element';
 import { transform } from 'sucrase';
 import React from 'react';
-import { createRoot, Root as ReactRoot } from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import CodeErrorBoundary from './code-error-boundary';
 import CodeError from './code-error';
 import CodeBlockComponent from './code-block';
@@ -19,6 +19,7 @@ function rehypeCode(): Transformer<Root> {
       if (isElement(node, 'pre') && node.children.length === 1 && isElement(node.children[0], 'code')) {
         const codeNode: Element = node.children[0];
         const languages = codeNode.properties?.className;
+        console.log('languages', languages);
         if (Array.isArray(languages) && languages.length > 0) {
           // 按源码显示
           return;
@@ -66,17 +67,17 @@ export const codeRuntimePlugin = (opts?: {
 
         try {
           const compiledCode: string = transform(code, {
-            transforms: ['jsx', 'imports']
+            transforms: ['jsx', 'typescript', 'imports']
           })?.code;
 
           const req = (name: string) => importCodeDependency(name, jsDependencies);
 
           Component = eval(`
-              (function(require, exports) {
-                ${compiledCode};
-                return exports.default;
-              })(${req}, {});
-            `);
+            (function(require, exports) {
+              ${compiledCode};
+              return exports.default;
+            })(${req}, {});
+          `);
         } catch (err: any) {
           error = err;
         }
@@ -90,6 +91,8 @@ export const codeRuntimePlugin = (opts?: {
         );
 
         createRoot(el).render(<CodeBlock source={code}>{codePreviewer}</CodeBlock>);
+
+        // 缓存上一次的 html，下次渲染时达到局部更新的效果
         cache[index] = el;
       });
     }

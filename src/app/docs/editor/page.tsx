@@ -11,8 +11,9 @@ import { throttle } from 'lodash-es';
 import 'bytemd/dist/index.css';
 import 'highlight.js/styles/github.css';
 import './page.scss';
+import doc from '@/mock/template.md';
 
-const code = `
+const code2 = `
 \`\`\`
 import  React from 'react';
 import { Button, Modal } from '@qt/design';
@@ -24,8 +25,23 @@ export default () => {
 \`\`\`
 `;
 
+const code = `
+\`\`\`
+import  React from 'react';
+import { Button, Modal } from '@qt/design';
+
+export default class A extends React.Component {
+  render() {
+    const a  = 'hee';
+    return <Button onClick={() => Modal.confirm({ title: '点击提示？' })}>Hello World!</Button>
+  } 
+}
+\`\`\`
+`;
+
 export default function APIDoc() {
-  const [value, setValue] = useState(code);
+  const styleName = 'editor';
+  const [value, setValue] = useState(`${doc}# Class \n ${code} \n # Function \n ${code2}`);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleChange = useCallback(
@@ -43,14 +59,11 @@ export default function APIDoc() {
   ];
 
   return (
-    <div className="editor">
-      <header>头部内容 TODO:</header>
+    <div className={styleName}>
+      <header className={`${styleName}-header`}>头部内容 xxxx</header>
 
-      <main className="editor-container">
-        <CodeDependency
-          cssDependencies={['http://localhost:8080/dist/index.css']}
-          jsDependencies={jsDependencies}
-        ></CodeDependency>
+      <main className={`${styleName}-container`}>
+        <CodeDependency cssDependencies={['http://localhost:8080/dist/index.css']} jsDependencies={jsDependencies} />
 
         <Editor
           mode="auto"
@@ -67,7 +80,7 @@ export default function APIDoc() {
             ]);
           }}
           plugins={[gfm(), codeRuntimePlugin({ jsDependencies }), highlight()]}
-        ></Editor>
+        />
       </main>
     </div>
   );
