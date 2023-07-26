@@ -5,14 +5,13 @@ import { visit } from 'unist-util-visit';
 import { isElement, Element } from 'hast-util-is-element';
 import { transform } from 'sucrase';
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, Root as ReactRoot } from 'react-dom/client';
 import CodeErrorBoundary from './code-error-boundary';
 import CodeError from './code-error';
 import CodeBlockComponent from './code-block';
 import { importCodeDependency, JSDependency } from './code-dependency';
 
-const CODE_TAG = 'div';
-const CODE_CLASSNAME = 'react-code';
+const CODE_TAG = 'react-code';
 
 function rehypeCode(): Transformer<Root> {
   return (tree) => {
@@ -33,12 +32,14 @@ function rehypeCode(): Transformer<Root> {
         }
 
         node.tagName = CODE_TAG;
-        node.properties = { className: CODE_CLASSNAME, 'data-code': code };
+        node.properties = { 'data-code': code };
         node.children = [];
       }
     });
   };
 }
+
+const cache: Record<number, HTMLDivElement> = {};
 
 export const codeRuntimePlugin = (opts?: {
   jsDependencies?: JSDependency[];
@@ -51,7 +52,12 @@ export const codeRuntimePlugin = (opts?: {
       return processor.use(rehypeCode);
     },
     viewerEffect({ markdownBody }) {
-      markdownBody.querySelectorAll(`${CODE_TAG}.${CODE_CLASSNAME}`).forEach((el: any) => {
+      markdownBody.querySelectorAll(CODE_TAG).forEach((el: any, index: number) => {
+        const cachedEl = cache[index];
+        if (cachedEl) {
+          el.innerHTML = cachedEl.innerHTML;
+        }
+
         const code = el.getAttribute('data-code');
         if (!code) return;
 
@@ -66,11 +72,11 @@ export const codeRuntimePlugin = (opts?: {
           const req = (name: string) => importCodeDependency(name, jsDependencies);
 
           Component = eval(`
-            (function(require, exports) {
-              ${compiledCode};
-              return exports.default;
-            })(${req}, {});
-          `);
+              (function(require, exports) {
+                ${compiledCode};
+                return exports.default;
+              })(${req}, {});
+            `);
         } catch (err: any) {
           error = err;
         }
@@ -84,6 +90,7 @@ export const codeRuntimePlugin = (opts?: {
         );
 
         createRoot(el).render(<CodeBlock source={code}>{codePreviewer}</CodeBlock>);
+        cache[index] = el;
       });
     }
   };
