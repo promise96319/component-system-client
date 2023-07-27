@@ -217,7 +217,7 @@ export type DiscussionComment = {
  */
 export type VersionChangelog = {
   id: string;
-  compmonentId: string;
+  componentId: string;
   type: VersionChangelogType;
   content: string;
   createdAt: Date;
@@ -227,30 +227,20 @@ export type VersionChangelog = {
   demandId: string | null;
 };
 
-/**
- * Enums
- */
+export enum DemandStatus {
+  OPENED = 'OPENED',
+  CLOSED = 'CLOSED'
+}
 
-export const DemandStatus: {
-  OPENED: 'OPENED';
-  CLOSED: 'CLOSED';
-};
+export enum Role {
+  ADMIN = 'ADMIN',
+  DEVELOPER = 'DEVELOPER',
+  GUEST = 'GUEST'
+}
 
-export type DemandStatus = (typeof DemandStatus)[keyof typeof DemandStatus];
-
-export const Role: {
-  ADMIN: 'ADMIN';
-  DEVELOPER: 'DEVELOPER';
-  GUEST: 'GUEST';
-};
-
-export type Role = (typeof Role)[keyof typeof Role];
-
-export const VersionChangelogType: {
-  FEATURE: 'FEATURE';
-  BUGFIX: 'BUGFIX';
-  STYLE: 'STYLE';
-  REFACTOR: 'REFACTOR';
-};
-
-export type VersionChangelogType = (typeof VersionChangelogType)[keyof typeof VersionChangelogType];
+export enum VersionChangelogType {
+  FEATURE = 'FEATURE',
+  BUGFIX = 'BUGFIX',
+  STYLE = 'STYLE',
+  REFACTOR = 'REFACTOR'
+}

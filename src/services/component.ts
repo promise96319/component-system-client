@@ -1,5 +1,6 @@
-import { serverFetch } from '.';
-import { Component } from './common/type';
+import { useFetch } from './common';
+import type { Component } from './common';
 
-// export const getComponents = (): Promise<Component[]> => serverFetch('component');
-export const getComponents = (): Promise<Component[]> => Promise.resolve([]);
+export const useComponents = (majorVersionId: string) => {
+  return useFetch<Component[]>(`/component?majorVersionId=${majorVersionId}`, { stopFetch: !majorVersionId });
+};

@@ -1,0 +1,31 @@
+.sidebar {
+  width: 260px;
+  border-right: 1px solid #ebedf0;
+  color: #7b8794;
+  height: calc(100vh - 64px);
+  padding: 0 8px;
+
+  &-category {
+    line-height: 40px;
+    border-bottom: 1px solid #ebedf0;
+    margin: 0 24px;
+    margin-top: 16px;
+  }
+
+  &-comp {
+    display: block;
+    line-height: 40px;
+    padding: 0 24px;
+    border-radius: 2px;
+    cursor: pointer;
+    color: #383f47;
+
+    &:hover {
+      background: #edf9ff;
+    }
+
+    &.active {
+      color: #0088ce;
+    }
+  }
+}
