@@ -8,7 +8,6 @@ export default function Auth(props: { children: React.ReactNode }) {
   const path = usePathname();
   const [token] = useTokenStorage();
   const { data: user, isLoading: isValidating } = useUser({ stopFetch: !token, disallowError: true });
-  console.log('path', path);
 
   useEffect(() => {
     const whiteList = ['/auth/login'];

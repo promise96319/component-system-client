@@ -9,7 +9,14 @@ import { Message } from '@arco-design/web-react';
 export interface FetchOption extends RequestInit {
   stopFetch?: boolean;
   disallowError?: boolean;
+  query?: Record<string, any>;
 }
+
+export const stringifyQuery = (query: Record<string, any>) => {
+  return Object.keys(query)
+    .map((key) => `${key}=${query?.[key]}`)
+    .join('&');
+};
 
 export const clientFetch = async <D>(url: string, option?: FetchOption): Promise<D> => {
   const fullUrl = (process.env.NEXT_PUBLIC_SERVER_HOST ?? '') + url;
@@ -22,8 +29,11 @@ export const clientFetch = async <D>(url: string, option?: FetchOption): Promise
   return res.data;
 };
 
-export const useFetch = <D>(url: string, option?: FetchOption, swrConfig?: SWRConfiguration) => {
-  const cacheKey = `${option?.method ?? 'get'}-${url}`;
+export const useFetch = <D>(url: string, option: FetchOption = {}, swrConfig?: SWRConfiguration) => {
+  if (option.query) {
+    url = `${url}?${stringifyQuery(option.query)}`;
+  }
+  const cacheKey = `${option.method ?? 'get'}-${url}`;
   const [token] = useTokenStorage();
   const headers: Record<string, any> = option?.headers ?? {};
   headers.contentType = 'application/json';
@@ -39,6 +49,9 @@ export const useMutation = <D, R, E = any>(
   swrConfig?: SWRMutationConfiguration<R, E>
 ) => {
   option.method = option.method ?? 'post';
+  if (option.query) {
+    url = `${url}?${stringifyQuery(option.query)}`;
+  }
   const cacheKey = `${option?.method}-${url}`;
   const [token] = useTokenStorage();
   const headers: Record<string, any> = option?.headers ?? {};

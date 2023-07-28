@@ -1,6 +1,7 @@
-import './globals.scss';
 import { Inter } from 'next/font/google';
 import Auth from '@/components/auth/auth';
+
+import './globals.scss';
 
 const inter = Inter({ subsets: ['latin'] });
 

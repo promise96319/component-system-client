@@ -1,0 +1,14 @@
+.api-doc {
+  &-markdown {
+    display: flex;
+    padding: 24px;
+    &-content {
+      margin: 0 auto;
+      width: 800px;
+    }
+    &-toc {
+      padding-left: 40px;
+      width: 160px;
+    }
+  }
+}

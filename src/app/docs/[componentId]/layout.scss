@@ -1,0 +1,39 @@
+$content-width: 800px;
+$sidebar-width: 200px;
+
+.docs {
+  &-banner {
+    width: 100%;
+    height: 190px;
+    padding-left: 24px;
+    padding-right: $sidebar-width;
+    background-color: #eee;
+
+    &-content {
+      width: $content-width;
+      height: 100%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+    }
+    // border-bottom: 1px solid #ebedf0;
+
+    // // 去除 arco-design tab 自带下边框
+    // .arco-tabs-header-nav::before {
+    //   display: none;
+    // }
+
+    &-tab {
+      margin-left: -16px;
+
+      a {
+        color: #7b8794;
+      }
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+  }
+}

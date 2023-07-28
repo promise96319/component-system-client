@@ -1,3 +1,5 @@
+'use client';
+
 import type { BytemdPlugin } from 'bytemd';
 import type { Processor, Transformer } from 'unified';
 import type { Root } from 'hast';

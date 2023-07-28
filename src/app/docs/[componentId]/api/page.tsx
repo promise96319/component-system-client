@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import highlight from '@bytemd/plugin-highlight';
 import { Viewer } from '@bytemd/react';
 import { CodeDependency, JSDependency, codeRuntimePlugin } from '@/components/code-runner';
 import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
 import { getProcessor } from 'bytemd';
-import { Anchor } from '@arco-design/web-react';
+import { Anchor, Button } from '@arco-design/web-react';
 import doc from '@/mock/template.md';
 
 import 'bytemd/dist/index.css';
@@ -26,8 +26,9 @@ const jsDependencies: JSDependency[] = [
 export default function APIDoc() {
   const styleName = 'api-doc';
 
-  // const params = useParams();
+  const { componentId } = useParams();
   const [toc, setToc] = useState<TocItem[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     try {
@@ -47,15 +48,25 @@ export default function APIDoc() {
     }
   }, []);
 
+  const handleEdit = () => {
+    router.push(`/editor/${componentId}`);
+  };
+
   return (
     <div className={styleName}>
       <main className={`${styleName}-markdown`}>
         <div className={`${styleName}-markdown-content`}>
+          <Button.Group>
+            <Button type="text" onClick={handleEdit}>
+              编辑
+            </Button>
+            <Button type="text">历史记录</Button>
+          </Button.Group>
           <CodeDependency cssDependencies={['http://localhost:8080/dist/index.css']} jsDependencies={jsDependencies} />
           <Viewer value={doc} plugins={[codeRuntimePlugin({ jsDependencies }), rehypeHead(), highlight()]}></Viewer>
         </div>
         <div className={`${styleName}-markdown-toc`}>
-          <Anchor>
+          <Anchor offsetTop={80}>
             {toc.map((item) => (
               <Anchor.Link
                 href={`#${item.id}`}

@@ -4,14 +4,16 @@ import { useComponents } from '@/services';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
+import { useParams } from 'next/navigation';
 
-import './sidebar.scss';
+import './component-sidebar.scss';
 
-const Sidebar = () => {
-  const styleName = 'sidebar';
+export const ComponentSidebar = () => {
+  const styleName = 'component-sidebar';
 
   const [majorVersionId] = useMajorVersionId();
   const { data: components = [], error } = useComponents(majorVersionId ?? '');
+  const params = useParams();
 
   if (error) {
     return null;
@@ -27,8 +29,8 @@ const Sidebar = () => {
               return (
                 <Link
                   key={item.componentId}
-                  className={classNames(`${styleName}-comp`, {
-                    // active: activeComponent === item.componentId
+                  className={classNames(`${styleName}-components`, {
+                    active: params.componentId === item.componentId
                   })}
                   href={`/docs/${item.componentId}/api`}
                 >
@@ -42,5 +44,3 @@ const Sidebar = () => {
     </div>
   );
 };
-
-export default Sidebar;
