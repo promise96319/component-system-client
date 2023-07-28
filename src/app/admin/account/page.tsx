@@ -1,7 +1,16 @@
-import './page.scss'
+'use client';
 
-const  Page = (props: any) =>{
-  return <main className='red'>========== Account ========== </main>
-}
+import { useUser } from '@/services';
+import './page.scss';
 
-export default Page
+const Page = (props: any) => {
+  const { data: user } = useUser();
+
+  if (!user) {
+    return null;
+  }
+
+  return <main>{JSON.stringify(user)}</main>;
+};
+
+export default Page;

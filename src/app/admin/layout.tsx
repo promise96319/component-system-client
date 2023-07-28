@@ -1,18 +1,12 @@
-import Link from 'next/link';
-import Header from '@/components/header/header';
+import { Layout, Header } from '@/components';
+import { SideBar } from './_components/sidebar/sidebar';
+
 import './layout.scss';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main>
-      <Header></Header>
-      <div className="container">
-        <div className="sidebar">
-          <Link href="/admin/version-history">Version History</Link>
-          <Link href="/admin/account">Account</Link>
-        </div>
-        {children}
-      </div>
-    </main>
+    <Layout header={<Header></Header>} sidebar={<SideBar></SideBar>}>
+      {children}
+    </Layout>
   );
 }
