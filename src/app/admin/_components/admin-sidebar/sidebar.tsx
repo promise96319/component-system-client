@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Menu } from '@arco-design/web-react';
 
-export function SideBar() {
+export function AdminSidebar() {
   return (
     <Menu>
       <Link href="/admin/version-manager">
