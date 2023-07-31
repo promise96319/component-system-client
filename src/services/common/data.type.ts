@@ -166,6 +166,7 @@ export type Demand = {
   updatedAt: Date | null;
   status: DemandStatus;
   majorVersionId: string;
+  componentId: string;
   version: string | null;
 };
 

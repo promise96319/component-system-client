@@ -1,5 +1,5 @@
 import { Layout, Header } from '@/components';
-import { AdminSidebar } from './_components/admin-sidebar/sidebar';
+import { AdminSidebar } from './_components/admin-sidebar/admin-sidebar';
 
 import './layout.scss';
 

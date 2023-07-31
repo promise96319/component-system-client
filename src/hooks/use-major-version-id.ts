@@ -1,3 +1,5 @@
+'use client';
+
 import { useMajorVersions } from '@/services/version';
 import { useMajorVersionIdStorage } from './storage';
 import { useEffect } from 'react';
@@ -10,7 +12,7 @@ export const useMajorVersionId = () => {
   useEffect(() => {
     if (!majorVersionId) {
       setMajorVersionId(versionList[0]?.id);
-    } else {
+    } else if (versionList && versionList.length > 0) {
       const version = versionList.find((item) => item.id === majorVersionId);
       if (!version) {
         setMajorVersionId(versionList[0]?.id);

@@ -47,14 +47,14 @@ const UserDropDown = () => {
   );
 
   return (
-    <div className={styleName}>
-      <Image width={32} height={32} src={'/logo.png'} alt="" />
-      <Dropdown droplist={dropList} trigger="click">
+    <Dropdown droplist={dropList} trigger="click" position="br">
+      <div className={styleName}>
+        <Image width={32} height={32} src={'/avatar.png'} alt="" />
         <span className={`${styleName}-name`}>
           {user.nickname} <IconDown />
         </span>
-      </Dropdown>
-    </div>
+      </div>
+    </Dropdown>
   );
 };
 

@@ -2,10 +2,13 @@
 
 import Link from 'next/link';
 import { Menu } from '@arco-design/web-react';
+import { useSelectedLayoutSegment } from 'next/navigation';
 
 export function AdminSidebar() {
+  const segment = useSelectedLayoutSegment();
+
   return (
-    <Menu>
+    <Menu selectedKeys={segment ? [segment] : []}>
       <Link href="/admin/version-manager">
         <Menu.Item key="version-manager">版本管理</Menu.Item>
       </Link>

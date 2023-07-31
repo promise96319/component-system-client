@@ -14,6 +14,7 @@ export interface FetchOption extends RequestInit {
 
 export const stringifyQuery = (query: Record<string, any>) => {
   return Object.keys(query)
+    .filter((key) => query?.[key] !== undefined && query?.[key] !== '')
     .map((key) => `${key}=${query?.[key]}`)
     .join('&');
 };
