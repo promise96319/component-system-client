@@ -15,6 +15,7 @@ import { DemandComment } from '@/services/common';
 import React from 'react';
 
 import './demand-list.scss';
+import dayjs from 'dayjs';
 
 export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDemands: () => Promise<any> }) => {
   const styleName = 'demand-list';
@@ -139,32 +140,34 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
   };
 
   const renderComments = (comments: DemandComment[]) => {
-    return comments.map((comment) => {
-      return (
-        <React.Fragment key={comment.id}>
-          <Divider></Divider>
-          <Comment
-            id={comment.id}
-            username={comment.createdBy?.nickname ?? ''}
-            userId={comment.createdById ?? ''}
-            contentDelta={comment.contentDelta ?? []}
-            updatedAt={comment.updatedAt ?? ''}
-            onUpdateContent={(content, contentDelta) => handleUpdateDemandComment(comment.id, content, contentDelta)}
-            onSaveComment={(content, contentDelta) =>
-              handleCreateDemandComment({
-                demandId: comment.demandId,
-                commentId: comment.id,
-                content,
-                contentDelta
-              })
-            }
-            onRemove={() => handleRemoveDemandComment(comment.id)}
-          >
-            {renderComments(comment.comments ?? [])}
-          </Comment>
-        </React.Fragment>
-      );
-    });
+    return comments
+      .sort((a, b) => (dayjs(a.createdAt).isBefore(b.createdAt) ? 1 : -1))
+      .map((comment) => {
+        return (
+          <React.Fragment key={comment.id}>
+            <Divider></Divider>
+            <Comment
+              id={comment.id}
+              username={comment.createdBy?.nickname ?? ''}
+              userId={comment.createdById ?? ''}
+              contentDelta={comment.contentDelta ?? []}
+              updatedAt={comment.updatedAt ?? ''}
+              onUpdateContent={(content, contentDelta) => handleUpdateDemandComment(comment.id, content, contentDelta)}
+              onSaveComment={(content, contentDelta) =>
+                handleCreateDemandComment({
+                  demandId: comment.demandId,
+                  commentId: comment.id,
+                  content,
+                  contentDelta
+                })
+              }
+              onRemove={() => handleRemoveDemandComment(comment.id)}
+            >
+              {renderComments(comment.comments ?? [])}
+            </Comment>
+          </React.Fragment>
+        );
+      });
   };
 
   return (

@@ -196,6 +196,7 @@ export type Discussion = {
   id: string;
   componentId: string;
   content: string;
+  contentDelta: any[];
   createdById: string;
   createdAt: Date;
   updatedAt: Date | null;
@@ -209,11 +210,14 @@ export type Discussion = {
 export type DiscussionComment = {
   id: string;
   content: string;
+  contentDelta: any[];
   createdAt: Date;
   createdById: string;
   updatedAt: Date | null;
   commentId: string | null;
   discussionId: string | null;
+  comments?: DiscussionComment[];
+  createdBy?: User;
 };
 
 /**

@@ -19,7 +19,7 @@ import { useComponent } from '@/services';
 import { Button, Form, Input, Link, Modal, Select, Space } from '@arco-design/web-react';
 
 export default function APIDoc() {
-  const styleName = 'editor';
+  const styleName = 'markdown-editor';
   const [value, setValue] = useState(doc);
   const [modalVisible, setModalVisible] = useState(false);
   const [majorVersionId] = useMajorVersionId();
