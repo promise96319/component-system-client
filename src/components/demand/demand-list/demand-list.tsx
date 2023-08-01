@@ -3,8 +3,9 @@
 import {
   DemandCommentBody,
   DemandWithComments,
-  useAddDemandComment,
-  useDemands,
+  useCreateDemandComment,
+  useRemoveDemand,
+  useRemoveDemandComment,
   useUpdateDemand,
   useUpdateDemandComment
 } from '@/services/demand';
@@ -23,14 +24,20 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
     trigger: addDemandComment,
     error: addDemandCommentError,
     isMutating: isAddingComment
-  } = useAddDemandComment();
+  } = useCreateDemandComment();
   const {
     trigger: updateDemandComment,
     error: updateDemandCommentError,
     isMutating: isUpdateingDemandComment
   } = useUpdateDemandComment();
+  const { trigger: removeDemand, error: removeDemandError, isMutating: isRemovingDemand } = useRemoveDemand();
+  const {
+    trigger: removeDemandComment,
+    error: removeDemandCommentError,
+    isMutating: isRemovingComment
+  } = useRemoveDemandComment();
 
-  const handleUpdateDemand = async (id: string, content: string) => {
+  const handleUpdateDemand = async (id: string, content: string, contentDelta: any[]) => {
     if (isUpdatingDemand) {
       return;
     }
@@ -41,7 +48,8 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
     }
     await updateDemand({
       id,
-      content
+      content,
+      contentDelta
     });
 
     if (updateDemandError) {
@@ -74,7 +82,7 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
     return true;
   };
 
-  const handleUpdateDemandComment = async (id: string, content: string) => {
+  const handleUpdateDemandComment = async (id: string, content: string, contentDelta: any[]) => {
     if (isUpdateingDemandComment) {
       return;
     }
@@ -85,7 +93,8 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
     }
     await updateDemandComment({
       id,
-      content
+      content,
+      contentDelta
     });
 
     if (updateDemandCommentError) {
@@ -93,6 +102,38 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
     }
 
     Message.success('编辑成功');
+    await props.onUpdateDemands?.();
+    return true;
+  };
+
+  const handleRemoveDemand = async (id: string) => {
+    if (isRemovingDemand) {
+      return;
+    }
+
+    await removeDemand({ id });
+
+    if (removeDemandError) {
+      return;
+    }
+
+    Message.success('删除成功');
+    await props.onUpdateDemands?.();
+    return true;
+  };
+
+  const handleRemoveDemandComment = async (id: string) => {
+    if (isRemovingComment) {
+      return;
+    }
+
+    await removeDemandComment({ id });
+
+    if (removeDemandCommentError) {
+      return;
+    }
+
+    Message.success('删除成功');
     await props.onUpdateDemands?.();
     return true;
   };
@@ -106,16 +147,18 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
             id={comment.id}
             username={comment.createdBy?.nickname ?? ''}
             userId={comment.createdById ?? ''}
-            content={comment.content}
+            contentDelta={comment.contentDelta ?? []}
             updatedAt={comment.updatedAt ?? ''}
-            onUpdateContent={(content) => handleUpdateDemandComment(comment.id, content)}
-            onSaveComment={(content) =>
+            onUpdateContent={(content, contentDelta) => handleUpdateDemandComment(comment.id, content, contentDelta)}
+            onSaveComment={(content, contentDelta) =>
               handleCreateDemandComment({
                 demandId: comment.demandId,
                 commentId: comment.id,
-                content: content
+                content,
+                contentDelta
               })
             }
+            onRemove={() => handleRemoveDemandComment(comment.id)}
           >
             {renderComments(comment.comments ?? [])}
           </Comment>
@@ -134,15 +177,17 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
                 id={demand.id}
                 username={demand.createdBy.nickname ?? ''}
                 userId={demand.createdBy.id ?? ''}
-                content={demand.content}
+                contentDelta={demand.contentDelta ?? []}
                 updatedAt={demand.updatedAt ?? ''}
-                onUpdateContent={(content) => handleUpdateDemand(demand.id, content)}
-                onSaveComment={(content) =>
+                onUpdateContent={(content, contentDelta) => handleUpdateDemand(demand.id, content, contentDelta)}
+                onSaveComment={(content, contentDelta) =>
                   handleCreateDemandComment({
                     demandId: demand.id,
-                    content: content
+                    content,
+                    contentDelta
                   })
                 }
+                onRemove={() => handleRemoveDemand(demand.id)}
               >
                 {renderComments(demand.demandComments ?? [])}
               </Comment>

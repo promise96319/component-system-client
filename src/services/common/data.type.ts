@@ -161,6 +161,7 @@ export type DesignChangelog = {
 export type Demand = {
   id: string;
   content: string;
+  contentDelta: any[];
   createdById: string;
   createdAt: Date;
   updatedAt: Date | null;
@@ -177,6 +178,7 @@ export type Demand = {
 export type DemandComment = {
   id: string;
   content: string;
+  contentDelta: any[];
   createdAt: Date;
   createdById: string;
   createdBy?: User;

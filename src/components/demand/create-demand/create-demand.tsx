@@ -15,7 +15,7 @@ export const CreateDemand = (props: { componentId: string; onCreated?: () => Pro
 
   const { trigger: createDemand, error: createDemandError, isMutating: isCreatingDemand } = useCreateDemand();
 
-  const handleCreateDemand = async (content: string) => {
+  const handleCreateDemand = async (content: string, contentDelta: any[]) => {
     if (isCreatingDemand) {
       return;
     }
@@ -28,7 +28,8 @@ export const CreateDemand = (props: { componentId: string; onCreated?: () => Pro
     await createDemand({
       majorVersionId,
       componentId,
-      content
+      content,
+      contentDelta
     });
 
     if (createDemandError) {

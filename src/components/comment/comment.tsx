@@ -4,27 +4,27 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import { Grid, Modal, Space, Typography } from '@arco-design/web-react';
 import { useState } from 'react';
-import { Editor } from '../editor/editor';
+import { Editor, EditorViewer } from '../editor';
 import { useEditorStore } from '@/store';
+import { useUser } from '@/services';
 
 import 'quill/dist/quill.snow.css';
 import './comment.scss';
-import { useUser } from '@/services';
 
 export const Comment = (props: {
   id: string;
   username: string;
   userId: string;
-  content: string;
+  contentDelta: any[];
   updatedAt: Date | string;
   children: React.ReactNode;
 
-  onSaveComment?: (content: string) => Promise<boolean | undefined>;
-  onUpdateContent?: (content: string) => Promise<boolean | undefined>;
+  onSaveComment?: (content: string, contentDelta: any[]) => Promise<boolean | undefined>;
+  onUpdateContent?: (content: string, contentDelta: any[]) => Promise<boolean | undefined>;
   onRemove?: () => void;
 }) => {
   const styleName = 'comment';
-  const { id, username, userId, content, updatedAt, children } = props;
+  const { id, username, userId, contentDelta, updatedAt, children } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [isReplyEdit, setIsReplyEdit] = useState(false);
   const setCurrentEditorId = useEditorStore((state) => state.setCurrentId);
@@ -56,7 +56,8 @@ export const Comment = (props: {
       <Typography.Text type="secondary" className={`${styleName}-user`}>
         {username} 发表：
       </Typography.Text>
-      <Typography.Text style={{ whiteSpace: 'pre' }}>{content}</Typography.Text>
+      {/* <Typography.Text style={{ whiteSpace: 'pre' }}>{contentDelta}</Typography.Text> */}
+      <EditorViewer id={id} contentDelta={contentDelta}></EditorViewer>
       <Space align="center" className={`${styleName}-actions`} size={12}>
         <Typography.Text
           style={{ cursor: 'pointer' }}
@@ -104,7 +105,7 @@ export const Comment = (props: {
       id={id}
       isEdit={isEdit}
       viewer={viewer}
-      content={props.content}
+      contentDelta={props.contentDelta}
       onEditChange={(isEdit) => {
         setIsEdit(isEdit);
         setIsReplyEdit(false);

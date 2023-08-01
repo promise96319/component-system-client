@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Grid, Space } from '@arco-design/web-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Quill from 'quill';
 import { useEditorStore } from '@/store';
 
@@ -12,11 +12,11 @@ export const Editor = (props: {
   id: string;
   isEdit?: boolean;
   viewer?: React.ReactNode;
-  content?: string;
+  contentDelta?: any[];
   onEditChange?: (isEdit: boolean) => void;
-  onSave?: (content: string) => Promise<boolean | undefined>;
+  onSave?: (content: string, contentDelta: any[]) => Promise<boolean | undefined>;
 }) => {
-  const { isEdit = false, viewer = null, content = '', id } = props;
+  const { isEdit = false, viewer = null, contentDelta = [], id } = props;
   const styleName = 'editor';
   const editor = useRef<Quill>();
   const currentId = useEditorStore((state) => state.currentId);
@@ -36,12 +36,12 @@ export const Editor = (props: {
       },
       theme: 'snow'
     });
-    editor.current.setText(content);
+    editor.current.setContents(contentDelta as any);
     editor.current.setSelection(editor.current.getLength(), 0);
-  }, [isEdit, content, id, currentId]);
+  }, [isEdit, id, currentId]);
 
   const handleSaveContent = async () => {
-    const success = await props.onSave?.(editor.current?.getText() ?? '');
+    const success = await props.onSave?.(editor.current?.getText() ?? '', editor.current?.getContents().ops ?? []);
     if (success) {
       props.onEditChange?.(false);
     }
@@ -53,7 +53,7 @@ export const Editor = (props: {
 
   return (
     <div key={id} className={styleName}>
-      <div className={`${styleName}-container-${id}`}></div>
+      <div className={`${styleName}-container ${styleName}-container-${id}`}></div>
       <Grid.Row justify="end" className={`${styleName}-actions`}>
         <Space>
           <Button size="small" onClick={() => props.onEditChange?.(false)}>

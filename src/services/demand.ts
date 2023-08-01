@@ -34,23 +34,34 @@ export const useDemands = (query: DemandQuery) => {
 };
 
 export const useCreateDemand = () => {
-  return useMutation<Pick<Demand, 'majorVersionId' | 'componentId' | 'content'>, Demand>('/demand');
+  return useMutation<Pick<Demand, 'majorVersionId' | 'componentId' | 'content' | 'contentDelta'>, Demand>('/demand');
 };
 
 export const useUpdateDemand = () => {
-  return useMutation<Pick<Demand, 'id' | 'content'>, Demand>('/demand', { method: 'PATCH' });
+  return useMutation<Pick<Demand, 'id' | 'content' | 'contentDelta'>, Demand>('/demand', { method: 'PATCH' });
+};
+
+export const useRemoveDemand = () => {
+  return useMutation<Pick<Demand, 'id'>, Demand>('/demand', { method: 'DELETE' });
 };
 
 export interface DemandCommentBody {
   demandId: string;
   commentId?: string;
   content: string;
+  contentDelta: any[];
 }
 
-export const useAddDemandComment = () => {
+export const useCreateDemandComment = () => {
   return useMutation<DemandCommentBody, DemandComment>('/demand-comment');
 };
 
 export const useUpdateDemandComment = () => {
-  return useMutation<Pick<DemandComment, 'id' | 'content'>, DemandComment>('/demand-comment', { method: 'PATCH' });
+  return useMutation<Pick<DemandComment, 'id' | 'content' | 'contentDelta'>, DemandComment>('/demand-comment', {
+    method: 'PATCH'
+  });
+};
+
+export const useRemoveDemandComment = () => {
+  return useMutation<Pick<DemandComment, 'id'>, DemandComment>('/demand-comment', { method: 'DELETE' });
 };
