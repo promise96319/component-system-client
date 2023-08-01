@@ -20,11 +20,15 @@ export const stringifyQuery = (query: Record<string, any>) => {
 };
 
 export const clientFetch = async <D>(url: string, option?: FetchOption): Promise<D> => {
+  if (option?.method) {
+    option.method = option.method.toUpperCase();
+  }
   const fullUrl = (process.env.NEXT_PUBLIC_SERVER_HOST ?? '') + url;
   const res: Response<D> = await fetch(fullUrl, option).then((res) => res.json());
 
   if (res.code !== 200 && !option?.disallowError) {
     Message.error(res.message);
+    throw new Error(res.message);
   }
 
   return res.data;

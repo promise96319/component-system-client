@@ -36,14 +36,16 @@ export default function Demand() {
 
       {demands?.map((demand) => {
         return (
-          <Comment
-            key={demand.id}
-            username={demand.createdBy.nickname ?? ''}
-            content={demand.content ?? ''}
-            updatedAt={demand.updatedAt ?? new Date()}
-          >
-            {/* hello */}
-          </Comment>
+          <div  key={demand.id}>xx</div>
+          // <Comment
+          //   key={demand.id}
+          //   username={demand.createdBy.nickname ?? ''}
+          //   userId={demand.createdById ?? ''}
+          //   content={demand.content ?? ''}
+          //   updatedAt={demand.updatedAt ?? new Date()}
+          // >
+          //   {/* hello */}
+          // </Comment>
         );
       })}
     </AdminContainer>

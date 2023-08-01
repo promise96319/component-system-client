@@ -179,9 +179,11 @@ export type DemandComment = {
   content: string;
   createdAt: Date;
   createdById: string;
+  createdBy?: User;
   updatedAt: Date | null;
-  demandId: string | null;
+  demandId: string;
   commentId: string | null;
+  comments?: DemandComment[];
 };
 
 /**

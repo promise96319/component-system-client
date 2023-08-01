@@ -5,25 +5,32 @@ import dayjs from 'dayjs';
 import { Grid, Modal, Space, Typography } from '@arco-design/web-react';
 import { useState } from 'react';
 import { Editor } from '../editor/editor';
+import { useEditorStore } from '@/store';
 
 import 'quill/dist/quill.snow.css';
 import './comment.scss';
+import { useUser } from '@/services';
 
 export const Comment = (props: {
+  id: string;
   username: string;
+  userId: string;
   content: string;
   updatedAt: Date | string;
   children: React.ReactNode;
-  editable?: boolean;
 
-  onSaveComment?: () => Promise<boolean | undefined>;
+  onSaveComment?: (content: string) => Promise<boolean | undefined>;
   onUpdateContent?: (content: string) => Promise<boolean | undefined>;
   onRemove?: () => void;
 }) => {
   const styleName = 'comment';
-  const { username, content, updatedAt, children, editable = true } = props;
+  const { id, username, userId, content, updatedAt, children } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [isReplyEdit, setIsReplyEdit] = useState(false);
+  const setCurrentEditorId = useEditorStore((state) => state.setCurrentId);
+  const currentEditorId = useEditorStore((state) => state.currentId);
+  const { data: user } = useUser();
+  const editable = user && user.id === userId;
 
   const handleRemove = () => {
     Modal.confirm({
@@ -32,18 +39,10 @@ export const Comment = (props: {
     });
   };
 
-  const editor = (
-    <Editor
-      content={props.content}
-      onEditChange={(isEdit) => {
-        setIsEdit(isEdit);
-        setIsReplyEdit(false);
-      }}
-      onSave={props.onUpdateContent}
-    ></Editor>
-  );
   const replayEditor = (
     <Editor
+      id={`reply-${id}`}
+      isEdit={isReplyEdit}
       onEditChange={(isEdit) => {
         setIsReplyEdit(isEdit);
         setIsEdit(false);
@@ -57,7 +56,7 @@ export const Comment = (props: {
       <Typography.Text type="secondary" className={`${styleName}-user`}>
         {username} 发表：
       </Typography.Text>
-      <Typography.Text>{content}</Typography.Text>
+      <Typography.Text style={{ whiteSpace: 'pre' }}>{content}</Typography.Text>
       <Space align="center" className={`${styleName}-actions`} size={12}>
         <Typography.Text
           style={{ cursor: 'pointer' }}
@@ -65,6 +64,7 @@ export const Comment = (props: {
           onClick={() => {
             setIsReplyEdit(true);
             setIsEdit(false);
+            setCurrentEditorId(`reply-${id}`);
           }}
         >
           回复
@@ -76,6 +76,7 @@ export const Comment = (props: {
             onClick={() => {
               setIsEdit(true);
               setIsReplyEdit(false);
+              setCurrentEditorId(id);
             }}
           >
             编辑
@@ -89,9 +90,7 @@ export const Comment = (props: {
         <Typography.Text type="secondary">{dayjs(updatedAt).format('YYYY-MM-DD HH:mm:ss')}</Typography.Text>
       </Space>
 
-      {children}
-
-      {isReplyEdit && (
+      {isReplyEdit && currentEditorId === `reply-${id}` && (
         <Grid.Row style={{ marginTop: 16 }}>
           <Image className={`${styleName}-avatar`} src="/avatar.png" alt="avatar" width={32} height={32}></Image>
           <div className={`${styleName}-reply`}>{replayEditor}</div>
@@ -100,11 +99,28 @@ export const Comment = (props: {
     </Space>
   );
 
+  const editor = (
+    <Editor
+      id={id}
+      isEdit={isEdit}
+      viewer={viewer}
+      content={props.content}
+      onEditChange={(isEdit) => {
+        setIsEdit(isEdit);
+        setIsReplyEdit(false);
+      }}
+      onSave={props.onUpdateContent}
+    ></Editor>
+  );
+
   return (
     <div className={styleName}>
       <Grid.Row>
         <Image className={`${styleName}-avatar`} src="/avatar.png" alt="avatar" width={32} height={32}></Image>
-        {isEdit ? editor : viewer}
+        <div style={{ flex: 1 }}>
+          {editor}
+          {children}
+        </div>
       </Grid.Row>
     </div>
   );
