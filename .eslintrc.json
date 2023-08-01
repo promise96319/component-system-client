@@ -1,4 +1,7 @@
 {
-  "extends": "./node_modules/eslint-config-next/core-web-vitals.js"
+  "extends": "./node_modules/eslint-config-next/core-web-vitals.js",
   // "extends": "next/core-web-vitals"
+  "rules": {
+    "react-hooks/exhaustive-deps": "off"
+  }
 }

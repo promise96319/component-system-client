@@ -14,7 +14,11 @@ export interface DemandWithComments extends Demand {
 }
 
 export const useDemands = (query: DemandQuery) => {
-  const { data, ...rest } = useFetch<DemandWithComments[]>('/demand', { query, stopFetch: !query.majorVersionId });
+  const { data, ...rest } = useFetch<DemandWithComments[]>(
+    '/demand',
+    { query, stopFetch: !query.majorVersionId },
+    { keepPreviousData: true }
+  );
 
   const transformedData = (data ?? []).map((demand) => {
     return {

@@ -4,9 +4,9 @@ import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { AdminContainer } from '../_components/admin-container/admin-container';
 import { useDemands } from '@/services/demand';
 import { useEffect, useState } from 'react';
-import { Input } from '@arco-design/web-react';
+import { Empty, Input } from '@arco-design/web-react';
 import { IconSearch } from '@arco-design/web-react/icon';
-import { Comment } from '@/components';
+import { DemandList } from '@/components/demand';
 
 export default function Demand() {
   const [majorVersionId] = useMajorVersionId();
@@ -28,26 +28,15 @@ export default function Demand() {
     return null;
   }
 
-  console.log('demands', demands);
-
   return (
     <AdminContainer title="需求列表">
       <Input prefix={<IconSearch></IconSearch>} onChange={(content) => setContent(content)}></Input>
 
-      {demands?.map((demand) => {
-        return (
-          <div  key={demand.id}>xx</div>
-          // <Comment
-          //   key={demand.id}
-          //   username={demand.createdBy.nickname ?? ''}
-          //   userId={demand.createdById ?? ''}
-          //   content={demand.content ?? ''}
-          //   updatedAt={demand.updatedAt ?? new Date()}
-          // >
-          //   {/* hello */}
-          // </Comment>
-        );
-      })}
+      {demands.length === 0 ? (
+        <Empty style={{ marginTop: 160 }}></Empty>
+      ) : (
+        <DemandList demands={demands} onUpdateDemands={updateDemands}></DemandList>
+      )}
     </AdminContainer>
   );
 }
