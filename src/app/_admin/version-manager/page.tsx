@@ -1,7 +1,7 @@
 'use client';
 
 import { useMajorVersions, useCreateMajorVersion } from '@/services/version';
-import { AdminContainer } from '../_components/admin-container/admin-container';
+import { AdminContainer } from '@/components/admin/admin-container/admin-container';
 import { Button, Grid, Modal, Table, Link as TextLink } from '@arco-design/web-react';
 import { MajorVersion } from '@/services/common';
 import Link from 'next/link';

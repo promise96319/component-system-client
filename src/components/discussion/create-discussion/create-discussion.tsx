@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Input, Message } from '@arco-design/web-react';
-import { Editor } from '../../editor/editor';
+import { Editor } from '../../editor';
 import { useEditorStore } from '@/store';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useCreateDiscussion } from '@/services/discussion';
@@ -12,6 +12,7 @@ export const CreateDiscussion = (props: { componentId: string; onCreated?: () =>
   const setCurrentEditorId = useEditorStore((state) => state.setCurrentId);
   const componentId = props.componentId;
   const [majorVersionId] = useMajorVersionId();
+  const MemoizedEditor = useMemo(() => Editor, []);
 
   const {
     trigger: createDiscussion,
@@ -46,7 +47,7 @@ export const CreateDiscussion = (props: { componentId: string; onCreated?: () =>
   };
 
   return (
-    <Editor
+    <MemoizedEditor
       id="add-discussion"
       isEdit={isAddDiscussion}
       viewer={
@@ -61,6 +62,6 @@ export const CreateDiscussion = (props: { componentId: string; onCreated?: () =>
       }
       onEditChange={(isEdit) => setIsAddDiscussion(isEdit)}
       onSave={handleCreateDiscussion}
-    ></Editor>
+    ></MemoizedEditor>
   );
 };

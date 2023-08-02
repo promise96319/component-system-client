@@ -13,9 +13,9 @@ import { Comment } from '@/components';
 import { Message, Card, Divider } from '@arco-design/web-react';
 import { DemandComment } from '@/services/common';
 import React from 'react';
+import dayjs from 'dayjs';
 
 import './demand-list.scss';
-import dayjs from 'dayjs';
 
 export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDemands: () => Promise<any> }) => {
   const styleName = 'demand-list';

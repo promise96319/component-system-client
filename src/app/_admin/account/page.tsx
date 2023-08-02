@@ -1,9 +1,10 @@
 'use client';
 
 import { useUser } from '@/services';
-import { AdminContainer } from '../_components/admin-container/admin-container';
-import './page.scss';
+import { AdminContainer } from '@/components/admin/admin-container/admin-container';
 import { Descriptions } from '@arco-design/web-react';
+
+import './page.scss';
 
 const Page = () => {
   const { data: user } = useUser();

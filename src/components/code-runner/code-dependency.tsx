@@ -96,7 +96,7 @@ export const importCodeDependency = (name: JSDependency['importName'], dependenc
 export function CodeDependency(props: { jsDependencies?: JSDependency[]; cssDependencies?: string[] }) {
   useEffect(() => {
     props.cssDependencies?.forEach((url) => loadCss(url));
-  });
+  }, []);
 
   return (
     <>

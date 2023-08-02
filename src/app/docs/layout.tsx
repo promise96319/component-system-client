@@ -1,6 +1,6 @@
 import { Header, Layout, ComponentSidebar } from '@/components';
 
-export default function DocsLayout({ children }: { children: React.ReactNode; params: any }) {
+export default function WebLayout({ children }: { children: React.ReactNode }) {
   return (
     <Layout header={<Header />} sidebar={<ComponentSidebar />}>
       {children}

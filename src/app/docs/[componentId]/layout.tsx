@@ -18,7 +18,7 @@ const tabsData = [
   { key: 'demand', icon: '/assets/user.svg', label: '需求' }
 ];
 
-export default function RootLayout({ children, params }: { children: React.ReactNode; params: any }) {
+export default function DocsLayout({ children, params }: { children: React.ReactNode; params: any }) {
   const styleName = 'docs';
   const router = useRouter();
   const [majorVersionId] = useMajorVersionId();

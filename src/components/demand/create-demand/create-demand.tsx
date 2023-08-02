@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Input, Message } from '@arco-design/web-react';
-import { Editor } from '../../editor/editor';
+import { Editor } from '../../editor';
 import { useEditorStore } from '@/store';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useCreateDemand } from '@/services/demand';
@@ -12,6 +12,7 @@ export const CreateDemand = (props: { componentId: string; onCreated?: () => Pro
   const setCurrentEditorId = useEditorStore((state) => state.setCurrentId);
   const componentId = props.componentId;
   const [majorVersionId] = useMajorVersionId();
+  const MemoizedEditor = useMemo(() => Editor, []);
 
   const { trigger: createDemand, error: createDemandError, isMutating: isCreatingDemand } = useCreateDemand();
 
@@ -42,7 +43,7 @@ export const CreateDemand = (props: { componentId: string; onCreated?: () => Pro
   };
 
   return (
-    <Editor
+    <MemoizedEditor
       id="add-demand"
       isEdit={isAddDemand}
       viewer={
@@ -57,6 +58,6 @@ export const CreateDemand = (props: { componentId: string; onCreated?: () => Pro
       }
       onEditChange={(isEdit) => setIsAddDemand(isEdit)}
       onSave={handleCreateDemand}
-    ></Editor>
+    ></MemoizedEditor>
   );
 };

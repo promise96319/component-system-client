@@ -1,7 +1,7 @@
 'use client';
 
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
-import { AdminContainer } from '../_components/admin-container/admin-container';
+import { AdminContainer } from '@/components/admin/admin-container/admin-container';
 import { useDemands } from '@/services/demand';
 import { useEffect, useState } from 'react';
 import { Empty, Input } from '@arco-design/web-react';

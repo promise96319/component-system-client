@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import { Grid, Modal, Space, Typography } from '@arco-design/web-react';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Editor, EditorViewer } from '../editor';
 import { useEditorStore } from '@/store';
 import { useUser } from '@/services';
@@ -24,6 +24,9 @@ export const Comment = (props: {
   onRemove?: () => void;
 }) => {
   const styleName = 'comment';
+  const MemoizedEditor = useMemo(() => Editor, []);
+  const MemoizedEditorViewer = useMemo(() => EditorViewer, []);
+
   const { id, username, userId, contentDelta, updatedAt, children } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [isReplyEdit, setIsReplyEdit] = useState(false);
@@ -40,7 +43,7 @@ export const Comment = (props: {
   };
 
   const replayEditor = (
-    <Editor
+    <MemoizedEditor
       id={`reply-${id}`}
       isEdit={isReplyEdit}
       onEditChange={(isEdit) => {
@@ -48,7 +51,7 @@ export const Comment = (props: {
         setIsEdit(false);
       }}
       onSave={props.onSaveComment}
-    ></Editor>
+    ></MemoizedEditor>
   );
 
   const viewer = (
@@ -57,7 +60,7 @@ export const Comment = (props: {
         {username} 发表：
       </Typography.Text>
       {/* <Typography.Text style={{ whiteSpace: 'pre' }}>{contentDelta}</Typography.Text> */}
-      <EditorViewer id={id} contentDelta={contentDelta}></EditorViewer>
+      <MemoizedEditorViewer id={id} contentDelta={contentDelta}></MemoizedEditorViewer>
       <Space align="center" className={`${styleName}-actions`} size={12}>
         <Typography.Text
           style={{ cursor: 'pointer' }}
@@ -101,7 +104,7 @@ export const Comment = (props: {
   );
 
   const editor = (
-    <Editor
+    <MemoizedEditor
       id={id}
       isEdit={isEdit}
       viewer={viewer}
@@ -111,7 +114,7 @@ export const Comment = (props: {
         setIsReplyEdit(false);
       }}
       onSave={props.onUpdateContent}
-    ></Editor>
+    ></MemoizedEditor>
   );
 
   return (
