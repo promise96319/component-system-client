@@ -1,8 +1,8 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useMajorVersions } from '@/services/version';
 import { useMajorVersionIdStorage } from './storage';
-import { useEffect } from 'react';
 
 export const useMajorVersionId = () => {
   // todo: 第一次未取到值，为 undefined

@@ -1,8 +1,8 @@
 'use client';
 
 import { Button, Grid, Space } from '@arco-design/web-react';
-import { useEffect, useRef } from 'react';
 import Quill from 'quill';
+import { useEffect, useRef } from 'react';
 import { useEditorStore } from '@/store';
 
 import 'quill/dist/quill.snow.css';

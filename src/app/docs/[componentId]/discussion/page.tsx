@@ -1,9 +1,9 @@
 'use client';
 
+import React from 'react';
+import { CreateDiscussion, DiscussionList } from '@/components/discussion';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useDiscussions } from '@/services/discussion';
-import { CreateDiscussion, DiscussionList } from '@/components/discussion';
-import React from 'react';
 
 import './page.scss';
 

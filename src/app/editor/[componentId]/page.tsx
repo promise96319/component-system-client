@@ -1,22 +1,22 @@
 'use client';
 
-import { CodeDependency, JSDependency, codeRuntimePlugin } from '@/components/code-runner';
-import React from 'react';
-import { Editor } from '@bytemd/react';
-import { useState } from 'react';
+import { Button, Form, Input, Link, Modal, Select } from '@arco-design/web-react';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
+import { Editor } from '@bytemd/react';
 import { throttle } from 'lodash-es';
-import doc from '@/mock/template.md';
-import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useParams } from 'next/navigation';
+import React from 'react';
+import { useState } from 'react';
+import { CodeDependency, JSDependency, codeRuntimePlugin } from '@/components/code-runner';
+import { useMajorVersionId } from '@/hooks/use-major-version-id';
+import doc from '@/mock/template.md';
+import { useComponent } from '@/services';
 
 import 'bytemd/dist/index.css';
 import 'highlight.js/styles/github.css';
 import './page.scss';
 import '@/styles/markdown.scss';
-import { useComponent } from '@/services';
-import { Button, Form, Input, Link, Modal, Select, Space } from '@arco-design/web-react';
 
 export default function APIDoc() {
   const styleName = 'markdown-editor';

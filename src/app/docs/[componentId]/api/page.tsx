@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { Anchor, Button } from '@arco-design/web-react';
 import highlight from '@bytemd/plugin-highlight';
 import { Viewer } from '@bytemd/react';
-import { CodeDependency, JSDependency, codeRuntimePlugin } from '@/components/code-runner';
-import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
 import { getProcessor } from 'bytemd';
-import { Anchor, Button } from '@arco-design/web-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { CodeDependency, JSDependency, codeRuntimePlugin } from '@/components/code-runner';
 import doc from '@/mock/template.md';
+import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
 
 import 'bytemd/dist/index.css';
 import '@/styles/markdown.scss';

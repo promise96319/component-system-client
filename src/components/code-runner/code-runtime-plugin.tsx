@@ -1,17 +1,17 @@
 'use client';
 
-import type { BytemdPlugin } from 'bytemd';
-import type { Processor, Transformer } from 'unified';
-import type { Root } from 'hast';
-import { visit } from 'unist-util-visit';
 import { isElement, Element } from 'hast-util-is-element';
-import { transform } from 'sucrase';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import CodeErrorBoundary from './code-error-boundary';
-import CodeError from './code-error';
+import { transform } from 'sucrase';
+import { visit } from 'unist-util-visit';
 import CodeBlockComponent from './code-block';
 import { importCodeDependency, JSDependency } from './code-dependency';
+import CodeError from './code-error';
+import CodeErrorBoundary from './code-error-boundary';
+import type { BytemdPlugin } from 'bytemd';
+import type { Root } from 'hast';
+import type { Processor, Transformer } from 'unified';
 
 const CODE_TAG = 'react-code';
 

@@ -1,5 +1,5 @@
-import { Demand, DemandComment, User, useFetch, useMutation } from './common';
 import arrayToTree from 'array-to-tree';
+import { Demand, DemandComment, User, useFetch, useMutation } from './common';
 
 export interface DemandQuery {
   majorVersionId?: string;

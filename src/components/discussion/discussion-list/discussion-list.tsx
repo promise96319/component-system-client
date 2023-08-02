@@ -1,5 +1,10 @@
 'use client';
 
+import { Message, Card, Divider } from '@arco-design/web-react';
+import dayjs from 'dayjs';
+import React from 'react';
+import { Comment } from '@/components';
+import { DiscussionComment } from '@/services/common';
 import {
   DiscussionCommentBody,
   DiscussionWithComments,
@@ -9,11 +14,6 @@ import {
   useUpdateDiscussion,
   useUpdateDiscussionComment
 } from '@/services/discussion';
-import { Comment } from '@/components';
-import { Message, Card, Divider } from '@arco-design/web-react';
-import { DiscussionComment } from '@/services/common';
-import React from 'react';
-import dayjs from 'dayjs';
 
 import './discussion-list.scss';
 

@@ -1,11 +1,11 @@
 'use client';
 
 import { Button, Message } from '@arco-design/web-react';
-import { Viewer } from '@bytemd/react';
 import highlight from '@bytemd/plugin-highlight';
-import { useState, useRef, useEffect } from 'react';
-import ClipboardJS from 'clipboard';
+import { Viewer } from '@bytemd/react';
 import classNames from 'classnames';
+import ClipboardJS from 'clipboard';
+import { useState, useRef, useEffect } from 'react';
 
 import 'highlight.js/styles/github.css';
 import './styles/code-block.scss';

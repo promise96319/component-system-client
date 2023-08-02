@@ -1,8 +1,8 @@
 'use client';
 
-import { useUser } from '@/services';
-import { AdminContainer } from '@/components/admin/admin-container/admin-container';
 import { Descriptions } from '@arco-design/web-react';
+import { AdminContainer } from '@/components/admin/admin-container/admin-container';
+import { useUser } from '@/services';
 
 import './page.scss';
 

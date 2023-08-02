@@ -1,9 +1,9 @@
 'use client';
 
+import React from 'react';
+import { CreateDemand, DemandList } from '@/components/demand';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useDemands } from '@/services/demand';
-import { CreateDemand, DemandList } from '@/components/demand';
-import React from 'react';
 
 import './page.scss';
 

@@ -1,10 +1,10 @@
 'use client';
 
-import { Response } from './type';
+import { Message } from '@arco-design/web-react';
 import useSWR, { SWRConfiguration } from 'swr';
 import useSWRMutation, { SWRMutationConfiguration } from 'swr/mutation';
 import { useTokenStorage } from '@/hooks';
-import { Message } from '@arco-design/web-react';
+import { Response } from './type';
 
 export interface FetchOption extends RequestInit {
   stopFetch?: boolean;

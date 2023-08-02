@@ -1,9 +1,9 @@
 import Image from 'next/image';
 // import { Input } from '@arco-design/web-react';
 // import { IconSearch } from '@arco-design/web-react/icon';
-import VersionSelector from './version-selector/version-selector';
-import UserDropDown from './user-dropdown/user-dropdown';
 import Link from 'next/link';
+import UserDropDown from './user-dropdown/user-dropdown';
+import VersionSelector from './version-selector/version-selector';
 
 import './header.scss';
 

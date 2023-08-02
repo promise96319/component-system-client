@@ -8,4 +8,4 @@ export * from './api-doc';
 export * from './design-doc';
 export * from './demand';
 export * from './discussion';
-export * from './changelog';
+export * from './version-changelog';

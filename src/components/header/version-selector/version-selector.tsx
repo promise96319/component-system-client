@@ -1,10 +1,10 @@
 'use client';
 
-import { useMajorVersions } from '@/services/version';
 import { Select } from '@arco-design/web-react';
-import { useMajorVersionId } from '@/hooks/use-major-version-id';
-import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
+import { useMajorVersionId } from '@/hooks/use-major-version-id';
+import { useMajorVersions } from '@/services/version';
 
 const Option = Select.Option;
 

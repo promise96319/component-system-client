@@ -1,19 +1,19 @@
 'use client';
 
-import { useMajorVersionId } from '@/hooks/use-major-version-id';
-import './layout.scss';
 import { Space, Tabs } from '@arco-design/web-react';
 import Image from 'next/image';
-import { useRouter, useSelectedLayoutSegment } from 'next/navigation';
-import { useComponent } from '@/services';
 import Link from 'next/link';
+import { useRouter, useSelectedLayoutSegment } from 'next/navigation';
+import { useMajorVersionId } from '@/hooks/use-major-version-id';
+import { useComponent } from '@/services';
+import './layout.scss';
 
 const TabPane = Tabs.TabPane;
 
 const tabsData = [
   { key: 'api', icon: '/assets/link.svg', label: 'API文档' },
   { key: 'design', icon: '/assets/label.svg', label: '设计文档' },
-  { key: 'changelog', icon: '/assets/file.svg', label: '版本记录' },
+  { key: 'version-changelog', icon: '/assets/file.svg', label: '版本记录' },
   { key: 'discussion', icon: '/assets/filter.svg', label: '讨论区' },
   { key: 'demand', icon: '/assets/user.svg', label: '需求' }
 ];

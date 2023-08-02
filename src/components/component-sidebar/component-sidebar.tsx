@@ -1,10 +1,10 @@
 'use client';
 
-import { useComponents } from '@/services';
-import Link from 'next/link';
 import classNames from 'classnames';
-import { useMajorVersionId } from '@/hooks/use-major-version-id';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useMajorVersionId } from '@/hooks/use-major-version-id';
+import { useComponents } from '@/services';
 
 import './component-sidebar.scss';
 

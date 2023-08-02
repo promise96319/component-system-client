@@ -1,10 +1,10 @@
 'use client';
 
-import { useMajorVersions, useCreateMajorVersion } from '@/services/version';
-import { AdminContainer } from '@/components/admin/admin-container/admin-container';
 import { Button, Grid, Modal, Table, Link as TextLink } from '@arco-design/web-react';
-import { MajorVersion } from '@/services/common';
 import Link from 'next/link';
+import { AdminContainer } from '@/components/admin/admin-container/admin-container';
+import { MajorVersion } from '@/services/common';
+import { useMajorVersions, useCreateMajorVersion } from '@/services/version';
 
 export default function VersionManager() {
   const { data, isLoading, error, mutate } = useMajorVersions();

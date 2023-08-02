@@ -1,9 +1,9 @@
 'use client';
 
 import { redirect, usePathname } from 'next/navigation';
-import { useTokenStorage } from '../../hooks/storage/use-token-storage';
-import { useUser } from '@/services';
 import { useEffect } from 'react';
+import { useUser } from '@/services';
+import { useTokenStorage } from '../../hooks/storage/use-token-storage';
 export default function Auth(props: { children: React.ReactNode }) {
   const path = usePathname();
   const [token] = useTokenStorage();

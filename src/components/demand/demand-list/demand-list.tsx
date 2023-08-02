@@ -1,5 +1,10 @@
 'use client';
 
+import { Message, Card, Divider } from '@arco-design/web-react';
+import dayjs from 'dayjs';
+import React from 'react';
+import { Comment } from '@/components';
+import { DemandComment } from '@/services/common';
 import {
   DemandCommentBody,
   DemandWithComments,
@@ -9,11 +14,6 @@ import {
   useUpdateDemand,
   useUpdateDemandComment
 } from '@/services/demand';
-import { Comment } from '@/components';
-import { Message, Card, Divider } from '@arco-design/web-react';
-import { DemandComment } from '@/services/common';
-import React from 'react';
-import dayjs from 'dayjs';
 
 import './demand-list.scss';
 

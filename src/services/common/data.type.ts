@@ -234,6 +234,7 @@ export type VersionChangelog = {
   version: string;
   majorVersionId: string;
   demandId: string | null;
+  demandNo: number | null;
 };
 
 export enum DemandStatus {

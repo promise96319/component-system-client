@@ -1,12 +1,12 @@
 'use client';
 
-import Image from 'next/image';
-import { useUser } from '@/services';
 import { Dropdown, Menu } from '@arco-design/web-react';
 import { IconDown } from '@arco-design/web-react/icon';
-import { useTokenStorage } from '@/hooks';
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useTokenStorage } from '@/hooks';
+import { useUser } from '@/services';
 
 import './user-dropdown.scss';
 

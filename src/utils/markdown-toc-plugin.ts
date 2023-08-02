@@ -1,8 +1,8 @@
-import type { BytemdPlugin } from 'bytemd';
-import type { Processor, Transformer } from 'unified';
-import type { Root } from 'hast';
-import { visit } from 'unist-util-visit';
 import { Element } from 'hast-util-is-element';
+import { visit } from 'unist-util-visit';
+import type { BytemdPlugin } from 'bytemd';
+import type { Root } from 'hast';
+import type { Processor, Transformer } from 'unified';
 
 export interface TocItem {
   level: number;

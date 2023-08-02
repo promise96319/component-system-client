@@ -1,5 +1,5 @@
-import { Discussion, DiscussionComment, User, useFetch, useMutation } from './common';
 import arrayToTree from 'array-to-tree';
+import { Discussion, DiscussionComment, User, useFetch, useMutation } from './common';
 
 export interface DiscussionQuery {
   majorVersionId?: string;
