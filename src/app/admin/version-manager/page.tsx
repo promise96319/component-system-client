@@ -75,7 +75,7 @@ export default function VersionManager() {
       render(id: string) {
         return (
           <>
-            <Link href="/admin/changelog">
+            <Link href="/admin/version-changelog">
               <Button type="text">版本记录</Button>
             </Link>
             <Button type="text" onClick={() => handlePublishVersion(id)}>

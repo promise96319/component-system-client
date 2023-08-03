@@ -47,9 +47,10 @@ export const VersionChangelogFilter = (props: {
       <Select
         prefix="类别"
         placeholder="请选择类别"
-        style={{ width: 200 }}
+        style={{ width: 400 }}
         options={normalizeTreeData(filter.types, { label: 'name', value: 'id' })}
         mode="multiple"
+        maxTagCount={2}
         onChange={(value) => setTypes(value)}
       ></Select>
     </Space>

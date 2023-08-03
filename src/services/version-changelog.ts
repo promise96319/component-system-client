@@ -30,5 +30,9 @@ export interface VersionWithChangelogs extends Version {
 }
 
 export const useVersionChangelog = (query: VersionChangelogQuery) => {
-  return useFetch<VersionWithChangelogs>('/version-changelog', { query, stopFetch: !query.majorVersionId });
+  return useFetch<VersionWithChangelogs[]>(
+    '/version-changelog',
+    { query, stopFetch: !query.majorVersionId },
+    { keepPreviousData: true }
+  );
 };

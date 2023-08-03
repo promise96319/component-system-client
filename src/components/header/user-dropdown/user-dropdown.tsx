@@ -34,8 +34,8 @@ const UserDropDown = () => {
       <Link href="/admin/demand">
         <Menu.Item key="demand">需求列表</Menu.Item>
       </Link>
-      <Link href="/admin/changelog">
-        <Menu.Item key="changelog">版本记录</Menu.Item>
+      <Link href="/admin/version-changelog">
+        <Menu.Item key="version-changelog">版本记录</Menu.Item>
       </Link>
       <Link href="/admin/account">
         <Menu.Item key="account">账号信息</Menu.Item>
