@@ -1,36 +1,39 @@
 'use client';
 
-import { Anchor, Button } from '@arco-design/web-react';
+import { Anchor, Button, Empty } from '@arco-design/web-react';
 import highlight from '@bytemd/plugin-highlight';
 import { Viewer } from '@bytemd/react';
 import { getProcessor } from 'bytemd';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { CodeDependency, JSDependency, codeRuntimePlugin } from '@/components/code-runner';
-import doc from '@/mock/template.md';
+import { CodeDependency, codeRuntimePlugin } from '@/components/code-runner';
+import { useMajorVersionId } from '@/hooks/use-major-version-id';
+// import doc from '@/mock/template.md';
+import { useDoc, useMajorVersion } from '@/services';
+import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependency';
 import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
 
 import 'bytemd/dist/index.css';
 import '@/styles/markdown.scss';
 import './page.scss';
 
-const jsDependencies: JSDependency[] = [
-  {
-    module: 'esm',
-    url: 'http://localhost:8080/dist/index.js',
-    globalName: 'QtDesign',
-    importName: '@qt/design'
-  }
-];
-
 export default function APIDoc() {
   const styleName = 'api-doc';
 
   const { componentId } = useParams();
+  const [majorVersionId] = useMajorVersionId();
+  const { data: majorVersion } = useMajorVersion(majorVersionId);
+  const { data: apiDocData } = useDoc({
+    majorVersionId,
+    componentId,
+    type: 'API'
+  });
+
   const [toc, setToc] = useState<TocItem[]>([]);
   const router = useRouter();
 
   useEffect(() => {
+    if (!apiDocData) return;
     try {
       let toc: TocItem[] = [];
       getProcessor({
@@ -41,19 +44,33 @@ export default function APIDoc() {
             }
           })
         ]
-      }).processSync(doc);
+      }).processSync(apiDocData.doc.content);
       setToc(toc);
     } catch (err) {
       console.log('Markdown 编译错误：', err);
     }
-  }, []);
+  }, [apiDocData]);
 
   const handleEdit = () => {
-    router.push(`/editor/${componentId}`);
+    router.push(`/editor/${apiDocData?.id}`);
   };
+
+  const designCssDependency = majorVersion ? [getDesignCssDependency(majorVersion.majorVersion)] : [];
+  const designJsDependency = majorVersion ? [getDesignJsDependency(majorVersion.majorVersion)] : [];
+  const dependency = <CodeDependency cssDependencies={designCssDependency} jsDependencies={designJsDependency} />;
+
+  if (!apiDocData || !majorVersion || !designJsDependency.length) {
+    return (
+      <>
+        {dependency}
+        <Empty className="mt-px-32"></Empty>
+      </>
+    );
+  }
 
   return (
     <div className={styleName}>
+      {dependency}
       <main className={`${styleName}-markdown`}>
         <div className={`${styleName}-markdown-content`}>
           <Button.Group>
@@ -62,8 +79,10 @@ export default function APIDoc() {
             </Button>
             <Button type="text">历史记录</Button>
           </Button.Group>
-          <CodeDependency cssDependencies={['http://localhost:8080/dist/index.css']} jsDependencies={jsDependencies} />
-          <Viewer value={doc} plugins={[codeRuntimePlugin({ jsDependencies }), rehypeHead(), highlight()]}></Viewer>
+          <Viewer
+            value={apiDocData.doc.content}
+            plugins={[rehypeHead(), codeRuntimePlugin({ jsDependencies: designJsDependency }), highlight()]}
+          ></Viewer>
         </div>
         <div className={`${styleName}-markdown-toc`}>
           <Anchor offsetTop={80}>

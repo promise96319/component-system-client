@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 import { transform } from 'sucrase';
 import { visit } from 'unist-util-visit';
 import CodeBlockComponent from './code-block';
-import { importCodeDependency, JSDependency } from './code-dependency';
+import { importCodeDependency, JSDependency, loadJs } from './code-dependency';
 import CodeError from './code-error';
 import CodeErrorBoundary from './code-error-boundary';
 import type { BytemdPlugin } from 'bytemd';
@@ -47,55 +47,61 @@ export const codeRuntimePlugin = (opts?: {
   jsDependencies?: JSDependency[];
   CodeBlock?: typeof CodeBlockComponent;
 }): BytemdPlugin => {
-  const { jsDependencies, CodeBlock = CodeBlockComponent } = opts || {};
+  const { jsDependencies = [], CodeBlock = CodeBlockComponent } = opts || {};
 
   return {
     rehype(processor: Processor) {
       return processor.use(rehypeCode);
     },
     viewerEffect({ markdownBody }) {
-      markdownBody.querySelectorAll(CODE_TAG).forEach((el: any, index: number) => {
-        const cachedEl = cache[index];
-        if (cachedEl) {
-          el.innerHTML = cachedEl.innerHTML;
-        }
+      const renderCode = () =>
+        markdownBody.querySelectorAll(CODE_TAG).forEach((el: any, index: number) => {
+          const cachedEl = cache[index];
+          if (cachedEl) {
+            el.innerHTML = cachedEl.innerHTML;
+          }
 
-        const code = el.getAttribute('data-code');
-        if (!code) return;
+          const code = el.getAttribute('data-code');
+          if (!code) return;
 
-        let Component = null;
-        let error: Error | undefined = undefined;
+          let Component = null;
+          let error: Error | undefined = undefined;
 
-        try {
-          const compiledCode: string = transform(code, {
-            transforms: ['jsx', 'typescript', 'imports']
-          })?.code;
+          try {
+            const compiledCode: string = transform(code, {
+              transforms: ['jsx', 'typescript', 'imports']
+            })?.code;
 
-          const req = (name: string) => importCodeDependency(name, jsDependencies);
+            const req = (name: string) => importCodeDependency(name, jsDependencies);
 
-          Component = eval(`
+            Component = eval(`
             (function(require, exports) {
               ${compiledCode};
               return exports.default;
             })(${req}, {});
           `);
-        } catch (err: any) {
-          error = err;
-        }
+          } catch (err: any) {
+            error = err;
+          }
 
-        const codePreviewer = error ? (
-          <CodeError error={error}></CodeError>
-        ) : (
-          <CodeErrorBoundary>
-            <Component />
-          </CodeErrorBoundary>
-        );
+          const codePreviewer = error ? (
+            <CodeError error={error}></CodeError>
+          ) : (
+            <CodeErrorBoundary>
+              <Component />
+            </CodeErrorBoundary>
+          );
 
-        createRoot(el).render(<CodeBlock source={code}>{codePreviewer}</CodeBlock>);
+          createRoot(el).render(<CodeBlock source={code}>{codePreviewer}</CodeBlock>);
 
-        // 缓存上一次的 html，下次渲染时达到局部更新的效果
-        cache[index] = el;
-      });
+          // 缓存上一次的 html，下次渲染时达到局部更新的效果
+          cache[index] = el;
+        });
+
+      (async () => {
+        await Promise.all(jsDependencies.map((dependency) => loadJs(dependency)));
+        renderCode();
+      })();
     }
   };
 };

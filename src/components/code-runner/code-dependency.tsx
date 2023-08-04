@@ -32,6 +32,12 @@ export const builtInJsDependencies: JSDependency[] = [
   }
 ];
 
+export const getGlobalModuleName = (name: string) => {
+  return `__global_module_${name}__`;
+};
+
+export const getModule = (name: string) => (window as any)[getGlobalModuleName(name)];
+
 // next.js 无法通过 link / metadata 加载远程 css
 export const loadCss = (url: string) => {
   return new Promise((resolve, reject) => {
@@ -52,12 +58,51 @@ export const loadCss = (url: string) => {
   });
 };
 
+export const loadJs = (dependency?: JSDependency) => {
+  if (!dependency) return Promise.resolve(null);
+
+  const { url, module } = dependency;
+  const globalName = getGlobalModuleName(dependency.globalName);
+
+  return new Promise((resolve) => {
+    if (getModule(globalName)) return resolve(null);
+
+    const scriptUrls = [].slice.call(document.querySelectorAll('script')).map((item: any) => item.src ?? item.id);
+    if (scriptUrls.includes(url)) return resolve(null);
+
+    const onLoad = () => {
+      resolve(null);
+    };
+    const script = document.createElement('script');
+    if (module === 'umd') {
+      script.src = url;
+      script.onload = onLoad;
+      script.onerror = onLoad;
+    }
+
+    if (module === 'esm') {
+      const libCallbackKey = `__${globalName}_onload_callback__`;
+      script.innerHTML = `
+        import * as ${globalName} from '${url}';
+        window.${globalName} = ${globalName};
+        window.${libCallbackKey}();
+      `;
+      script.type = 'module';
+      script.id = url;
+      (window as any)[libCallbackKey] = onLoad;
+    }
+
+    document.head.appendChild(script);
+  });
+};
+
 export const createScripts = (dependencies: JSDependency[] = []) => {
   return (
     <>
       {dependencies.map((dependency) => {
         if (dependency.module === 'esm') {
-          const { importName, globalName, url } = dependency;
+          const { importName, url } = dependency;
+          const globalName = getGlobalModuleName(dependency.globalName);
 
           return (
             <Script key={importName} id={importName} type="module" strategy="beforeInteractive">
@@ -90,7 +135,7 @@ export const importCodeDependency = (name: JSDependency['importName'], dependenc
   }
 
   const { globalName } = dependency as JSDependency;
-  return (window as any)[globalName];
+  return (window as any)[dependency.module === 'esm' ? getGlobalModuleName(globalName) : globalName];
 };
 
 export function CodeDependency(props: { jsDependencies?: JSDependency[]; cssDependencies?: string[] }) {
@@ -100,8 +145,8 @@ export function CodeDependency(props: { jsDependencies?: JSDependency[]; cssDepe
 
   return (
     <>
-      {createScripts(builtInJsDependencies)}
       {createScripts(props.jsDependencies)}
+      {createScripts(builtInJsDependencies)}
     </>
   );
 }
