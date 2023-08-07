@@ -1,6 +1,7 @@
 'use client';
 
 import { Anchor, Button, Empty } from '@arco-design/web-react';
+import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import { Viewer } from '@bytemd/react';
 import { getProcessor } from 'bytemd';
@@ -8,7 +9,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { CodeDependency, codeRuntimePlugin } from '@/components/code-runner';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
-// import doc from '@/mock/template.md';
 import { useDoc, useMajorVersion } from '@/services';
 import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependency';
 import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
@@ -81,7 +81,7 @@ export default function APIDoc() {
           </Button.Group>
           <Viewer
             value={apiDocData.doc.content}
-            plugins={[rehypeHead(), codeRuntimePlugin({ jsDependencies: designJsDependency }), highlight()]}
+            plugins={[gfm(), rehypeHead(), codeRuntimePlugin({ jsDependencies: designJsDependency }), highlight()]}
           ></Viewer>
         </div>
         <div className={`${styleName}-markdown-toc`}>

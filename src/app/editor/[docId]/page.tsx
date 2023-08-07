@@ -11,32 +11,29 @@ import { useState } from 'react';
 import { CodeDependency, JSDependency, codeRuntimePlugin } from '@/components/code-runner';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import doc from '@/mock/template.md';
-import { useComponent, useSaveDoc } from '@/services';
+import { useComponent, useMajorVersion, useSaveDoc } from '@/services';
 
 import 'bytemd/dist/index.css';
 import 'highlight.js/styles/github.css';
 import './page.scss';
 import '@/styles/markdown.scss';
+import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependency';
 
 export default function MarkdownEditor() {
   const styleName = 'markdown-editor';
   const [value, setValue] = useState(doc);
   const [modalVisible, setModalVisible] = useState(false);
   const [majorVersionId] = useMajorVersionId();
+  const { data: majorVersion } = useMajorVersion(majorVersionId);
   const { componentId } = useParams();
   const { data: component } = useComponent(majorVersionId, componentId);
   const { trigger: updateDoc, error: updateDocError, isMutating: isUpdatingDoc } = useSaveDoc();
 
   const handleChange = throttle((val: string) => setValue(val), 1000);
 
-  const jsDependencies: JSDependency[] = [
-    {
-      module: 'esm',
-      url: 'http://ued.qingteng.cn:1042/qt-design/v3/index.js',
-      globalName: 'QtDesign',
-      importName: '@qt/design'
-    }
-  ];
+  const designCssDependency = majorVersion ? [getDesignCssDependency(majorVersion.majorVersion)] : [];
+  const designJsDependency = majorVersion ? [getDesignJsDependency(majorVersion.majorVersion)] : [];
+  const dependency = <CodeDependency cssDependencies={designCssDependency} jsDependencies={designJsDependency} />;
 
   const handleSaveDoc = async () => {
     if (isUpdatingDoc) {
@@ -89,10 +86,7 @@ export default function MarkdownEditor() {
       </header>
 
       <main className={`${styleName}-container`}>
-        <CodeDependency
-          cssDependencies={['http://ued.qingteng.cn:1042/qt-design/v3/index.css']}
-          jsDependencies={jsDependencies}
-        />
+        {dependency}
 
         <Editor
           mode="auto"
@@ -108,7 +102,7 @@ export default function MarkdownEditor() {
               }
             ]);
           }}
-          plugins={[gfm(), codeRuntimePlugin({ jsDependencies }), highlight()]}
+          plugins={[gfm(), codeRuntimePlugin({ jsDependencies: designJsDependency }), highlight()]}
         />
       </main>
     </div>

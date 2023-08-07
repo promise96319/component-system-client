@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Previewer</title>
+    <link type="text/css" rel="stylesheet" href="http://ued.qingteng.cn:1042/qt-design/v10/index.css" />
+    <style>
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      #app {
+        box-sizing: border-box;
+        padding: 24px;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/dayjs.min.js"></script>
+
+    <script type="module">
+      import * as QtDesign from 'http://ued.qingteng.cn:1042/qt-design/v10/index.js';
+
+      const __modules__ = {
+        react: window.React,
+        'react-dom': window.ReactDOM,
+        dayjs: window.dayjs,
+        '@qt/design': QtDesign
+      };
+
+      const { React, ReactDOM } = window;
+      const root = ReactDOM.createRoot(document.getElementById('app'));
+
+      window.addEventListener('message', (e) => {
+        const { compiledCode, error } = e.data;
+        const createErrorComponent = (error) =>
+          React.createElement(
+            'div',
+            {
+              style: {
+                whiteSpace: 'pre',
+                overflow: 'auto',
+                maxHeight: '100%'
+              }
+            },
+            error.stack
+          );
+
+        if (error) {
+          root.render(createErrorComponent(error));
+          return;
+        }
+
+        const req = (name) => __modules__[name];
+        const Component = eval(`
+          (function (require, exports) {
+            ${compiledCode};
+            return exports.default;
+          })(${req}, {});
+        `);
+
+        class CodeErrorBoundary extends React.Component {
+          state = {
+            error: null
+          };
+
+          static getDerivedStateFromError(error) {
+            return { error };
+          }
+
+          render() {
+            const { children } = this.props;
+            const { error } = this.state;
+            return error ? createErrorComponent(error) : children;
+          }
+        }
+
+        root.render(React.createElement(CodeErrorBoundary, null, React.createElement(Component)));
+      });
+    </script>
+  </body>
+</html>

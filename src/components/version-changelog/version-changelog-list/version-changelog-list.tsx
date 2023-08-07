@@ -26,13 +26,13 @@ export const VersionChangelogItem = (props: { versionChangelog: VersionWithChang
     data[changelog.type].push(changelog);
   });
 
-  const renderList = (title: string, changelogs: VersionChangelog[]) => {
+  const renderList = (title: string, changelogs: VersionChangelog[], index: number) => {
     if (!changelogs.length) {
       return null;
     }
 
     return (
-      <section>
+      <section key={index}>
         <Title heading={6}>{title}</Title>
         <Paragraph className="ml-px-16">
           <ul>
@@ -60,7 +60,7 @@ export const VersionChangelogItem = (props: { versionChangelog: VersionWithChang
     <section>
       <Title heading={4}>{version}</Title>
       <Text type="secondary">{dayjs(publishedAt).format('YYYY-MM-DD hh:mm:ss')}</Text>
-      {Object.entries(data).map(([key, value]) => renderList(typeMap[key], value))}
+      {Object.entries(data).map(([key, value], index) => renderList(typeMap[key], value, index))}
     </section>
   );
 };

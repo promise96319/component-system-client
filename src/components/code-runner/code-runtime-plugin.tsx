@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 import { transform } from 'sucrase';
 import { visit } from 'unist-util-visit';
 import CodeBlockComponent from './code-block';
-import { importCodeDependency, JSDependency, loadJs } from './code-dependency';
+import { importCodeDependency, isDependenciesLoaded, JSDependency, loadJs } from './code-dependency';
 import CodeError from './code-error';
 import CodeErrorBoundary from './code-error-boundary';
 import type { BytemdPlugin } from 'bytemd';
@@ -54,7 +54,7 @@ export const codeRuntimePlugin = (opts?: {
       return processor.use(rehypeCode);
     },
     viewerEffect({ markdownBody }) {
-      const renderCode = () =>
+      const renderCode = () => {
         markdownBody.querySelectorAll(CODE_TAG).forEach((el: any, index: number) => {
           const cachedEl = cache[index];
           if (cachedEl) {
@@ -97,6 +97,11 @@ export const codeRuntimePlugin = (opts?: {
           // 缓存上一次的 html，下次渲染时达到局部更新的效果
           cache[index] = el;
         });
+      };
+
+      if (isDependenciesLoaded(jsDependencies)) {
+        return renderCode();
+      }
 
       (async () => {
         await Promise.all(jsDependencies.map((dependency) => loadJs(dependency)));

@@ -36,13 +36,14 @@ export const getGlobalModuleName = (name: string) => {
   return `__global_module_${name}__`;
 };
 
-export const getModule = (name: string) => (window as any)[getGlobalModuleName(name)];
+export const getModule = (name: string, module: 'esm' | 'umd' = 'esm') =>
+  (window as any)[module === 'esm' ? getGlobalModuleName(name) : name];
 
 // next.js 无法通过 link / metadata 加载远程 css
 export const loadCss = (url: string) => {
   return new Promise((resolve, reject) => {
-    const linkNodes = [].slice.call(document.querySelectorAll('link')).map((item: any) => item.href);
-    if (linkNodes.includes(url)) return resolve(null);
+    const linkUrls = [].slice.call(document.querySelectorAll('link')).map((item: any) => item.href);
+    if (linkUrls.includes(url)) return resolve(null);
 
     const link = document.createElement('link');
     link.type = 'text/css';
@@ -65,15 +66,14 @@ export const loadJs = (dependency?: JSDependency) => {
   const globalName = getGlobalModuleName(dependency.globalName);
 
   return new Promise((resolve) => {
-    if (getModule(globalName)) return resolve(null);
+    if (getModule(globalName, module)) return resolve(null);
 
     const scriptUrls = [].slice.call(document.querySelectorAll('script')).map((item: any) => item.src ?? item.id);
     if (scriptUrls.includes(url)) return resolve(null);
 
-    const onLoad = () => {
-      resolve(null);
-    };
+    const onLoad = () => resolve(null);
     const script = document.createElement('script');
+
     if (module === 'umd') {
       script.src = url;
       script.onload = onLoad;
@@ -81,19 +81,23 @@ export const loadJs = (dependency?: JSDependency) => {
     }
 
     if (module === 'esm') {
-      const libCallbackKey = `__${globalName}_onload_callback__`;
+      const onLoadCallbackKey = `__${globalName}_onload_callback__`;
       script.innerHTML = `
         import * as ${globalName} from '${url}';
         window.${globalName} = ${globalName};
-        window.${libCallbackKey}();
+        window.${onLoadCallbackKey}();
       `;
       script.type = 'module';
       script.id = url;
-      (window as any)[libCallbackKey] = onLoad;
+      (window as any)[onLoadCallbackKey] = onLoad;
     }
 
     document.head.appendChild(script);
   });
+};
+
+export const isDependenciesLoaded = (dependencies: JSDependency[] = []) => {
+  return dependencies.every((dependency) => getModule(dependency.globalName, dependency.module));
 };
 
 export const createScripts = (dependencies: JSDependency[] = []) => {
@@ -141,7 +145,7 @@ export const importCodeDependency = (name: JSDependency['importName'], dependenc
 export function CodeDependency(props: { jsDependencies?: JSDependency[]; cssDependencies?: string[] }) {
   useEffect(() => {
     props.cssDependencies?.forEach((url) => loadCss(url));
-  }, []);
+  }, [props.cssDependencies]);
 
   return (
     <>

@@ -1,3 +1,5 @@
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
@@ -17,6 +19,17 @@ const nextConfig = {
       test: /\.md$/,
       use: 'raw-loader'
     });
+
+    config.module.rules.push({
+      test: /\.html$/,
+      use: 'raw-loader'
+    });
+
+    config.plugins.push(
+      new MonacoWebpackPlugin({
+        languages: ['typescript']
+      })
+    );
     return config;
   }
   // async rewrites() {
