@@ -20,12 +20,12 @@ interface PersistentState {
 }
 
 const encodeState = (state: PersistentState) => {
-  return btoa(JSON.stringify(state));
+  return utoa(JSON.stringify(state));
 };
 
 const decodeState = (state: string) => {
   try {
-    return JSON.parse(atob(state)) as PersistentState;
+    return JSON.parse(atou(state)) as PersistentState;
   } catch {
     return null;
   }
@@ -35,7 +35,6 @@ export default function Playground() {
   const styleName = 'playground';
   const persistentStateStr = window?.location?.hash.replace('#', '');
   const persistentState = persistentStateStr ? decodeState(persistentStateStr) : null;
-  console.log('persistentState', persistentState);
 
   const defaultCode = persistentState
     ? persistentState.code

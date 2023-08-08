@@ -9,6 +9,9 @@ import { useState, useRef, useEffect } from 'react';
 
 import 'highlight.js/styles/github.css';
 import './styles/code-block.scss';
+import { useMajorVersionId } from '@/hooks/use-major-version-id';
+import { useMajorVersion } from '@/services';
+import { utoa } from '@/utils/zlib';
 
 export default function CodeBlock(props: { source: string; children: React.ReactNode }) {
   const styleName = 'code-block';
@@ -19,6 +22,8 @@ ${props.source}
 \`\`\`
 `;
 
+  const [majorVersionId] = useMajorVersionId();
+  const { data: majorVersion } = useMajorVersion(majorVersionId);
   const [visible, setVisible] = useState(false);
   const btnRef = useRef<HTMLDivElement>(null);
   const clipboard = useRef<ClipboardJS | null>(null);
@@ -35,6 +40,14 @@ ${props.source}
     return clipboard.current?.destroy;
   }, [btnRef, props.source]);
 
+  const handleOpenPlayground = () => {
+    const state = {
+      code: props.source,
+      version: majorVersion?.majorVersion
+    };
+    window.open(`/playground#${utoa(JSON.stringify(state))}`);
+  };
+
   return (
     <div className={styleName}>
       <div className={`${styleName}-previewer`}>{props.children}</div>
@@ -44,6 +57,9 @@ ${props.source}
         </Button>
         <Button ref={btnRef} type="text">
           复制代码
+        </Button>
+        <Button ref={btnRef} type="text" onClick={handleOpenPlayground}>
+          运行代码
         </Button>
       </div>
       <div className={classNames(`${styleName}-source`, { visible })}>
