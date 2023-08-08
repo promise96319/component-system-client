@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Code Previewer</title>
-    <link type="text/css" rel="stylesheet" href="http://ued.qingteng.cn:1042/qt-design/v10/index.css" />
+    <link type="text/css" rel="stylesheet" href="__QT_DESIGN_CSS_DEPENDENCY__" />
     <style>
       html,
       body {
@@ -28,7 +28,7 @@
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/dayjs.min.js"></script>
 
     <script type="module">
-      import * as QtDesign from 'http://ued.qingteng.cn:1042/qt-design/v10/index.js';
+      import * as QtDesign from '__QT_DESIGN_JS_DEPENDENCY__';
 
       const __modules__ = {
         react: window.React,
@@ -40,8 +40,8 @@
       const { React, ReactDOM } = window;
       const root = ReactDOM.createRoot(document.getElementById('app'));
 
-      window.addEventListener('message', (e) => {
-        const { compiledCode, error } = e.data;
+      const updateView = (data) => {
+        const { compiledCode, error } = data;
         const createErrorComponent = (error) =>
           React.createElement(
             'div',
@@ -85,6 +85,10 @@
         }
 
         root.render(React.createElement(CodeErrorBoundary, null, React.createElement(Component)));
+      };
+
+      window.addEventListener('message', (e) => {
+        updateView(e.data);
       });
     </script>
   </body>

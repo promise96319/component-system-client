@@ -10,6 +10,10 @@ export default function Auth(props: { children: React.ReactNode }) {
   const { data: user, isLoading: isValidating } = useUser({ stopFetch: !token, disallowError: true });
 
   useEffect(() => {
+    if (['/playground'.includes(path)]) {
+      return;
+    }
+
     const whiteList = ['/auth/login'];
     if (!isValidating) {
       if (token && user) {
