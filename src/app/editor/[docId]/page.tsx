@@ -1,20 +1,21 @@
 'use client';
 
-import { Button, Form, Input, Link, Message, Modal, Select, Typography } from '@arco-design/web-react';
+import { Button, Form, Input, Message, Modal, Typography } from '@arco-design/web-react';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import { Editor } from '@bytemd/react';
 import { throttle } from 'lodash-es';
-import { useParams } from 'next/navigation';
-import React from 'react';
+import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { CodeDependency, codeRuntimePlugin } from '@/components/code-runner';
 import { DemandSelect } from '@/components/demand';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
-import doc from '@/mock/template.md';
-import { useComponent, useMajorVersion, useSaveDoc } from '@/services';
+import { DocType, useComponent, useDocById, useMajorVersion, useSaveDoc } from '@/services';
 import { DemandStatus } from '@/services/common';
 import { useDemands } from '@/services/demand';
+import { useUploadImage } from '@/services/file';
 import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependency';
 
 import 'bytemd/dist/index.css';
@@ -25,26 +26,35 @@ import '@/styles/markdown.scss';
 export default function MarkdownEditor() {
   const styleName = 'markdown-editor';
 
-  const [value, setValue] = useState(doc);
+  const [value, setValue] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [form] = Form.useForm();
   const { docId } = useParams();
-
   const [majorVersionId] = useMajorVersionId();
+  const { data: doc } = useDocById(docId);
   const { data: majorVersion } = useMajorVersion(majorVersionId);
-  const { componentId } = useParams();
-  const { data: component } = useComponent(majorVersionId, componentId);
+  const { data: component } = useComponent(majorVersionId, doc?.componentId);
+  const { trigger: uploadImage } = useUploadImage();
   const { trigger: updateDoc, error: updateDocError, isMutating: isUpdatingDoc } = useSaveDoc();
   const { data: demands } = useDemands({
     majorVersionId,
     status: DemandStatus.OPENED
   });
 
-  const handleChange = throttle((val: string) => setValue(val), 1000);
+  const redirectUrl = `/docs/${doc?.componentId}/${doc?.specType === DocType.API ? 'api' : 'design'}`;
+  const router = useRouter();
 
   const designCssDependency = majorVersion ? [getDesignCssDependency(majorVersion.majorVersion)] : [];
   const designJsDependency = majorVersion ? [getDesignJsDependency(majorVersion.majorVersion)] : [];
   const dependency = <CodeDependency cssDependencies={designCssDependency} jsDependencies={designJsDependency} />;
+
+  useEffect(() => {
+    if (doc) {
+      setValue(doc.doc.content);
+    }
+  }, [doc]);
+
+  const handleChange = throttle((val: string) => setValue(val), 1000);
 
   const handleSaveDoc = async () => {
     if (isUpdatingDoc) {
@@ -66,16 +76,34 @@ export default function MarkdownEditor() {
       content: value,
       demandId: res.demandId
     });
+
     if (!updateDocError) {
       setModalVisible(false);
       Message.success('更新成功');
+      router.replace(redirectUrl);
     }
+  };
+
+  const handleUploadImage = async (files: File[]) => {
+    return Promise.all(
+      files.map((file) => {
+        return uploadImage({ file }).then((res) => {
+          return {
+            url: res.url,
+            alt: file.name,
+            title: file.name
+          };
+        });
+      })
+    );
   };
 
   return (
     <div className={styleName}>
       <header className={`${styleName}-header`}>
-        <Typography.Title heading={3}>{component?.description}</Typography.Title>
+        <Link href={redirectUrl}>
+          <Typography.Title heading={3}>{component?.description}</Typography.Title>
+        </Link>
         <Button type="primary" onClick={() => setModalVisible(true)}>
           更新文档
         </Button>
@@ -109,7 +137,7 @@ export default function MarkdownEditor() {
                 <Form.Item field="demandId" noStyle={true}>
                   <DemandSelect mode={undefined} demands={demands}></DemandSelect>
                 </Form.Item>
-                <Link className={`${styleName}-open-issue`} href={`/docs/${componentId}/demand`}>
+                <Link className={`${styleName}-open-issue`} href={`/docs/${doc?.componentId}/demand`} target="__blank">
                   提需求
                 </Link>
               </div>
@@ -125,16 +153,7 @@ export default function MarkdownEditor() {
           mode="auto"
           value={value}
           onChange={handleChange}
-          // TODO: 图片上传
-          uploadImages={(files: any[]) => {
-            return Promise.resolve([
-              {
-                title: 'guanghui',
-                url: 'https://p3-passport.byteimg.com/img/user-avatar/7bfe5fcd764682d97401eae5d338c64e~100x100.awebp',
-                alt: 'guanghui'
-              }
-            ]);
-          }}
+          uploadImages={handleUploadImage}
           plugins={[gfm(), codeRuntimePlugin({ jsDependencies: designJsDependency }), highlight()]}
         />
       </main>

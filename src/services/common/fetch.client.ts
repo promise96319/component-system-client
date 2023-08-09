@@ -10,6 +10,7 @@ export interface FetchOption extends RequestInit {
   stopFetch?: boolean;
   disallowError?: boolean;
   query?: Record<string, any>;
+  isFormData?: boolean;
 }
 
 export const stringifyQuery = (query: Record<string, any>) => {
@@ -40,11 +41,14 @@ export const useFetch = <D>(url: string, option: FetchOption = {}, swrConfig?: S
   }
   const cacheKey = `${option.method ?? 'get'}-${url}`;
   const [token] = useTokenStorage();
+
   const headers: Record<string, any> = option?.headers ?? {};
-  headers.contentType = 'application/json';
+  headers['Content-Type'] = 'application/json';
+
   if (token) {
     headers.authorization = `Bearer ${token}`;
   }
+
   return useSWR(option?.stopFetch ? null : cacheKey, () => clientFetch<D>(url, { ...option, headers }), swrConfig);
 };
 
@@ -59,17 +63,35 @@ export const useMutation = <D, R, E = any>(
   }
   const cacheKey = `${option?.method}-${url}`;
   const [token] = useTokenStorage();
+
   const headers: Record<string, any> = option?.headers ?? {};
-  headers['Content-Type'] = 'application/json';
+  if (!option.isFormData) {
+    headers['Content-Type'] = 'application/json';
+  }
+
   if (token) {
     headers.authorization = `Bearer ${token}`;
   }
+
   return useSWRMutation<R, E, any, D>(
     option?.stopFetch ? null : cacheKey,
     (_key: string, { arg }: { arg: D }) => {
+      let body: FormData | string = '';
+      if (option.isFormData) {
+        // https://juejin.cn/post/6844903757654786061
+        // 当为 formData 时，不设置 Content-Type，浏览器会自动设置为 multipart/form-data
+        const formData = new FormData();
+        Object.keys(arg as any).forEach((key) => {
+          formData.append(key, (arg as any)[key]);
+        });
+        body = formData;
+      } else {
+        body = JSON.stringify(arg);
+      }
+
       return clientFetch<R>(url, {
         ...option,
-        body: JSON.stringify(arg),
+        body,
         headers
       });
     },

@@ -1,17 +1,21 @@
 import { Demand, User, useFetch, useMutation } from './common';
 
-export const ApiDocKey = 'API';
+export enum DocType {
+  API = 'API',
+  DESIGN = 'DESIGN'
+}
 
 export interface ApiDocQuery {
   majorVersionId: string;
   componentId: string;
-  type: 'API' | 'DESIGN';
+  type: DocType;
 }
 
 export interface Doc {
   id: string;
   majorVersionId: string;
   componentId: string;
+  specType: DocType;
   doc: {
     content: string;
     createdBy: User;
@@ -29,6 +33,10 @@ export const useDoc = (query: ApiDocQuery) => {
     },
     stopFetch: !query.majorVersionId
   });
+};
+
+export const useDocById = (id?: string) => {
+  return useFetch<Doc>(`/spec/${id}`, { stopFetch: !id });
 };
 
 export interface DocBody {
