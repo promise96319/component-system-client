@@ -8,6 +8,7 @@ import { getProcessor } from 'bytemd';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { CodeDependency, codeRuntimePlugin } from '@/components/code-runner';
+import { DocHistory } from '@/components/doc-history/doc-history';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useDoc, useMajorVersion } from '@/services';
 import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependency';
@@ -30,6 +31,7 @@ export default function APIDoc() {
   });
 
   const [toc, setToc] = useState<TocItem[]>([]);
+  const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -77,7 +79,9 @@ export default function APIDoc() {
             <Button type="text" onClick={handleEdit}>
               编辑
             </Button>
-            <Button type="text">历史记录</Button>
+            <Button type="text" onClick={() => setIsHistoryVisible(true)}>
+              历史记录
+            </Button>
           </Button.Group>
           <Viewer
             value={apiDocData.doc.content}
@@ -91,11 +95,17 @@ export default function APIDoc() {
                 href={`#${item.id}`}
                 title={item.text}
                 key={item.id}
-                className={`${styleName}-toc-${item.level}`}
+                className={`${styleName}-markdown-toc-${item.level}`}
               ></Anchor.Link>
             ))}
           </Anchor>
         </div>
+
+        <DocHistory
+          id={apiDocData.id}
+          visible={isHistoryVisible}
+          onCancel={() => setIsHistoryVisible(false)}
+        ></DocHistory>
       </main>
     </div>
   );

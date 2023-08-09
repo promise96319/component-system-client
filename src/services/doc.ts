@@ -1,4 +1,4 @@
-import { User, useFetch, useMutation } from './common';
+import { Demand, User, useFetch, useMutation } from './common';
 
 export const ApiDocKey = 'API';
 
@@ -14,7 +14,7 @@ export interface Doc {
   componentId: string;
   doc: {
     content: string;
-    author: User;
+    createdBy: User;
   };
   createdAt: string;
   updatedAt: string;
@@ -35,9 +35,25 @@ export interface DocBody {
   specId: string;
   remark: string;
   content: string;
-  demandIds?: string[];
+  demandId?: string;
 }
 
 export const useSaveDoc = () => {
   return useMutation<DocBody, any>('/doc', { method: 'POST' });
+};
+
+export interface DocHistory {
+  remark: string;
+  createdBy: User;
+  demand?: Demand;
+  createdAt: string;
+  version?: string;
+}
+
+export const useDocHistory = (id: string) => {
+  return useFetch<DocHistory[]>(`/spec/${id}/history`);
+};
+
+export const useDocContent = (query: { demandIds: string[] }) => {
+  return useFetch<DocHistory[]>(`/doc`, { query });
 };

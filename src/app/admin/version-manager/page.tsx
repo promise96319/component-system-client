@@ -1,12 +1,17 @@
 'use client';
 
-import { Button, Grid, Modal, Table, Link as TextLink } from '@arco-design/web-react';
+import { Button, Grid, Modal, Table } from '@arco-design/web-react';
+import dayjs from 'dayjs';
 import Link from 'next/link';
+import { useState } from 'react';
 import { AdminContainer } from '@/components/admin/admin-container/admin-container';
-import { MajorVersion } from '@/services/common';
+import { Version } from '@/services/common';
 import { useMajorVersions, useCreateMajorVersion } from '@/services/version';
+import { ReleaseVersion } from './release-version/release-version';
 
 export default function VersionManager() {
+  const [currentId, setCurrenId] = useState('');
+
   const { data, isLoading, error, mutate } = useMajorVersions();
   const { trigger: createMajorVersion, error: updateError } = useCreateMajorVersion();
 
@@ -29,11 +34,6 @@ export default function VersionManager() {
     });
   };
 
-  const handlePublishVersion = (id: string) => {
-    // todo 发布版本
-    console.log('id', id);
-  };
-
   const columns = [
     {
       title: '文档版本',
@@ -43,29 +43,29 @@ export default function VersionManager() {
         return `v${col}.x`;
       }
     },
-    // todo: 需要加一个发布人的名称
     {
       title: '最近发布人',
-      dataIndex: 'publishedBy',
-      key: 'publishedBy',
-      render(_col: any, item: MajorVersion) {
-        return item.versions[0]?.publishedBy;
+      dataIndex: 'versions',
+      key: 'version.releasedBy',
+      render(versions: Version[]) {
+        return versions[0]?.releasedBy?.nickname ?? '-';
       }
     },
     {
       title: '最近发布时间',
-      dataIndex: 'publishedAt',
-      key: 'publishedAt',
-      render(_col: any, item: MajorVersion) {
-        return item.versions[0]?.publishedAt;
+      dataIndex: 'versions',
+      key: 'version.releasedAt',
+      render(versions: Version[]) {
+        const time = versions[0]?.releasedAt;
+        return time ? dayjs(time).format('YYYY-MM-DD HH:mm:ss') : '-';
       }
     },
     {
       title: '组件库版本',
       dataIndex: 'versions',
-      key: 'versions',
-      render(_col: any, item: MajorVersion) {
-        return item.versions[0]?.version;
+      key: 'version',
+      render(versions: Version[]) {
+        return versions[0]?.version ?? '-';
       }
     },
     {
@@ -78,7 +78,7 @@ export default function VersionManager() {
             <Link href="/admin/version-changelog">
               <Button type="text">版本记录</Button>
             </Link>
-            <Button type="text" onClick={() => handlePublishVersion(id)}>
+            <Button type="text" onClick={() => setCurrenId(id)}>
               发布
             </Button>
           </>
@@ -95,6 +95,11 @@ export default function VersionManager() {
         </Button>
       </Grid.Row>
       <Table columns={columns} data={data} loading={isLoading} pagination={false} />
+      <ReleaseVersion
+        visible={!!currentId}
+        majorVersionId={currentId}
+        onCancel={() => setCurrenId('')}
+      ></ReleaseVersion>
     </AdminContainer>
   );
 }

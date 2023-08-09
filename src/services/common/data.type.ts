@@ -5,9 +5,11 @@
  *
  */
 export type Version = {
+  id: string;
   version: string;
-  publishedBy: string;
-  publishedAt: Date;
+  releasedBy: User;
+  releasedAt: Date;
+  majorVersionId: string;
 };
 
 /**
@@ -160,6 +162,7 @@ export type DesignChangelog = {
  */
 export type Demand = {
   id: string;
+  no: number;
   content: string;
   contentDelta: any[];
   createdById: string;
@@ -168,7 +171,8 @@ export type Demand = {
   status: DemandStatus;
   majorVersionId: string;
   componentId: string;
-  version: string | null;
+  version: Version | null;
+  versionId: string | null;
 };
 
 /**

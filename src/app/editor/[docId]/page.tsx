@@ -8,26 +8,37 @@ import { throttle } from 'lodash-es';
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { useState } from 'react';
-import { CodeDependency, JSDependency, codeRuntimePlugin } from '@/components/code-runner';
+import { CodeDependency, codeRuntimePlugin } from '@/components/code-runner';
+import { DemandSelect } from '@/components/demand';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import doc from '@/mock/template.md';
 import { useComponent, useMajorVersion, useSaveDoc } from '@/services';
+import { DemandStatus } from '@/services/common';
+import { useDemands } from '@/services/demand';
+import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependency';
 
 import 'bytemd/dist/index.css';
 import 'highlight.js/styles/github.css';
 import './page.scss';
 import '@/styles/markdown.scss';
-import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependency';
 
 export default function MarkdownEditor() {
   const styleName = 'markdown-editor';
+
   const [value, setValue] = useState(doc);
   const [modalVisible, setModalVisible] = useState(false);
+  const [form] = Form.useForm();
+  const { docId } = useParams();
+
   const [majorVersionId] = useMajorVersionId();
   const { data: majorVersion } = useMajorVersion(majorVersionId);
   const { componentId } = useParams();
   const { data: component } = useComponent(majorVersionId, componentId);
   const { trigger: updateDoc, error: updateDocError, isMutating: isUpdatingDoc } = useSaveDoc();
+  const { data: demands } = useDemands({
+    majorVersionId,
+    status: DemandStatus.OPENED
+  });
 
   const handleChange = throttle((val: string) => setValue(val), 1000);
 
@@ -39,14 +50,21 @@ export default function MarkdownEditor() {
     if (isUpdatingDoc) {
       return;
     }
+
     if (!value) {
       return Message.error('文档内容不能为空');
     }
+
+    const res = await form.validate();
+    if (!res) {
+      return;
+    }
+
     await updateDoc({
-      specId: '64cb4b4542be876475c5ca90',
-      remark: '初始化',
+      specId: docId,
+      remark: res.remark,
       content: value,
-      demandIds: []
+      demandId: res.demandId
     });
     if (!updateDocError) {
       setModalVisible(false);
@@ -61,20 +79,35 @@ export default function MarkdownEditor() {
         <Button type="primary" onClick={() => setModalVisible(true)}>
           更新文档
         </Button>
+
         <Modal
           visible={modalVisible}
           title="更新文档"
           onCancel={() => setModalVisible(false)}
           onConfirm={handleSaveDoc}
         >
-          <Form>
-            <Form.Item label="更新说明" field="remark" required>
+          <Form form={form}>
+            <Form.Item
+              label="更新说明"
+              field="remark"
+              required
+              rules={[
+                {
+                  validator(value, cb) {
+                    if (!value) {
+                      cb('更新说明不能为空');
+                    }
+                    return cb();
+                  }
+                }
+              ]}
+            >
               <Input.TextArea></Input.TextArea>
             </Form.Item>
             <Form.Item label="关联需求">
               <div className={`${styleName}-relate-issue`}>
-                <Form.Item field="issue" noStyle={true}>
-                  <Select></Select>
+                <Form.Item field="demandId" noStyle={true}>
+                  <DemandSelect mode={undefined} demands={demands}></DemandSelect>
                 </Form.Item>
                 <Link className={`${styleName}-open-issue`} href={`/docs/${componentId}/demand`}>
                   提需求

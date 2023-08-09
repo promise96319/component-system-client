@@ -1,11 +1,12 @@
 import arrayToTree from 'array-to-tree';
-import { Demand, DemandComment, User, useFetch, useMutation } from './common';
+import { Demand, DemandComment, DemandStatus, User, useFetch, useMutation } from './common';
 
 export interface DemandQuery {
   majorVersionId?: string;
   componentId?: string;
   no?: string;
   content?: string;
+  status?: DemandStatus;
 }
 
 export interface DemandWithComments extends Demand {

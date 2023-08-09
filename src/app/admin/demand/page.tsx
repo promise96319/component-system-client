@@ -22,6 +22,7 @@ export default function Demand() {
 
   useEffect(() => {
     updateDemands();
+    console.log('content', content);
   }, [majorVersionId, content, updateDemands]);
 
   if (error) {
@@ -30,7 +31,13 @@ export default function Demand() {
 
   return (
     <AdminContainer title="需求列表">
-      <Input prefix={<IconSearch></IconSearch>} onChange={(content) => setContent(content)}></Input>
+      <Input
+        prefix={<IconSearch></IconSearch>}
+        onChange={(content) => {
+          console.log('content', content);
+          setContent(content);
+        }}
+      ></Input>
 
       {demands.length === 0 ? (
         <Empty style={{ marginTop: 160 }}></Empty>

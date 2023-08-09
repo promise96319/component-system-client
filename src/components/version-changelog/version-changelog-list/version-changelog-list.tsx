@@ -7,7 +7,7 @@ import { VersionChangelog, VersionChangelogType } from '@/services/common';
 const { Title, Text, Paragraph } = Typography;
 
 export const VersionChangelogItem = (props: { versionChangelog: VersionWithChangelogs }) => {
-  const { version, publishedAt, changelogs } = props.versionChangelog;
+  const { changelogs } = props.versionChangelog;
   const [majorVersionId] = useMajorVersionId();
   const { data: filter } = useVersionChangelogFilter(majorVersionId);
   const typeMap =
@@ -56,17 +56,22 @@ export const VersionChangelogItem = (props: { versionChangelog: VersionWithChang
     return null;
   }
 
-  return (
-    <section>
-      <Title heading={4}>{version}</Title>
-      <Text type="secondary">{dayjs(publishedAt).format('YYYY-MM-DD hh:mm:ss')}</Text>
-      {Object.entries(data).map(([key, value], index) => renderList(typeMap[key], value, index))}
-    </section>
-  );
+  return Object.entries(data).map(([key, value], index) => renderList(typeMap[key], value, index));
 };
 
 export const VersionChangelogList = (props: { versionChangelogs: VersionWithChangelogs[] }) => {
-  return props.versionChangelogs.map((changelog) => (
-    <VersionChangelogItem versionChangelog={changelog} key={changelog.version}></VersionChangelogItem>
-  ));
+  return props.versionChangelogs.map((changelog) => {
+    const { version, releasedAt } = changelog;
+    // if (changelog.changelogs.length === 0) {
+    //   return null;
+    // }
+
+    return (
+      <section key={version}>
+        <Title heading={4}>{version}</Title>
+        <Text type="secondary">{dayjs(releasedAt).format('YYYY-MM-DD hh:mm:ss')}</Text>
+        <VersionChangelogItem versionChangelog={changelog} key={changelog.version}></VersionChangelogItem>
+      </section>
+    );
+  });
 };
