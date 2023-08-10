@@ -1,6 +1,6 @@
 'use client';
 
-import { Anchor, Button, Empty } from '@arco-design/web-react';
+import { Anchor, Button, Empty, Spin } from '@arco-design/web-react';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import { Viewer } from '@bytemd/react';
@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { CodeDependency, codeRuntimePlugin } from '@/components/code-runner';
 import { DocHistory } from '@/components/doc-history/doc-history';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
-import { useDoc, useMajorVersion } from '@/services';
+import { DocType, useDoc, useMajorVersion } from '@/services';
 import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependency';
 import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
 
@@ -24,10 +24,10 @@ export default function APIDoc() {
   const { componentId } = useParams();
   const [majorVersionId] = useMajorVersionId();
   const { data: majorVersion } = useMajorVersion(majorVersionId);
-  const { data: apiDocData } = useDoc({
+  const { data: apiDocData, isLoading: isLoadingDoc } = useDoc({
     majorVersionId,
     componentId,
-    type: 'API'
+    type: DocType.API
   });
 
   const [toc, setToc] = useState<TocItem[]>([]);
@@ -35,7 +35,7 @@ export default function APIDoc() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!apiDocData) return;
+    if (!apiDocData || !apiDocData.doc) return;
     try {
       let toc: TocItem[] = [];
       getProcessor({
@@ -46,7 +46,7 @@ export default function APIDoc() {
             }
           })
         ]
-      }).processSync(apiDocData.doc.content);
+      }).processSync(apiDocData.doc.content ?? '');
       setToc(toc);
     } catch (err) {
       console.log('Markdown 编译错误：', err);
@@ -57,15 +57,19 @@ export default function APIDoc() {
     router.push(`/editor/${apiDocData?.id}`);
   };
 
+  if (isLoadingDoc) {
+    return <Spin></Spin>;
+  }
+
   const designCssDependency = majorVersion ? [getDesignCssDependency(majorVersion.majorVersion)] : [];
   const designJsDependency = majorVersion ? [getDesignJsDependency(majorVersion.majorVersion)] : [];
   const dependency = <CodeDependency cssDependencies={designCssDependency} jsDependencies={designJsDependency} />;
 
-  if (!apiDocData || !majorVersion || !designJsDependency.length) {
+  if (!apiDocData || !apiDocData.doc || !majorVersion || !designJsDependency.length) {
     return (
       <>
         {dependency}
-        <Empty className="mt-px-32"></Empty>
+        <Empty className="mt-px-32" description={<Button onClick={handleEdit}>新建文档</Button>}></Empty>
       </>
     );
   }

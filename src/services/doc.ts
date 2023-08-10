@@ -16,7 +16,7 @@ export interface Doc {
   majorVersionId: string;
   componentId: string;
   specType: DocType;
-  doc: {
+  doc?: {
     content: string;
     createdBy: User;
   };

@@ -2,7 +2,6 @@
 
 import { Space, Tabs } from '@arco-design/web-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter, useSelectedLayoutSegment } from 'next/navigation';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useComponent } from '@/services';

@@ -1,6 +1,7 @@
 'use client';
 
 import { isElement, Element } from 'hast-util-is-element';
+import Image from 'next/image';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { transform } from 'sucrase';

@@ -34,12 +34,12 @@ export default function MarkdownEditor() {
   const { data: doc } = useDocById(docId);
   const { data: majorVersion } = useMajorVersion(majorVersionId);
   const { data: component } = useComponent(majorVersionId, doc?.componentId);
-  const { trigger: uploadImage } = useUploadImage();
-  const { trigger: updateDoc, error: updateDocError, isMutating: isUpdatingDoc } = useSaveDoc();
   const { data: demands } = useDemands({
     majorVersionId,
     status: DemandStatus.OPENED
   });
+  const { trigger: uploadImage } = useUploadImage();
+  const { trigger: updateDoc, error: updateDocError, isMutating: isUpdatingDoc } = useSaveDoc();
 
   const redirectUrl = `/docs/${doc?.componentId}/${doc?.specType === DocType.API ? 'api' : 'design'}`;
   const router = useRouter();
@@ -50,7 +50,7 @@ export default function MarkdownEditor() {
 
   useEffect(() => {
     if (doc) {
-      setValue(doc.doc.content);
+      setValue(doc.doc?.content ?? '');
     }
   }, [doc]);
 

@@ -1,10 +1,17 @@
-import { Typography } from '@arco-design/web-react';
+import { Space, Typography } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { VersionWithChangelogs, useVersionChangelogFilter } from '@/services';
 import { VersionChangelog, VersionChangelogType } from '@/services/common';
 
 const { Title, Text, Paragraph } = Typography;
+
+export const ChangelogPrefixIcon = {
+  [VersionChangelogType.FEATURE]: '🆕 ',
+  [VersionChangelogType.BUGFIX]: '🐛 ',
+  [VersionChangelogType.STYLE]: '💅 ',
+  [VersionChangelogType.REFACTOR]: '💎 '
+};
 
 export const VersionChangelogItem = (props: { versionChangelog: VersionWithChangelogs }) => {
   const { changelogs } = props.versionChangelog;
@@ -26,15 +33,18 @@ export const VersionChangelogItem = (props: { versionChangelog: VersionWithChang
     data[changelog.type].push(changelog);
   });
 
-  const renderList = (title: string, changelogs: VersionChangelog[], index: number) => {
+  const renderList = (title: string, key: VersionChangelogType, changelogs: VersionChangelog[], index: number) => {
     if (!changelogs.length) {
       return null;
     }
 
     return (
       <section key={index}>
-        <Title heading={6}>{title}</Title>
-        <Paragraph className="ml-px-16">
+        <Title heading={6}>
+          {ChangelogPrefixIcon[key]}
+          {title}
+        </Title>
+        <Paragraph className="ml-px-24">
           <ul>
             {changelogs.map((changelog: VersionChangelog) => (
               <li key={changelog.id}>
@@ -56,15 +66,17 @@ export const VersionChangelogItem = (props: { versionChangelog: VersionWithChang
     return null;
   }
 
-  return Object.entries(data).map(([key, value], index) => renderList(typeMap[key], value, index));
+  return Object.entries(data).map(([key, value], index) =>
+    renderList(typeMap[key], key as VersionChangelogType, value, index)
+  );
 };
 
 export const VersionChangelogList = (props: { versionChangelogs: VersionWithChangelogs[] }) => {
   return props.versionChangelogs.map((changelog) => {
     const { version, releasedAt } = changelog;
-    // if (changelog.changelogs.length === 0) {
-    //   return null;
-    // }
+    if (changelog.changelogs.length === 0) {
+      return null;
+    }
 
     return (
       <section key={version}>
