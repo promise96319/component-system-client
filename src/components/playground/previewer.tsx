@@ -1,7 +1,9 @@
 'use client';
+
 import { useEffect, useRef } from 'react';
 import { transform } from 'sucrase';
 import templateHtml from './template.html';
+
 import './previewer.scss';
 
 export const Previewer = (props: { code: string; version?: number }) => {
@@ -11,8 +13,8 @@ export const Previewer = (props: { code: string; version?: number }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const desingDependency = {
-    css: `http://ued.qingteng.cn:1043/qt-design/v${version}/index.css`,
-    js: `http://ued.qingteng.cn:1043/qt-design/v${version}/index.js`
+    css: `http://ued.qingteng.cn:37022/qt-design/v${version}/index.css`,
+    js: `http://ued.qingteng.cn:37022/qt-design/v${version}/index.js`
   };
 
   const updateCode = () => {

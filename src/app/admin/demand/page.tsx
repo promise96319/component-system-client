@@ -22,7 +22,6 @@ export default function Demand() {
 
   useEffect(() => {
     updateDemands();
-    console.log('content', content);
   }, [majorVersionId, content, updateDemands]);
 
   if (error) {
@@ -34,7 +33,6 @@ export default function Demand() {
       <Input
         prefix={<IconSearch></IconSearch>}
         onChange={(content) => {
-          console.log('content', content);
           setContent(content);
         }}
       ></Input>

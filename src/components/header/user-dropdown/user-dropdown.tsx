@@ -1,6 +1,6 @@
 'use client';
 
-import { Dropdown, Menu } from '@arco-design/web-react';
+import { Dropdown, Menu, Skeleton } from '@arco-design/web-react';
 import { IconDown } from '@arco-design/web-react/icon';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,10 +16,6 @@ const UserDropDown = () => {
   const { data: user, isLoading } = useUser();
   const router = useRouter();
   const [_, setToken] = useTokenStorage();
-
-  if (isLoading || !user) {
-    return null;
-  }
 
   const handleLogout = () => {
     setToken();
@@ -47,14 +43,21 @@ const UserDropDown = () => {
   );
 
   return (
-    <Dropdown droplist={dropList} trigger="click" position="br">
-      <div className={styleName}>
-        <Image width={32} height={32} src={'/avatar.png'} alt="" />
-        <span className={`${styleName}-name`}>
-          {user.nickname} <IconDown />
-        </span>
-      </div>
-    </Dropdown>
+    <Skeleton loading={isLoading} image={{ shape: 'circle' }} text={{ rows: 0 }} animation>
+      <Dropdown
+        droplist={dropList}
+        trigger="click"
+        position="br"
+        getPopupContainer={(node) => node.parentElement as HTMLElement}
+      >
+        <div className={styleName}>
+          <Image width={32} height={32} src={'/avatar.png'} alt="" />
+          <span className={`${styleName}-name`}>
+            {user?.nickname} <IconDown />
+          </span>
+        </div>
+      </Dropdown>
+    </Skeleton>
   );
 };
 

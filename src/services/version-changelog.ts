@@ -23,6 +23,7 @@ export interface VersionChangelogQuery {
   types?: string[];
   startVersion?: string;
   endVersion?: string;
+  version?: string;
 }
 
 export interface VersionWithChangelogs extends Version {

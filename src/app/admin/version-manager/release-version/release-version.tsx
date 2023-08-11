@@ -3,10 +3,11 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import { DemandSelect } from '@/components/demand';
 import { VersionChangelogItem } from '@/components/version-changelog';
-import { useDocContent, useReleaseVersion } from '@/services';
+import { useDocContent, useLatestNpmVersions, useReleaseVersion } from '@/services';
 import { Demand, DemandStatus, User } from '@/services/common';
 import { useDemands } from '@/services/demand';
 import { useVersionChangelog } from '@/services/version-changelog';
+import { useMajorVersion } from '../../../../services/version';
 
 const { Row, Col } = Grid;
 const { TabPane } = Tabs;
@@ -18,26 +19,30 @@ export const ReleaseVersion = (
 ) => {
   const { majorVersionId, ...restProps } = props;
   const [demandIds, setDemandIds] = useState<string[]>([]);
-  const { data: versionChangelog } = useVersionChangelog({ majorVersionId });
+  const { data: major } = useMajorVersion(majorVersionId);
+  const { data: latestVersion } = useLatestNpmVersions(major?.majorVersion);
+  const { data: versionChangelog } = useVersionChangelog({ version: latestVersion });
   const { data: demands } = useDemands({
     majorVersionId,
     status: DemandStatus.OPENED
   });
   const { data: docs } = useDocContent({ demandIds });
+
   const { trigger: releaseVersion, isMutating: isReleasing, error: releasingError } = useReleaseVersion();
 
   const handleRelease = async () => {
-    if (isReleasing) {
+    if (isReleasing || !latestVersion) {
       return;
     }
 
     await releaseVersion({
-      version: '11.0.2',
+      version: latestVersion,
       demandIds
     });
 
     if (!releasingError) {
       Message.success('发布成功');
+      setDemandIds([]);
       props.onConfirm?.();
     }
   };
@@ -57,7 +62,7 @@ export const ReleaseVersion = (
       <Row gutter={12}>
         <Col span={4}>组件库版本</Col>
         {/* todo 拉取最新版本 */}
-        <Col span={20}>v3.10.30</Col>
+        <Col span={20}>{latestVersion ? `v${latestVersion}` : '-'}</Col>
       </Row>
       <Row align="center" gutter={12} className="mt-px-16">
         <Col span={4}>关联需求</Col>

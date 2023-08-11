@@ -1,6 +1,6 @@
 'use client';
 
-import { Anchor, Button, Empty, Spin } from '@arco-design/web-react';
+import { Anchor, Button, Empty, Skeleton, Spin } from '@arco-design/web-react';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import { Viewer } from '@bytemd/react';
@@ -57,13 +57,23 @@ export default function APIDoc() {
     router.push(`/editor/${apiDocData?.id}`);
   };
 
-  if (isLoadingDoc) {
-    return <Spin></Spin>;
-  }
-
   const designCssDependency = majorVersion ? [getDesignCssDependency(majorVersion.majorVersion)] : [];
   const designJsDependency = majorVersion ? [getDesignJsDependency(majorVersion.majorVersion)] : [];
   const dependency = <CodeDependency cssDependencies={designCssDependency} jsDependencies={designJsDependency} />;
+
+  if (isLoadingDoc || !majorVersionId) {
+    return (
+      <div className={styleName}>
+        {dependency}
+        <main className={`${styleName}-markdown-content`}>
+          <Skeleton animation text={{ rows: 3, width: '60%' }} style={{ marginTop: 32 }}></Skeleton>
+          <Skeleton animation text={{ rows: 3, width: '60%' }} style={{ marginTop: 32 }}></Skeleton>
+          <Skeleton animation text={{ rows: 3, width: '60%' }} style={{ marginTop: 32 }}></Skeleton>
+          <Skeleton animation text={{ rows: 3, width: '60%' }} style={{ marginTop: 32 }}></Skeleton>
+        </main>
+      </div>
+    );
+  }
 
   if (!apiDocData || !apiDocData.doc || !majorVersion || !designJsDependency.length) {
     return (

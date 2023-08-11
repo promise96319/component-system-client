@@ -12,6 +12,7 @@ import { normalizeTreeData } from '@/utils';
 import { utoa, atou } from '@/utils/zlib';
 
 const MonacoEditor = dynamic(() => import('react-monaco-editor').then((mod) => mod.default), { ssr: false });
+
 const { Header, Sider, Content } = Layout;
 
 interface PersistentState {
@@ -33,7 +34,7 @@ const decodeState = (state: string) => {
 
 export default function Playground() {
   const styleName = 'playground';
-  const persistentStateStr = window?.location?.hash.replace('#', '');
+  const persistentStateStr = typeof window === 'undefined' ? '' : window?.location?.hash.replace('#', '');
   const persistentState = persistentStateStr ? decodeState(persistentStateStr) : null;
 
   const defaultCode = persistentState

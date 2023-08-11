@@ -11,7 +11,7 @@ const Option = Select.Option;
 const MajorVersionSelector = () => {
   const styleName = 'version-selector';
 
-  const { data: versionList = [] } = useMajorVersions();
+  const { data: versionList = [], isLoading } = useMajorVersions();
   const [majorVersionId, setMajorVersionId] = useMajorVersionId();
   const router = useRouter();
 
@@ -22,6 +22,10 @@ const MajorVersionSelector = () => {
     },
     [router, setMajorVersionId]
   );
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <Select

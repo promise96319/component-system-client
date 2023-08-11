@@ -14,7 +14,7 @@ const nextConfig = {
       }
     ];
   },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.module.rules.push({
       test: /\.md$/,
       use: 'raw-loader'
@@ -25,11 +25,15 @@ const nextConfig = {
       use: 'raw-loader'
     });
 
-    config.plugins.push(
-      new MonacoWebpackPlugin({
-        languages: ['typescript']
-      })
-    );
+    if (!isServer) {
+      // https://github.com/vercel/next.js/issues/31692
+      config.plugins.push(
+        new MonacoWebpackPlugin({
+          languages: ['typescript']
+        })
+      );
+    }
+
     return config;
   }
   // async rewrites() {

@@ -21,7 +21,6 @@ export default function VersionManager() {
 
   const handleCreateMajorVersion = () => {
     const latestMajorVersion = data[0].majorVersion ?? 0;
-    // todo: 新建版本
     Modal.confirm({
       title: '新建版本',
       content: `确定基于 v${latestMajorVersion}.x 版本组件库文档创建 v${latestMajorVersion + 1}.x 版本组件库文档吗？`,
@@ -99,6 +98,10 @@ export default function VersionManager() {
         visible={!!currentId}
         majorVersionId={currentId}
         onCancel={() => setCurrenId('')}
+        onConfirm={() => {
+          setCurrenId('');
+          mutate();
+        }}
       ></ReleaseVersion>
     </AdminContainer>
   );

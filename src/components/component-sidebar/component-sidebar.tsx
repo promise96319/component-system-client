@@ -1,5 +1,6 @@
 'use client';
 
+import { Skeleton, Space } from '@arco-design/web-react';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -12,11 +13,16 @@ export const ComponentSidebar = () => {
   const styleName = 'component-sidebar';
 
   const [majorVersionId] = useMajorVersionId();
-  const { data: components = [], error } = useComponents(majorVersionId ?? '');
+  const { data: components = [], isLoading } = useComponents(majorVersionId ?? '');
   const params = useParams();
 
-  if (error) {
-    return null;
+  if (isLoading || !majorVersionId) {
+    return (
+      <div style={{ padding: '24px' }}>
+        <Skeleton animation text={{ rows: 3, width: ['80%'] }} style={{ marginBottom: 32 }}></Skeleton>
+        <Skeleton animation text={{ rows: 3, width: ['80%'] }}></Skeleton>
+      </div>
+    );
   }
 
   return (
