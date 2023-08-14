@@ -66,7 +66,6 @@ export default class extends React.Component {
           prefix="当前版本"
           style={{ width: 240 }}
           value={version}
-          // todo 切换依赖
           onChange={(val) => setVersion(val)}
           options={normalizeTreeData(majorVersions, { label: 'majorVersion', value: 'majorVersion' })}
         ></Select>

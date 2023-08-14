@@ -18,7 +18,8 @@ const MajorVersionSelector = () => {
   const switchMajorVersion = useCallback(
     (versionId: string) => {
       setMajorVersionId(versionId);
-      router.refresh();
+      // router.refresh();
+      window.location.reload();
     },
     [router, setMajorVersionId]
   );

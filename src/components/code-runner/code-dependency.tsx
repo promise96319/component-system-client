@@ -14,19 +14,19 @@ export interface JSDependency {
 export const builtInJsDependencies: JSDependency[] = [
   {
     module: 'umd',
-    url: 'https://unpkg.com/react@18/umd/react.development.js',
+    url: 'http://ued.qingteng.cn:37022/library/react18.umd.js',
     globalName: 'React',
     importName: 'react'
   },
   {
     module: 'umd',
-    url: 'https://unpkg.com/react-dom@18/umd/react-dom.development.js',
+    url: 'http://ued.qingteng.cn:37022/library/react-dom18.umd.js',
     globalName: 'ReactDOM',
     importName: 'react-dom'
   },
   {
     module: 'umd',
-    url: 'https://cdn.jsdelivr.net/npm/dayjs@1.11.9/dayjs.min.js',
+    url: 'http://ued.qingteng.cn:37022/library/dayjs.js',
     globalName: 'dayjs',
     importName: 'dayjs'
   }

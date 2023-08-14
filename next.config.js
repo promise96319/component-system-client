@@ -2,6 +2,9 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  swcMinify: true,
+  optimizeFonts: false,
+  productionBrowserSourceMaps: false,
   env: {
     host: 'http://localhost:3000'
   },

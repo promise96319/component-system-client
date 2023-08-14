@@ -58,7 +58,7 @@ ${props.source}
         <Button ref={btnRef} type="text">
           复制代码
         </Button>
-        <Button ref={btnRef} type="text" onClick={handleOpenPlayground}>
+        <Button type="text" onClick={handleOpenPlayground}>
           运行代码
         </Button>
       </div>
