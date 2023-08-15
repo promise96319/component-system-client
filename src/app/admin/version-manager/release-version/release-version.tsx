@@ -6,8 +6,8 @@ import { VersionChangelogItem } from '@/components/version-changelog';
 import { useDocContent, useLatestNpmVersions, useReleaseVersion } from '@/services';
 import { Demand, DemandStatus, User } from '@/services/common';
 import { useDemands } from '@/services/demand';
+import { useMajorVersion } from '@/services/version';
 import { useVersionChangelog } from '@/services/version-changelog';
-import { useMajorVersion } from '../../../../services/version';
 
 const { Row, Col } = Grid;
 const { TabPane } = Tabs;
@@ -27,11 +27,15 @@ export const ReleaseVersion = (
     status: DemandStatus.OPENED
   });
   const { data: docs } = useDocContent({ demandIds });
-
   const { trigger: releaseVersion, isMutating: isReleasing, error: releasingError } = useReleaseVersion();
 
   const handleRelease = async () => {
-    if (isReleasing || !latestVersion) {
+    if (!latestVersion) {
+      Message.error('请先发布组件库版本');
+      return;
+    }
+
+    if (isReleasing) {
       return;
     }
 
@@ -61,7 +65,6 @@ export const ReleaseVersion = (
     >
       <Row gutter={12}>
         <Col span={4}>组件库版本</Col>
-        {/* todo 拉取最新版本 */}
         <Col span={20}>{latestVersion ? `v${latestVersion}` : '-'}</Col>
       </Row>
       <Row align="center" gutter={12} className="mt-px-16">
@@ -83,6 +86,7 @@ export const ReleaseVersion = (
             </TabPane>
             <TabPane key="api-doc" title="API 文档">
               <Table
+                rowKey="id"
                 data={docs}
                 columns={[
                   {

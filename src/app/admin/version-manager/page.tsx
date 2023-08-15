@@ -1,16 +1,18 @@
 'use client';
 
-import { Button, Grid, Modal, Table } from '@arco-design/web-react';
+import { Button, Grid, Message, Modal, Table } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useState } from 'react';
 import { AdminContainer } from '@/components/admin/admin-container/admin-container';
+import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { Version } from '@/services/common';
 import { useMajorVersions, useCreateMajorVersion } from '@/services/version';
 import { ReleaseVersion } from './release-version/release-version';
 
 export default function VersionManager() {
   const [currentId, setCurrenId] = useState('');
+  const [_, setMajorVersionId] = useMajorVersionId();
 
   const { data, isLoading, error, mutate } = useMajorVersions();
   const { trigger: createMajorVersion, error: updateError } = useCreateMajorVersion();
@@ -71,12 +73,23 @@ export default function VersionManager() {
       title: <div style={{ paddingLeft: 15 }}>操作</div>,
       dataIndex: 'id',
       key: 'operation',
-      render(id: string) {
+      render(id: string, record: any) {
         return (
           <>
-            <Link href="/admin/version-changelog">
-              <Button type="text">版本记录</Button>
-            </Link>
+            {/* <Link href={`/admin/version-changelog?vid=${id}`}> */}
+            {/* <Button type="text" onClick={}>版本记录</Button> */}
+            {/* </Link> */}
+            <Button
+              type="text"
+              onClick={() => {
+                setMajorVersionId(id);
+                Message.success(`已切换至 v${record.majorVersion} 版本`);
+                window.location.href = '/admin/version-changelog';
+              }}
+            >
+              版本记录
+            </Button>
+
             <Button type="text" onClick={() => setCurrenId(id)}>
               发布
             </Button>
@@ -93,7 +106,7 @@ export default function VersionManager() {
           新建版本
         </Button>
       </Grid.Row>
-      <Table columns={columns} data={data} loading={isLoading} pagination={false} />
+      <Table rowKey="id" columns={columns} data={data} loading={isLoading} pagination={false} />
       <ReleaseVersion
         visible={!!currentId}
         majorVersionId={currentId}

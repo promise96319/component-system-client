@@ -52,7 +52,7 @@ export const DocHistory = (
 
   return (
     <Drawer {...restProps} title="历史记录" className={styleName} width={800}>
-      <Table data={historyList} columns={columns}></Table>
+      <Table rowKey="id" data={historyList} columns={columns}></Table>
     </Drawer>
   );
 };

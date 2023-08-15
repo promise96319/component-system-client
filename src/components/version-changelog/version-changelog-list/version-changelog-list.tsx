@@ -1,5 +1,6 @@
-import { Space, Typography } from '@arco-design/web-react';
+import { Empty, Typography } from '@arco-design/web-react';
 import dayjs from 'dayjs';
+import { DemandLink } from '@/components/demand';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { VersionWithChangelogs, useVersionChangelogFilter } from '@/services';
 import { VersionChangelog, VersionChangelogType } from '@/services/common';
@@ -51,7 +52,7 @@ export const VersionChangelogItem = (props: { versionChangelog: VersionWithChang
                 <Text>{changelog.content}</Text>
                 {changelog.demandNo && (
                   <>
-                    （<Text type="primary">#{changelog.demandNo}</Text>）
+                    （<DemandLink no={changelog.demandNo}></DemandLink>）
                   </>
                 )}
               </li>
@@ -72,6 +73,10 @@ export const VersionChangelogItem = (props: { versionChangelog: VersionWithChang
 };
 
 export const VersionChangelogList = (props: { versionChangelogs: VersionWithChangelogs[] }) => {
+  if (!props.versionChangelogs.length) {
+    return <Empty style={{ marginTop: 160 }}></Empty>;
+  }
+
   return props.versionChangelogs.map((changelog) => {
     const { version, releasedAt } = changelog;
     if (changelog.changelogs.length === 0) {
