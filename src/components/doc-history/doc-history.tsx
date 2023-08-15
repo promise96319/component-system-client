@@ -4,6 +4,7 @@ import { Drawer, DrawerProps, Table } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import { DocHistory as DocHistoyType, useDocHistory } from '@/services';
 import { Demand, User } from '@/services/common';
+import { DemandLink } from '../demand';
 
 export const DocHistory = (
   props: DrawerProps & {
@@ -36,7 +37,7 @@ export const DocHistory = (
       title: '关联需求',
       dataIndex: 'demand.no',
       key: 'demand.no',
-      render: (value?: Demand) => (value?.no ? `#${value.no}` : '-')
+      render: (value?: Demand) => (value?.no ? <DemandLink no={value.no}></DemandLink> : '-')
     },
     {
       title: '更新版本',

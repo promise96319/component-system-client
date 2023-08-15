@@ -2,6 +2,7 @@
 
 import { Empty, Input } from '@arco-design/web-react';
 import { IconSearch } from '@arco-design/web-react/icon';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AdminContainer } from '@/components/admin/admin-container/admin-container';
 import { DemandList } from '@/components/demand';
@@ -19,6 +20,17 @@ export default function Demand() {
     majorVersionId,
     content
   });
+
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const no = searchParams.get('no');
+    if (no) {
+      const target = document.getElementById(no);
+      if (target) {
+        document.documentElement.scrollTop = target.offsetTop - 88;
+      }
+    }
+  }, []);
 
   useEffect(() => {
     updateDemands();

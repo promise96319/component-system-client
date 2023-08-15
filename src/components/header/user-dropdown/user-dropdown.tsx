@@ -2,9 +2,9 @@
 
 import { Dropdown, Menu, Skeleton } from '@arco-design/web-react';
 import { IconDown } from '@arco-design/web-react/icon';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { UserAvatar } from '@/components';
 import { useTokenStorage } from '@/hooks';
 import { useUser } from '@/services';
 
@@ -43,7 +43,7 @@ const UserDropDown = () => {
   );
 
   return (
-    <Skeleton loading={isLoading} image={{ shape: 'circle' }} text={{ rows: 0 }} animation>
+    <Skeleton loading={isLoading} image={{ shape: 'circle', size: 'small' }} text={{ rows: 0 }} animation>
       <Dropdown
         droplist={dropList}
         trigger="click"
@@ -51,7 +51,8 @@ const UserDropDown = () => {
         getPopupContainer={(node) => node.parentElement as HTMLElement}
       >
         <div className={styleName}>
-          <Image width={32} height={32} src={'/avatar.png'} alt="" />
+          <UserAvatar src={user?.avatar}></UserAvatar>
+
           <span className={`${styleName}-name`}>
             {user?.nickname} <IconDown />
           </span>

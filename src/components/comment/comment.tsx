@@ -4,6 +4,7 @@ import { Grid, Modal, Space, Typography } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useState, useMemo } from 'react';
+import { UserAvatar } from '@/components';
 import { useUser } from '@/services';
 import { useEditorStore } from '@/store';
 import { Editor, EditorViewer } from '../editor';
@@ -59,7 +60,6 @@ export const Comment = (props: {
       <Typography.Text type="secondary" className={`${styleName}-user`}>
         {username} 发表：
       </Typography.Text>
-      {/* <Typography.Text style={{ whiteSpace: 'pre' }}>{contentDelta}</Typography.Text> */}
       <MemoizedEditorViewer id={id} contentDelta={contentDelta}></MemoizedEditorViewer>
       <Space align="center" className={`${styleName}-actions`} size={12}>
         <Typography.Text
@@ -96,7 +96,7 @@ export const Comment = (props: {
 
       {isReplyEdit && currentEditorId === `reply-${id}` && (
         <Grid.Row style={{ marginTop: 16 }}>
-          <Image className={`${styleName}-avatar`} src="/avatar.png" alt="avatar" width={32} height={32}></Image>
+          <UserAvatar className={`${styleName}-avatar`} src={user?.avatar}></UserAvatar>
           <div className={`${styleName}-reply`}>{replayEditor}</div>
         </Grid.Row>
       )}
@@ -120,7 +120,7 @@ export const Comment = (props: {
   return (
     <div className={styleName}>
       <Grid.Row>
-        <Image className={`${styleName}-avatar`} src="/avatar.png" alt="avatar" width={32} height={32}></Image>
+        <UserAvatar className={`${styleName}-avatar`} src={user?.avatar}></UserAvatar>
         <div style={{ flex: 1 }}>
           {editor}
           {children}

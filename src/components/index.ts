@@ -5,3 +5,4 @@ export * from './auth/auth';
 export * from './code-runner';
 export * from './comment/comment';
 export * from './editor';
+export * from './user';

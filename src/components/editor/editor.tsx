@@ -53,7 +53,10 @@ export const Editor = (props: {
 
   return (
     <div key={id} className={styleName}>
-      <div className={`${styleName}-container ${styleName}-container-${id}`}></div>
+      <div
+        className={`${styleName}-container ${styleName}-container-${id}`}
+        onClick={() => editor.current?.focus()}
+      ></div>
       <Grid.Row justify="end" className={`${styleName}-actions`}>
         <Space>
           <Button size="small" onClick={() => props.onEditChange?.(false)}>

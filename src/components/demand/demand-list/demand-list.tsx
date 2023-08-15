@@ -39,6 +39,7 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
   } = useRemoveDemandComment();
 
   const handleUpdateDemand = async (id: string, content: string, contentDelta: any[]) => {
+    console.log('contentDelta', contentDelta);
     if (isUpdatingDemand) {
       return;
     }
@@ -175,7 +176,7 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
       <div className={`${styleName}-list`}>
         {props.demands.map((demand) => {
           return (
-            <Card key={demand.id} style={{ marginTop: 24 }}>
+            <Card key={demand.id} style={{ marginTop: 24 }} id={`${demand.no}`}>
               <Grid.Row className="mb-px-8">
                 <Tag color="blue" className="mr-px-8">
                   #{demand.no}
