@@ -2,7 +2,6 @@
 
 import { Grid, Modal, Space, Typography } from '@arco-design/web-react';
 import dayjs from 'dayjs';
-import Image from 'next/image';
 import { useState, useMemo } from 'react';
 import { UserAvatar } from '@/components';
 import { useUser } from '@/services';

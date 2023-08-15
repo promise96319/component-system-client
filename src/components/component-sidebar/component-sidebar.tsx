@@ -1,6 +1,6 @@
 'use client';
 
-import { Skeleton, Space } from '@arco-design/web-react';
+import { Skeleton } from '@arco-design/web-react';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';

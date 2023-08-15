@@ -2,7 +2,6 @@
 
 import { Button, Grid, Message, Modal, Table } from '@arco-design/web-react';
 import dayjs from 'dayjs';
-import Link from 'next/link';
 import { useState } from 'react';
 import { AdminContainer } from '@/components/admin/admin-container/admin-container';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';

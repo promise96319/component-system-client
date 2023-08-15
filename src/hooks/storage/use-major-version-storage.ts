@@ -1,4 +1,3 @@
-import { useLocalStorageState } from 'ahooks';
 import { useLocalStorage } from './use-local-storage';
 
 export const useMajorVersionIdStorage = () => {
