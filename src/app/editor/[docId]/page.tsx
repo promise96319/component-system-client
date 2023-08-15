@@ -4,7 +4,7 @@ import { Button, Form, Input, Message, Modal, Typography } from '@arco-design/we
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import { Editor } from '@bytemd/react';
-import { throttle } from 'lodash-es';
+import { debounce, throttle } from 'lodash-es';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -54,7 +54,7 @@ export default function MarkdownEditor() {
     }
   }, [doc]);
 
-  const handleChange = throttle((val: string) => setValue(val), 1000);
+  const handleChange = debounce((val: string) => setValue(val), 1000);
 
   const handleSaveDoc = async () => {
     if (isUpdatingDoc) {

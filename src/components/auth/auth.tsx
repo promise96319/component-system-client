@@ -1,6 +1,6 @@
 'use client';
 
-import { redirect, usePathname } from 'next/navigation';
+import { redirect, usePathname, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useUser } from '@/services';
 import { useTokenStorage } from '../../hooks/storage/use-token-storage';

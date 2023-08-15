@@ -3,6 +3,7 @@ import './global.css';
 
 import { Inter } from 'next/font/google';
 import Auth from '@/components/auth/auth';
+import { MajorVersion } from '@/components/auth/major-version';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,7 +16,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Auth>{children}</Auth>
+        <Auth>
+          <MajorVersion>{children}</MajorVersion>
+        </Auth>
       </body>
     </html>
   );
