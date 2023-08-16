@@ -37,3 +37,7 @@ export const useVersionChangelog = (query: VersionChangelogQuery) => {
     { keepPreviousData: true }
   );
 };
+
+export const useVersionChangelogByVersion = (versionId: string) => {
+  return useFetch<VersionChangelog[]>(`/version-changelog/${versionId}`);
+};

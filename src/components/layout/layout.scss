@@ -20,7 +20,6 @@ $sidebar-width: 260px;
   &-container {
     box-sizing: border-box;
     margin-top: $header-height;
-    // height: calc(100% - $header-height);
     width: 100%;
     display: flex;
     background-color: #fff;

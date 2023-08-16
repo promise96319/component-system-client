@@ -2,6 +2,10 @@ import { useFetch } from './common';
 import { useMutation } from './common/fetch.client';
 import type { MajorVersion, Version } from './common';
 
+export const useMajorVersionByNo = (no?: string) => {
+  return useFetch<MajorVersion>(`/major-version/version/${no}`, { stopFetch: !no || !Number(no) });
+};
+
 export const useMajorVersion = (id?: string) => {
   return useFetch<MajorVersion>(`/major-version/${id}`, { stopFetch: !id });
 };

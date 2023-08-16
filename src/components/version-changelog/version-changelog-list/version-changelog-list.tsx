@@ -14,9 +14,8 @@ export const ChangelogPrefixIcon = {
   [VersionChangelogType.REFACTOR]: '💎 '
 };
 
-export const VersionChangelogItem = (props: { versionChangelog: VersionWithChangelogs }) => {
-  const { changelogs } = props.versionChangelog;
-  const [majorVersionId] = useMajorVersionId();
+export const VersionChangelogItem = (props: { changelogs: VersionChangelog[]; majorVersionId: string }) => {
+  const { changelogs, majorVersionId } = props;
   const { data: filter } = useVersionChangelogFilter(majorVersionId);
   const typeMap =
     filter?.types?.reduce((obj: Record<string, any>, item) => {
@@ -67,12 +66,16 @@ export const VersionChangelogItem = (props: { versionChangelog: VersionWithChang
     return null;
   }
 
+  console.log('typeMap', typeMap);
+
   return Object.entries(data).map(([key, value], index) =>
     renderList(typeMap[key], key as VersionChangelogType, value, index)
   );
 };
 
 export const VersionChangelogList = (props: { versionChangelogs: VersionWithChangelogs[] }) => {
+  const [majorVersionId] = useMajorVersionId();
+
   if (!props.versionChangelogs.length) {
     return <Empty style={{ marginTop: 160 }}></Empty>;
   }
@@ -87,7 +90,11 @@ export const VersionChangelogList = (props: { versionChangelogs: VersionWithChan
       <section key={version}>
         <Title heading={4}>{version}</Title>
         <Text type="secondary">{dayjs(releasedAt).format('YYYY-MM-DD hh:mm:ss')}</Text>
-        <VersionChangelogItem versionChangelog={changelog} key={changelog.version}></VersionChangelogItem>
+        <VersionChangelogItem
+          changelogs={changelog.changelogs}
+          key={changelog.version}
+          majorVersionId={majorVersionId}
+        ></VersionChangelogItem>
       </section>
     );
   });

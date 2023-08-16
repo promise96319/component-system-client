@@ -1,17 +1,16 @@
 'use client';
 
-import { Button, Grid, Message, Modal, Table } from '@arco-design/web-react';
+import { Button, Grid, Modal, Table } from '@arco-design/web-react';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 import { useState } from 'react';
 import { AdminContainer } from '@/components/admin/admin-container/admin-container';
-import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { Version } from '@/services/common';
 import { useMajorVersions, useCreateMajorVersion } from '@/services/version';
 import { ReleaseVersion } from './release-version/release-version';
 
 export default function VersionManager() {
   const [currentId, setCurrenId] = useState('');
-  const [_, setMajorVersionId] = useMajorVersionId();
 
   const { data, isLoading, error, mutate } = useMajorVersions();
   const { trigger: createMajorVersion, error: updateError } = useCreateMajorVersion();
@@ -75,19 +74,9 @@ export default function VersionManager() {
       render(id: string, record: any) {
         return (
           <>
-            {/* <Link href={`/admin/version-changelog?vid=${id}`}> */}
-            {/* <Button type="text" onClick={}>版本记录</Button> */}
-            {/* </Link> */}
-            <Button
-              type="text"
-              onClick={() => {
-                setMajorVersionId(id);
-                Message.success(`已切换至 v${record.majorVersion} 版本`);
-                window.location.href = '/admin/version-changelog';
-              }}
-            >
-              版本记录
-            </Button>
+            <Link href={`/admin/version-changelog?v=${record.majorVersion}`}>
+              <Button type="text">版本记录</Button>
+            </Link>
 
             <Button type="text" onClick={() => setCurrenId(id)}>
               发布
@@ -106,15 +95,17 @@ export default function VersionManager() {
         </Button>
       </Grid.Row>
       <Table rowKey="id" columns={columns} data={data} loading={isLoading} pagination={false} />
-      <ReleaseVersion
-        visible={!!currentId}
-        majorVersionId={currentId}
-        onCancel={() => setCurrenId('')}
-        onConfirm={() => {
-          setCurrenId('');
-          mutate();
-        }}
-      ></ReleaseVersion>
+      {currentId && (
+        <ReleaseVersion
+          visible={!!currentId}
+          majorVersionId={currentId}
+          onCancel={() => setCurrenId('')}
+          onConfirm={() => {
+            setCurrenId('');
+            mutate();
+          }}
+        ></ReleaseVersion>
+      )}
     </AdminContainer>
   );
 }

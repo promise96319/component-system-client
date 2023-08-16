@@ -1,24 +1,19 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { QUERY_KEY_MAJOR_VERSION as VersionKey } from '@/constant';
 import { useMajorVersions } from '@/services/version';
-import { useMajorVersionIdStorage } from './storage';
 
 export const useMajorVersionId = () => {
-  // todo: 第一次未取到值，为 undefined
-  const { data: versionList = [] } = useMajorVersions();
-  const [majorVersionId, setMajorVersionId] = useMajorVersionIdStorage();
+  const sp = useSearchParams();
 
-  useEffect(() => {
-    if (!majorVersionId) {
-      setMajorVersionId(versionList[0]?.id);
-    } else if (versionList && versionList.length > 0) {
-      const version = versionList.find((item) => item.id === majorVersionId);
-      if (!version) {
-        setMajorVersionId(versionList[0]?.id);
-      }
-    }
-  }, [majorVersionId, setMajorVersionId, versionList]);
+  const { data = [] } = useMajorVersions();
 
-  return [majorVersionId, setMajorVersionId] as const;
+  const map = data.reduce((map, item) => {
+    map.set(item.id, item.majorVersion);
+    map.set(`${item.majorVersion}`, item.id);
+    return map;
+  }, new Map());
+
+  return [map.get(sp?.get(VersionKey)), map] as const;
 };

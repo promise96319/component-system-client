@@ -7,7 +7,7 @@ import { useDocContent, useLatestNpmVersions, useReleaseVersion } from '@/servic
 import { Demand, DemandStatus, User } from '@/services/common';
 import { useDemands } from '@/services/demand';
 import { useMajorVersion } from '@/services/version';
-import { useVersionChangelog } from '@/services/version-changelog';
+import { useVersionChangelog, useVersionChangelogByVersion } from '@/services/version-changelog';
 
 const { Row, Col } = Grid;
 const { TabPane } = Tabs;
@@ -20,8 +20,10 @@ export const ReleaseVersion = (
   const { majorVersionId, ...restProps } = props;
   const [demandIds, setDemandIds] = useState<string[]>([]);
   const { data: major } = useMajorVersion(majorVersionId);
-  const { data: latestVersion } = useLatestNpmVersions(major?.majorVersion);
-  const { data: versionChangelog } = useVersionChangelog({ version: latestVersion });
+  // const { data: latestVersion } = useLatestNpmVersions(major?.majorVersion);
+  const latestVersion = '3.10.37';
+  const { data: versionChangelogs } = useVersionChangelogByVersion(latestVersion);
+  console.log('versionChangelogs', versionChangelogs);
   const { data: demands } = useDemands({
     majorVersionId,
     status: DemandStatus.OPENED
@@ -78,8 +80,11 @@ export const ReleaseVersion = (
         <Col span={20}>
           <Tabs type="card">
             <TabPane key="version-changelog" title="组件变更">
-              {versionChangelog?.[0] && versionChangelog[0].changelogs.length > 0 ? (
-                <VersionChangelogItem versionChangelog={versionChangelog[0]}></VersionChangelogItem>
+              {versionChangelogs && versionChangelogs.length > 0 ? (
+                <VersionChangelogItem
+                  changelogs={versionChangelogs}
+                  majorVersionId={majorVersionId}
+                ></VersionChangelogItem>
               ) : (
                 <Empty></Empty>
               )}

@@ -1,33 +1,31 @@
-'use client';
-
-import { Skeleton } from '@arco-design/web-react';
 import classNames from 'classnames';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { useMajorVersionId } from '@/hooks/use-major-version-id';
-import { useComponents } from '@/services';
+import { MajorVersion, Component } from '@/services/common';
+import { serverFetch } from '@/services/common/fetch.server';
 
 import './component-sidebar.scss';
 
-export const ComponentSidebar = () => {
+export const ComponentSidebar = async (props: {
+  params: {
+    componentId: string;
+  };
+  searchParams: {
+    v: string;
+  };
+}) => {
   const styleName = 'component-sidebar';
+  const { params, searchParams } = props;
 
-  const [majorVersionId] = useMajorVersionId();
-  const { data: components = [], isLoading } = useComponents(majorVersionId ?? '');
-  const params = useParams();
-
-  if (isLoading || !majorVersionId) {
-    return (
-      <div style={{ padding: '24px' }}>
-        <Skeleton animation text={{ rows: 3, width: ['80%'] }} style={{ marginBottom: 32 }}></Skeleton>
-        <Skeleton animation text={{ rows: 3, width: ['80%'] }}></Skeleton>
-      </div>
-    );
-  }
+  const majorVersion = await serverFetch<MajorVersion>(`/major-version/version/${searchParams.v}`);
+  const components = await serverFetch<Component[]>(`/component`, {
+    query: {
+      majorVersionId: majorVersion.id
+    }
+  });
 
   return (
     <div className={styleName}>
-      {components.map((comp) => {
+      {(components ?? []).map((comp) => {
         return (
           <div key={comp.category}>
             <div className={`${styleName}-category`}>{comp.category}</div>
