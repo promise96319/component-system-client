@@ -6,8 +6,6 @@ import { AdminContainer } from '@/components/admin/admin-container/admin-contain
 import { useUser, useUpdateUser } from '@/services';
 import { useUploadImage } from '@/services/file';
 
-import './page.scss';
-
 const Page = () => {
   const { data: user, mutate } = useUser();
   const { trigger: uploadImage, error: uploadImageError } = useUploadImage();
