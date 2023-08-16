@@ -5,8 +5,8 @@ import {
   COOKIE_KEY_MAJOR_VERSION,
   COOKIE_KEY_MAJOR_VERSION_ID
 } from './constant';
-import { serverFetch } from './services';
 import { MajorVersion } from './services/common';
+import { serverFetch } from './services/common/fetch.server';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {

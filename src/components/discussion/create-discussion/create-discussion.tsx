@@ -25,7 +25,7 @@ export const CreateDiscussion = (props: { componentId: string; onCreated?: () =>
       return;
     }
 
-    if (!content) {
+    if (!content.replaceAll('\n', '').trim()) {
       Message.error('请输入讨论内容');
       return;
     }

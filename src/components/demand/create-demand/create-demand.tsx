@@ -21,7 +21,7 @@ export const CreateDemand = (props: { componentId: string; onCreated?: () => Pro
       return;
     }
 
-    if (!content) {
+    if (!content.replaceAll('\n', '').trim()) {
       Message.error('请输入需求内容');
       return;
     }

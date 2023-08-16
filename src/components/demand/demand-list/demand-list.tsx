@@ -39,12 +39,11 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
   } = useRemoveDemandComment();
 
   const handleUpdateDemand = async (id: string, content: string, contentDelta: any[]) => {
-    console.log('contentDelta', contentDelta);
     if (isUpdatingDemand) {
       return;
     }
 
-    if (!content) {
+    if (!content.replaceAll('\n', '').trim()) {
       Message.error('请输入需求内容');
       return;
     }
@@ -89,7 +88,7 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
       return;
     }
 
-    if (!content) {
+    if (!content.replaceAll('\n', '').trim()) {
       Message.error('请输入评论内容');
       return;
     }

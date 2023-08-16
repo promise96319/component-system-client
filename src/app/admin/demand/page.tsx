@@ -25,15 +25,15 @@ export default function Demand() {
   });
 
   const searchParams = useSearchParams();
+  const no = searchParams.get('no');
   useEffect(() => {
-    const no = searchParams.get('no');
     if (no) {
       const target = document.getElementById(no);
       if (target) {
         document.documentElement.scrollTop = target.offsetTop - 88;
       }
     }
-  }, []);
+  }, [no, demands]);
 
   useEffect(() => {
     updateDemands();

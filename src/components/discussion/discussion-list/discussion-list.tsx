@@ -99,7 +99,7 @@ export const DiscussionList = (props: {
       return;
     }
 
-    if (!content) {
+    if (!content.replaceAll('\n', '').trim()) {
       Message.error('请输入评论内容');
       return;
     }

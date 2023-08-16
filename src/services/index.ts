@@ -1,4 +1,3 @@
-export * from './common/fetch.server';
 export * from './common/fetch.client';
 
 export * from './user';
