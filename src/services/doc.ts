@@ -51,11 +51,14 @@ export const useSaveDoc = () => {
 };
 
 export interface DocHistory {
+  id: string;
   remark: string;
   createdBy: User;
   demand?: Demand;
   createdAt: string;
   version?: string;
+  pending?: boolean;
+  spec: Doc;
 }
 
 export const useDocHistory = (id: string) => {

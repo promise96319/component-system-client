@@ -70,3 +70,7 @@ export const useUpdateDemandComment = () => {
 export const useRemoveDemandComment = () => {
   return useMutation<Pick<DemandComment, 'id'>, DemandComment>('/demand-comment', { method: 'DELETE' });
 };
+
+export const useDemandCanBeClosed = () => {
+  return useMutation<string[], any>('/demand/can-be-closed', { method: 'POST' });
+};

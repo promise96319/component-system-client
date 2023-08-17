@@ -94,7 +94,7 @@ export default function APIDoc() {
               编辑
             </Button>
             <Button type="text" onClick={() => setIsHistoryVisible(true)}>
-              历史记录
+              更新记录
             </Button>
           </Button.Group>
           <Viewer
@@ -117,6 +117,7 @@ export default function APIDoc() {
 
         <DocHistory
           id={apiDocData.id}
+          componentId={componentId}
           visible={isHistoryVisible}
           onCancel={() => setIsHistoryVisible(false)}
         ></DocHistory>
