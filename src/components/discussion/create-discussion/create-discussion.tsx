@@ -14,11 +14,7 @@ export const CreateDiscussion = (props: { componentId: string; onCreated?: () =>
   const [majorVersionId] = useMajorVersionId();
   const MemoizedEditor = useMemo(() => Editor, []);
 
-  const {
-    trigger: createDiscussion,
-    error: createDiscussionError,
-    isMutating: isCreatingDiscussion
-  } = useCreateDiscussion();
+  const { trigger: createDiscussion, isMutating: isCreatingDiscussion } = useCreateDiscussion();
 
   const handleCreateDiscussion = async (content: string, contentDelta: any[]) => {
     if (isCreatingDiscussion) {
@@ -36,10 +32,6 @@ export const CreateDiscussion = (props: { componentId: string; onCreated?: () =>
       content,
       contentDelta
     });
-
-    if (createDiscussionError) {
-      return;
-    }
 
     Message.success('提交成功');
     await props.onCreated?.();

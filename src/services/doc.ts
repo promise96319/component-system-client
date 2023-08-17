@@ -17,6 +17,7 @@ export interface Doc {
   componentId: string;
   specType: DocType;
   doc?: {
+    id: string;
     content: string;
     createdBy: User;
   };
@@ -39,10 +40,15 @@ export const useDocById = (id?: string) => {
   return useFetch<Doc>(`/spec/${id}`, { stopFetch: !id });
 };
 
+export const useLatestDocById = (id?: string) => {
+  return useFetch<Doc>(`/spec/latest/${id}`, { stopFetch: !id });
+};
+
 export interface DocBody {
   specId: string;
   remark: string;
   content: string;
+  baseDocId?: string;
   demandId?: string;
 }
 

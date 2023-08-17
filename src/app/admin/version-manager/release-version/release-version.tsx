@@ -22,14 +22,14 @@ export const ReleaseVersion = (
   const { data: major } = useMajorVersion(majorVersionId);
   // todo
   // const { data: latestVersion } = useLatestNpmVersions(major?.majorVersion);
-  const latestVersion = '5.0.10';
+  const latestVersion = '5.0.12';
   const { data: versionChangelogs } = useVersionChangelogByVersion(latestVersion);
   const { data: demands } = useDemands({
     majorVersionId,
     status: DemandStatus.OPENED
   });
   const { data: docs } = useDocContent({ demandIds });
-  const { trigger: releaseVersion, isMutating: isReleasing, error: releasingError } = useReleaseVersion();
+  const { trigger: releaseVersion, isMutating: isReleasing } = useReleaseVersion();
   const { trigger: isDemandCanBeClosed, data: conflictDocs } = useDemandCanBeClosed();
   const [isConflictModalVisible, setIsConflictModalVisible] = useState(false);
 
@@ -57,11 +57,9 @@ export const ReleaseVersion = (
       demandIds
     });
 
-    if (!releasingError) {
-      Message.success('发布成功');
-      setDemandIds([]);
-      props.onConfirm?.();
-    }
+    Message.success('发布成功');
+    setDemandIds([]);
+    props.onConfirm?.();
   };
 
   const columns = [

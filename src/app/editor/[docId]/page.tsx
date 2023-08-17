@@ -4,7 +4,7 @@ import { Button, Form, Input, Message, Modal, Typography } from '@arco-design/we
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import { Editor } from '@bytemd/react';
-import { debounce, throttle } from 'lodash-es';
+import { throttle } from 'lodash-es';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { CodeDependency, codeRuntimePlugin } from '@/components/code-runner';
 import { DemandSelect } from '@/components/demand';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
-import { DocType, useComponent, useDocById, useMajorVersion, useSaveDoc } from '@/services';
+import { DocType, useComponent, useLatestDocById, useMajorVersion, useSaveDoc } from '@/services';
 import { DemandStatus } from '@/services/common';
 import { useDemands } from '@/services/demand';
 import { useUploadImage } from '@/services/file';
@@ -31,7 +31,7 @@ export default function MarkdownEditor() {
   const [form] = Form.useForm();
   const { docId } = useParams();
   const [majorVersionId] = useMajorVersionId();
-  const { data: doc } = useDocById(docId);
+  const { data: doc } = useLatestDocById(docId);
   const { data: majorVersion } = useMajorVersion(majorVersionId);
   const { data: component } = useComponent(majorVersionId, doc?.componentId);
   const { data: demands } = useDemands({
@@ -39,7 +39,7 @@ export default function MarkdownEditor() {
     status: DemandStatus.OPENED
   });
   const { trigger: uploadImage } = useUploadImage();
-  const { trigger: updateDoc, error: updateDocError, isMutating: isUpdatingDoc } = useSaveDoc();
+  const { trigger: updateDoc, isMutating: isUpdatingDoc } = useSaveDoc();
 
   const redirectUrl = `/docs/${doc?.componentId}/${doc?.specType === DocType.API ? 'api' : 'design'}`;
   const router = useRouter();
@@ -49,12 +49,12 @@ export default function MarkdownEditor() {
   const dependency = <CodeDependency cssDependencies={designCssDependency} jsDependencies={designJsDependency} />;
 
   useEffect(() => {
-    if (doc) {
-      setValue(doc.doc?.content ?? '');
+    if (doc?.doc?.content) {
+      setValue(doc.doc.content ?? '');
     }
-  }, [doc]);
+  }, [doc?.doc?.content]);
 
-  const handleChange = debounce((val: string) => setValue(val), 1000);
+  const handleChange = throttle((val: string) => setValue(val), 1000);
 
   const handleSaveDoc = async () => {
     if (isUpdatingDoc) {
@@ -70,18 +70,17 @@ export default function MarkdownEditor() {
       return;
     }
 
-    await updateDoc({
+    const xxx = await updateDoc({
+      baseDocId: doc?.doc?.id,
       specId: docId,
       remark: res.remark,
       content: value,
       demandId: res.demandId
     });
 
-    if (!updateDocError) {
-      setModalVisible(false);
-      Message.success('更新成功');
-      router.replace(redirectUrl);
-    }
+    setModalVisible(false);
+    Message.success('更新成功');
+    router.replace(redirectUrl);
   };
 
   const handleUploadImage = async (files: File[]) => {

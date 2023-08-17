@@ -20,23 +20,11 @@ import './demand-list.scss';
 export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDemands: () => Promise<any> }) => {
   const styleName = 'demand-list';
 
-  const { trigger: updateDemand, error: updateDemandError, isMutating: isUpdatingDemand } = useUpdateDemand();
-  const {
-    trigger: addDemandComment,
-    error: addDemandCommentError,
-    isMutating: isAddingComment
-  } = useCreateDemandComment();
-  const {
-    trigger: updateDemandComment,
-    error: updateDemandCommentError,
-    isMutating: isUpdateingDemandComment
-  } = useUpdateDemandComment();
-  const { trigger: removeDemand, error: removeDemandError, isMutating: isRemovingDemand } = useRemoveDemand();
-  const {
-    trigger: removeDemandComment,
-    error: removeDemandCommentError,
-    isMutating: isRemovingComment
-  } = useRemoveDemandComment();
+  const { trigger: updateDemand, isMutating: isUpdatingDemand } = useUpdateDemand();
+  const { trigger: addDemandComment, isMutating: isAddingComment } = useCreateDemandComment();
+  const { trigger: updateDemandComment, isMutating: isUpdateingDemandComment } = useUpdateDemandComment();
+  const { trigger: removeDemand, isMutating: isRemovingDemand } = useRemoveDemand();
+  const { trigger: removeDemandComment, isMutating: isRemovingComment } = useRemoveDemandComment();
 
   const handleUpdateDemand = async (id: string, content: string, contentDelta: any[]) => {
     if (isUpdatingDemand) {
@@ -52,10 +40,6 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
       content,
       contentDelta
     });
-
-    if (updateDemandError) {
-      return;
-    }
 
     Message.success('编辑成功');
     await props.onUpdateDemands?.();
@@ -73,10 +57,6 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
     }
 
     await addDemandComment(params);
-
-    if (addDemandCommentError) {
-      return;
-    }
 
     await props.onUpdateDemands?.();
     Message.success('评论成功');
@@ -98,10 +78,6 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
       contentDelta
     });
 
-    if (updateDemandCommentError) {
-      return;
-    }
-
     Message.success('编辑成功');
     await props.onUpdateDemands?.();
     return true;
@@ -114,10 +90,6 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
 
     await removeDemand({ id });
 
-    if (removeDemandError) {
-      return;
-    }
-
     Message.success('删除成功');
     await props.onUpdateDemands?.();
     return true;
@@ -129,10 +101,6 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
     }
 
     await removeDemandComment({ id });
-
-    if (removeDemandCommentError) {
-      return;
-    }
 
     Message.success('删除成功');
     await props.onUpdateDemands?.();

@@ -13,7 +13,7 @@ export default function VersionManager() {
   const [currentId, setCurrenId] = useState('');
 
   const { data, isLoading, error, mutate } = useMajorVersions();
-  const { trigger: createMajorVersion, error: updateError } = useCreateMajorVersion();
+  const { trigger: createMajorVersion } = useCreateMajorVersion();
 
   if (error) {
     return null;
@@ -26,9 +26,7 @@ export default function VersionManager() {
       content: `确定基于 v${latestMajorVersion}.x 版本组件库文档创建 v${latestMajorVersion + 1}.x 版本组件库文档吗？`,
       onConfirm: async () => {
         await createMajorVersion();
-        if (!updateError) {
-          await mutate();
-        }
+        await mutate();
       }
     });
   };

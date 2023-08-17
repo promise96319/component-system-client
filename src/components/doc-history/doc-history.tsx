@@ -1,6 +1,6 @@
 'use client';
 
-import { Drawer, DrawerProps, Space, Table, Tag, Typography } from '@arco-design/web-react';
+import { Drawer, DrawerProps, Table, Tag, Typography } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import { DocHistory as DocHistoyType, useDocHistory } from '@/services';
 import { Demand, User } from '@/services/common';

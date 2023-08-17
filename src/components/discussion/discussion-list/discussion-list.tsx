@@ -23,31 +23,11 @@ export const DiscussionList = (props: {
 }) => {
   const styleName = 'discussion-list';
 
-  const {
-    trigger: updateDiscussion,
-    error: updateDiscussionError,
-    isMutating: isUpdatingDiscussion
-  } = useUpdateDiscussion();
-  const {
-    trigger: addDiscussionComment,
-    error: addDiscussionCommentError,
-    isMutating: isAddingComment
-  } = useCreateDiscussionComment();
-  const {
-    trigger: updateDiscussionComment,
-    error: updateDiscussionCommentError,
-    isMutating: isUpdateingDiscussionComment
-  } = useUpdateDiscussionComment();
-  const {
-    trigger: removeDiscussion,
-    error: removeDiscussionError,
-    isMutating: isRemovingDiscussion
-  } = useRemoveDiscussion();
-  const {
-    trigger: removeDiscussionComment,
-    error: removeDiscussionCommentError,
-    isMutating: isRemovingComment
-  } = useRemoveDiscussionComment();
+  const { trigger: updateDiscussion, isMutating: isUpdatingDiscussion } = useUpdateDiscussion();
+  const { trigger: addDiscussionComment, isMutating: isAddingComment } = useCreateDiscussionComment();
+  const { trigger: updateDiscussionComment, isMutating: isUpdateingDiscussionComment } = useUpdateDiscussionComment();
+  const { trigger: removeDiscussion, isMutating: isRemovingDiscussion } = useRemoveDiscussion();
+  const { trigger: removeDiscussionComment, isMutating: isRemovingComment } = useRemoveDiscussionComment();
 
   const handleUpdateDiscussion = async (id: string, content: string, contentDelta: any[]) => {
     if (isUpdatingDiscussion) {
@@ -63,10 +43,6 @@ export const DiscussionList = (props: {
       content,
       contentDelta
     });
-
-    if (updateDiscussionError) {
-      return;
-    }
 
     Message.success('编辑成功');
     await props.onUpdateDiscussions?.();
@@ -84,10 +60,6 @@ export const DiscussionList = (props: {
     }
 
     await addDiscussionComment(params);
-
-    if (addDiscussionCommentError) {
-      return;
-    }
 
     await props.onUpdateDiscussions?.();
     Message.success('评论成功');
@@ -109,10 +81,6 @@ export const DiscussionList = (props: {
       contentDelta
     });
 
-    if (updateDiscussionCommentError) {
-      return;
-    }
-
     Message.success('编辑成功');
     await props.onUpdateDiscussions?.();
     return true;
@@ -125,10 +93,6 @@ export const DiscussionList = (props: {
 
     await removeDiscussion({ id });
 
-    if (removeDiscussionError) {
-      return;
-    }
-
     Message.success('删除成功');
     await props.onUpdateDiscussions?.();
     return true;
@@ -140,10 +104,6 @@ export const DiscussionList = (props: {
     }
 
     await removeDiscussionComment({ id });
-
-    if (removeDiscussionCommentError) {
-      return;
-    }
 
     Message.success('删除成功');
     await props.onUpdateDiscussions?.();

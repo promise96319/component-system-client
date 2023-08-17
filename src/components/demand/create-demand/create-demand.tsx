@@ -14,7 +14,7 @@ export const CreateDemand = (props: { componentId: string; onCreated?: () => Pro
   const [majorVersionId] = useMajorVersionId();
   const MemoizedEditor = useMemo(() => Editor, []);
 
-  const { trigger: createDemand, error: createDemandError, isMutating: isCreatingDemand } = useCreateDemand();
+  const { trigger: createDemand, isMutating: isCreatingDemand } = useCreateDemand();
 
   const handleCreateDemand = async (content: string, contentDelta: any[]) => {
     if (isCreatingDemand) {
@@ -32,10 +32,6 @@ export const CreateDemand = (props: { componentId: string; onCreated?: () => Pro
       content,
       contentDelta
     });
-
-    if (createDemandError) {
-      return;
-    }
 
     Message.success('提交成功');
     await props.onCreated?.();

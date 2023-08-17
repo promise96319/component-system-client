@@ -11,6 +11,7 @@ export const DemandSelect = (props: SelectProps & { demands: Demand[]; onChange?
         );
       }}
       {...props}
+      allowClear
       onChange={props.onChange}
     >
       {props.demands?.map((demand) => (

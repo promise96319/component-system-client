@@ -8,8 +8,8 @@ import { useUploadImage } from '@/services/file';
 
 const Page = () => {
   const { data: user, mutate } = useUser();
-  const { trigger: uploadImage, error: uploadImageError } = useUploadImage();
-  const { trigger: updateUser, error: updateUserError } = useUpdateUser(user?.id);
+  const { trigger: uploadImage } = useUploadImage();
+  const { trigger: updateUser } = useUpdateUser(user?.id);
 
   if (!user) {
     return null;
@@ -20,15 +20,13 @@ const Page = () => {
 
     const res = await uploadImage({ file });
 
-    if (res?.url && !uploadImageError) {
+    if (res?.url) {
       await updateUser({ avatar: res.url });
 
-      if (!updateUserError) {
-        Message.success('更新头像成功');
-        mutate({ ...user, avatar: res.url });
-        onSuccess('更新成功');
-        return;
-      }
+      Message.success('更新头像成功');
+      mutate({ ...user, avatar: res.url });
+      onSuccess('更新成功');
+      return;
     }
     onError('更新失败');
   };
