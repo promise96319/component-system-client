@@ -70,7 +70,7 @@ export default function MarkdownEditor() {
       return;
     }
 
-    const xxx = await updateDoc({
+    await updateDoc({
       baseDocId: doc?.doc?.id,
       specId: docId,
       remark: res.remark,

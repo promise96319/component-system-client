@@ -71,6 +71,6 @@ export const useDocHistory = (id: string) => {
   return useFetch<DocHistory[]>(`/spec/${id}/history`);
 };
 
-export const useDocContent = (query: { demandIds: string[] }) => {
-  return useFetch<DocHistory[]>(`/doc`, { query });
+export const useDocContents = (query: { demandIds: string[] }) => {
+  return useFetch<DocHistory[]>(`/doc`, { query: { ...query, toBeUpdated: true } });
 };

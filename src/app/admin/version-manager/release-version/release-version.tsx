@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import { DemandLink, DemandSelect } from '@/components/demand';
 import { VersionChangelogItem } from '@/components/version-changelog';
-import { DocType, useDocContent, useLatestNpmVersions, useReleaseVersion } from '@/services';
+import { DocType, useDocContents, useLatestNpmVersions, useReleaseVersion } from '@/services';
 import { Demand, DemandStatus, User } from '@/services/common';
 import { useDemandCanBeClosed, useDemands } from '@/services/demand';
 import { useMajorVersion } from '@/services/version';
@@ -22,13 +22,13 @@ export const ReleaseVersion = (
   const { data: major } = useMajorVersion(majorVersionId);
   // todo
   // const { data: latestVersion } = useLatestNpmVersions(major?.majorVersion);
-  const latestVersion = '5.0.12';
+  const latestVersion = '5.1.18';
   const { data: versionChangelogs } = useVersionChangelogByVersion(latestVersion);
   const { data: demands } = useDemands({
     majorVersionId,
     status: DemandStatus.OPENED
   });
-  const { data: docs } = useDocContent({ demandIds });
+  const { data: docs } = useDocContents({ demandIds });
   const { trigger: releaseVersion, isMutating: isReleasing } = useReleaseVersion();
   const { trigger: isDemandCanBeClosed, data: conflictDocs } = useDemandCanBeClosed();
   const [isConflictModalVisible, setIsConflictModalVisible] = useState(false);
