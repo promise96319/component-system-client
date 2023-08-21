@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Space, Tabs, TabPane } from '@/components/arco';
 
 const tabsData = [
@@ -14,9 +15,11 @@ const tabsData = [
 
 export const ComponentNav = (props: { componentId: string }) => {
   const { componentId } = props;
+  const path = usePathname();
+  const matches = path.match(new RegExp(`docs/${componentId}/(api|design|version-changelog|discussion|demand)`));
 
   return (
-    <Tabs defaultActiveTab={componentId}>
+    <Tabs defaultActiveTab={matches?.[1]}>
       {tabsData.map((tab) => (
         <TabPane
           key={tab.key}

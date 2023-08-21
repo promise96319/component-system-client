@@ -72,6 +72,8 @@ export const codeRuntimePlugin = (opts?: {
               transforms: ['jsx', 'typescript', 'imports']
             })?.code;
 
+            console.log((window as any).__global_module_QtDesign__);
+
             const req = (name: string) => importCodeDependency(name, jsDependencies);
 
             Component = eval(`
@@ -99,14 +101,16 @@ export const codeRuntimePlugin = (opts?: {
         });
       };
 
-      if (isDependenciesLoaded(jsDependencies)) {
-        return renderCode();
-      }
+      renderCode();
 
-      (async () => {
-        await Promise.all(jsDependencies.map((dependency) => loadJs(dependency)));
-        renderCode();
-      })();
+      // if (isDependenciesLoaded(jsDependencies)) {
+      //   return renderCode();
+      // }
+
+      // (async () => {
+      //   await Promise.all(jsDependencies.map((dependency) => loadJs(dependency)));
+      //   renderCode();
+      // })();
     }
   };
 };

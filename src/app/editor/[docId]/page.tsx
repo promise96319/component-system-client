@@ -9,14 +9,14 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { CodeDependency, codeRuntimePlugin } from '@/components/code-runner';
+import { codeRuntimePlugin } from '@/components/code-runner';
 import { DemandSelect } from '@/components/demand';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useComponent, useLatestDocById, useMajorVersion, useSaveDoc } from '@/services';
 import { DemandStatus } from '@/services/common';
 import { useDemands } from '@/services/demand';
 import { useUploadImage } from '@/services/file';
-import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependency';
+import { getDesignJsDependency } from '@/utils/dependency';
 
 import 'bytemd/dist/index.css';
 import 'highlight.js/styles/github.css';
@@ -44,9 +44,7 @@ export default function MarkdownEditor() {
   const redirectUrl = `/docs/${doc?.componentId}/${doc?.specType === DocType.API ? 'api' : 'design'}`;
   const router = useRouter();
 
-  const designCssDependency = majorVersion ? [getDesignCssDependency(majorVersion.majorVersion)] : [];
   const designJsDependency = majorVersion ? [getDesignJsDependency(majorVersion.majorVersion)] : [];
-  const dependency = <CodeDependency cssDependencies={designCssDependency} jsDependencies={designJsDependency} />;
 
   useEffect(() => {
     if (doc?.doc?.content) {
@@ -146,8 +144,6 @@ export default function MarkdownEditor() {
       </header>
 
       <main className={`${styleName}-container`}>
-        {dependency}
-
         <Editor
           mode="auto"
           value={value}

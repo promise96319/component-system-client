@@ -1,8 +1,6 @@
-'use client';
-
 /* eslint-disable @next/next/no-before-interactive-script-outside-document */
 import Script from 'next/script';
-import { useEffect } from 'react';
+import ReactDom from 'react-dom';
 
 export interface JSDependency {
   module?: 'esm' | 'umd';
@@ -132,10 +130,19 @@ export const createScripts = (dependencies: JSDependency[] = []) => {
 };
 
 export const importCodeDependency = (name: JSDependency['importName'], dependencies: JSDependency[] = []) => {
-  dependencies = [...builtInJsDependencies, ...dependencies];
+  dependencies = [
+    ...builtInJsDependencies,
+    ...dependencies,
+    {
+      module: 'esm',
+      url: '',
+      globalName: 'QtDesign',
+      importName: '@qt/design'
+    }
+  ];
   const dependency = dependencies.find((dependency) => dependency.importName === name);
   if (!dependency) {
-    throw new Error(`Cannot find module '${name}'`);
+    throw new Error(`找不到模块： '${name}'`);
   }
 
   const { globalName } = dependency as JSDependency;
@@ -143,12 +150,14 @@ export const importCodeDependency = (name: JSDependency['importName'], dependenc
 };
 
 export function CodeDependency(props: { jsDependencies?: JSDependency[]; cssDependencies?: string[] }) {
-  useEffect(() => {
-    props.cssDependencies?.forEach((url) => loadCss(url));
-  }, [props.cssDependencies]);
+  props.cssDependencies?.forEach((url) => ReactDom.preload(url, { as: 'style' }));
 
   return (
     <>
+      {/* preload 只会进行样式加载，但是不会应用。link 放到头部，next.js 又不生效  */}
+      {props.cssDependencies?.map((url, index) => (
+        <link key={index} rel="stylesheet" href={url}></link>
+      ))}
       {createScripts(props.jsDependencies)}
       {createScripts(builtInJsDependencies)}
     </>

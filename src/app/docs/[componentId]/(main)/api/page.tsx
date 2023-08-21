@@ -7,7 +7,7 @@ import { Viewer } from '@bytemd/react';
 import { getProcessor } from 'bytemd';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { CodeDependency, codeRuntimePlugin } from '@/components/code-runner';
+import { codeRuntimePlugin } from '@/components/code-runner';
 import { DocHistory } from '@/components/doc-history/doc-history';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useDoc, useMajorVersion } from '@/services';
@@ -57,14 +57,9 @@ export default function APIDoc() {
     router.push(`/editor/${apiDocData?.id}`);
   };
 
-  const designCssDependency = majorVersion ? [getDesignCssDependency(majorVersion.majorVersion)] : [];
-  const designJsDependency = majorVersion ? [getDesignJsDependency(majorVersion.majorVersion)] : [];
-  const dependency = <CodeDependency cssDependencies={designCssDependency} jsDependencies={designJsDependency} />;
-
   if (isLoadingDoc || !majorVersionId) {
     return (
       <div className={styleName}>
-        {dependency}
         <main className={`${styleName}-markdown-content`}>
           <Skeleton animation text={{ rows: 3, width: '60%' }} style={{ marginTop: 32 }}></Skeleton>
           <Skeleton animation text={{ rows: 3, width: '60%' }} style={{ marginTop: 32 }}></Skeleton>
@@ -75,18 +70,12 @@ export default function APIDoc() {
     );
   }
 
-  if (!apiDocData || !apiDocData.doc || !majorVersion || !designJsDependency.length) {
-    return (
-      <>
-        {dependency}
-        <Empty className="mt-px-32" description={<Button onClick={handleEdit}>新建文档</Button>}></Empty>
-      </>
-    );
+  if (!apiDocData || !apiDocData.doc || !majorVersion) {
+    return <Empty className="mt-px-32" description={<Button onClick={handleEdit}>新建文档</Button>}></Empty>;
   }
 
   return (
     <div className={styleName}>
-      {dependency}
       <main className={`${styleName}-markdown`}>
         <div className={`${styleName}-markdown-content`}>
           <Button.Group>
@@ -99,7 +88,7 @@ export default function APIDoc() {
           </Button.Group>
           <Viewer
             value={apiDocData.doc.content}
-            plugins={[gfm(), rehypeHead(), codeRuntimePlugin({ jsDependencies: designJsDependency }), highlight()]}
+            plugins={[gfm(), rehypeHead(), codeRuntimePlugin(), highlight()]}
           ></Viewer>
         </div>
         <div className={`${styleName}-markdown-toc`}>

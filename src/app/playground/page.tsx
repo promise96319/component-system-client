@@ -73,15 +73,16 @@ export default class extends React.Component {
 
       <Layout className={`${styleName}-main`}>
         <Sider
-          resizeDirections={['right']}
+          // resizeDirections={['right']}
           className={`${styleName}-editor`}
           width={editorWidth ?? '50%'}
-          resizeBoxProps={{
-            width: editorWidth,
-            onMoving: (_e, { width }) => {
-              setEditorWidth(width);
-            }
-          }}
+          // resizeBoxProps={{
+          //   width: editorWidth,
+          //   onMoving: (_e, { width }) => {
+          //     console.log('width', width);
+          //     setEditorWidth(width);
+          //   }
+          // }}
         >
           <MonacoEditor
             width={editorWidth}
