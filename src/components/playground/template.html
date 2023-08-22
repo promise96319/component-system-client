@@ -19,27 +19,37 @@
         overflow: auto;
       }
     </style>
+
+    <script src="http://ued.qingteng.cn:37022/library/lodash.umd.js"></script>
+    <script src="http://ued.qingteng.cn:37022/library/react16.dev.umd.js"></script>
+    <script src="http://ued.qingteng.cn:37022/library/react-dom16.dev.umd.js"></script>
+    <script src="http://ued.qingteng.cn:37022/library/dayjs.js"></script>
+    <script src="__QT_DESIGN_JS_DEPENDENCY__"></script>
   </head>
 
   <body>
     <div id="app"></div>
 
-    <script src="http://ued.qingteng.cn:37022/library/react18.umd.js"></script>
-    <script src="http://ued.qingteng.cn:37022/library/react-dom18.umd.js"></script>
-    <script src="http://ued.qingteng.cn:37022/library/dayjs.js"></script>
-
     <script type="module">
-      import * as QtDesign from '__QT_DESIGN_JS_DEPENDENCY__';
-
       const __modules__ = {
         react: window.React,
         'react-dom': window.ReactDOM,
         dayjs: window.dayjs,
-        '@qt/design': QtDesign
+        '@qt/design': window.QtDesign
       };
 
-      const { React, ReactDOM } = window;
-      const root = ReactDOM.createRoot(document.getElementById('app'));
+      // React 18
+      // const { React, ReactDOM } = window;
+      // const root = ReactDOM.createRoot(document.getElementById('app'));
+      // const renderElement = (element) => {
+      //   root.render(element);
+      // };
+
+      // React 16
+      const root = document.getElementById('app');
+      const renderElement = (element) => {
+        ReactDOM.render(element, root);
+      };
 
       const updateView = (data) => {
         const { compiledCode, error } = data;
@@ -57,7 +67,7 @@
           );
 
         if (error) {
-          root.render(createErrorComponent(error));
+          renderElement(createErrorComponent(error));
           return;
         }
 
@@ -69,23 +79,24 @@
           })(${req}, {});
         `);
 
-        class CodeErrorBoundary extends React.Component {
-          state = {
-            error: null
-          };
+        // class CodeErrorBoundary extends React.Component {
+        //   state = {
+        //     error: null
+        //   };
 
-          static getDerivedStateFromError(error) {
-            return { error };
-          }
+        //   static getDerivedStateFromError(error) {
+        //     return { error };
+        //   }
 
-          render() {
-            const { children } = this.props;
-            const { error } = this.state;
-            return error ? createErrorComponent(error) : children;
-          }
-        }
+        //   render() {
+        //     const { children } = this.props;
+        //     const { error } = this.state;
+        //     return error ? createErrorComponent(error) : children;
+        //   }
+        // }
 
-        root.render(React.createElement(CodeErrorBoundary, null, React.createElement(Component)));
+        // renderElement(React.createElement(CodeErrorBoundary, null, React.createElement(Component)));
+        renderElement(React.createElement(Component));
       };
 
       window.addEventListener('message', (e) => {

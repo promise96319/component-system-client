@@ -6,14 +6,14 @@ import { Viewer } from '@bytemd/react';
 import classNames from 'classnames';
 import ClipboardJS from 'clipboard';
 import { useState, useRef, useEffect } from 'react';
-
-import 'highlight.js/styles/github.css';
-import './styles/code-block.scss';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useMajorVersion } from '@/services';
 import { utoa } from '@/utils/zlib';
 
-export default function CodeBlock(props: { source: string; children: React.ReactNode }) {
+import 'highlight.js/styles/github.css';
+import './styles/code-block.scss';
+
+export default function CodeBlock(props: { source: string; children: React.JSX.Element }) {
   const styleName = 'code-block';
 
   const markdown = `
@@ -26,6 +26,7 @@ ${props.source}
   const { data: majorVersion } = useMajorVersion(majorVersionId);
   const [visible, setVisible] = useState(false);
   const btnRef = useRef<HTMLDivElement>(null);
+  const previewerRef = useRef<HTMLDivElement>(null);
   const clipboard = useRef<ClipboardJS | null>(null);
 
   useEffect(() => {
@@ -40,6 +41,13 @@ ${props.source}
     return clipboard.current?.destroy;
   }, [btnRef, props.source]);
 
+  useEffect(() => {
+    if (previewerRef.current && window.ReactDOM && props.children) {
+      // 外部使用的是 React18，design 库使用对的是 React16
+      window.ReactDOM.render(props.children, previewerRef.current);
+    }
+  }, [previewerRef, props.children]);
+
   const handleOpenPlayground = () => {
     const state = {
       code: props.source,
@@ -50,7 +58,7 @@ ${props.source}
 
   return (
     <div className={styleName}>
-      <div className={`${styleName}-previewer`}>{props.children}</div>
+      <div className={`${styleName}-previewer`} ref={previewerRef}></div>
       <div className={`${styleName}-operations`}>
         <Button type="text" onClick={() => setVisible(!visible)}>
           {visible ? '隐藏代码' : '显示代码'}

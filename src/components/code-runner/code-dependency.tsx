@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-before-interactive-script-outside-document */
+import Head from 'next/head';
 import Script from 'next/script';
 import ReactDom from 'react-dom';
 
@@ -12,13 +13,19 @@ export interface JSDependency {
 export const builtInJsDependencies: JSDependency[] = [
   {
     module: 'umd',
-    url: 'http://ued.qingteng.cn:37022/library/react18.umd.js',
+    url: 'http://ued.qingteng.cn:37022/library/lodash.umd.js',
+    globalName: 'lodash',
+    importName: 'lodash'
+  },
+  {
+    module: 'umd',
+    url: 'http://ued.qingteng.cn:37022/library/react16.dev.umd.js',
     globalName: 'React',
     importName: 'react'
   },
   {
     module: 'umd',
-    url: 'http://ued.qingteng.cn:37022/library/react-dom18.umd.js',
+    url: 'http://ued.qingteng.cn:37022/library/react-dom16.dev.umd.js',
     globalName: 'ReactDOM',
     importName: 'react-dom'
   },
@@ -134,12 +141,13 @@ export const importCodeDependency = (name: JSDependency['importName'], dependenc
     ...builtInJsDependencies,
     ...dependencies,
     {
-      module: 'esm',
+      module: 'umd',
       url: '',
       globalName: 'QtDesign',
       importName: '@qt/design'
     }
   ];
+
   const dependency = dependencies.find((dependency) => dependency.importName === name);
   if (!dependency) {
     throw new Error(`找不到模块： '${name}'`);
@@ -155,11 +163,13 @@ export function CodeDependency(props: { jsDependencies?: JSDependency[]; cssDepe
   return (
     <>
       {/* preload 只会进行样式加载，但是不会应用。link 放到头部，next.js 又不生效  */}
+      {/* <Head> */}
       {props.cssDependencies?.map((url, index) => (
         <link key={index} rel="stylesheet" href={url}></link>
       ))}
-      {createScripts(props.jsDependencies)}
+      {/* </Head> */}
       {createScripts(builtInJsDependencies)}
+      {createScripts(props.jsDependencies)}
     </>
   );
 }

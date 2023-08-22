@@ -14,7 +14,7 @@ export const Previewer = (props: { code: string; version?: number }) => {
 
   const desingDependency = {
     css: `http://ued.qingteng.cn:37022/qt-design/v${version}/index.css`,
-    js: `http://ued.qingteng.cn:37022/qt-design/v${version}/index.js`
+    js: `http://ued.qingteng.cn:37022/qt-design/v${version}/index.umd.js`
   };
 
   const updateCode = () => {

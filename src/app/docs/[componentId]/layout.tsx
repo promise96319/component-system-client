@@ -1,11 +1,22 @@
-import { Header, Layout } from '@/components';
-import { BackTop } from '@/components/arco';
+import { cookies } from 'next/headers';
+import { CodeDependency } from '@/components/code-runner';
+import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependency';
 
-export default function WebLayout(props: { children: React.ReactNode; sidebar: React.ReactNode }) {
+import './layout.scss';
+
+export default function DocsLayout({ children, banner }: { children: React.ReactNode; banner: React.ReactNode }) {
+  const styleName = 'docs';
+  const majorVersion = Number(cookies().get('majorVersion')?.value);
+
+  const designCssDependency = majorVersion ? [getDesignCssDependency(majorVersion)] : [];
+  const designJsDependency = majorVersion ? [getDesignJsDependency(majorVersion)] : [];
+  const dependency = <CodeDependency cssDependencies={designCssDependency} jsDependencies={designJsDependency} />;
+
   return (
-    <Layout header={<Header />} sidebar={props.sidebar}>
-      {props.children}
-      <BackTop></BackTop>
-    </Layout>
+    <div className={styleName}>
+      {dependency}
+      <div className={`${styleName}-banner`}>{banner}</div>
+      <div className={`${styleName}-content`}>{children}</div>
+    </div>
   );
 }

@@ -66,8 +66,6 @@ export const VersionChangelogItem = (props: { changelogs: VersionChangelog[]; ma
     return null;
   }
 
-  console.log('typeMap', typeMap);
-
   return Object.entries(data).map(([key, value], index) =>
     renderList(typeMap[key], key as VersionChangelogType, value, index)
   );

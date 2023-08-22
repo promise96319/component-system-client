@@ -5,7 +5,8 @@ import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import { Viewer } from '@bytemd/react';
 import { getProcessor } from 'bytemd';
-import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { codeRuntimePlugin } from '@/components/code-runner';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
@@ -30,7 +31,6 @@ export default function APIDoc() {
   });
 
   const [toc, setToc] = useState<TocItem[]>([]);
-  const router = useRouter();
 
   useEffect(() => {
     if (!apiDocData || !apiDocData.doc) return;
@@ -51,10 +51,6 @@ export default function APIDoc() {
     }
   }, [apiDocData]);
 
-  const handleEdit = () => {
-    router.push(`/editor/${apiDocData?.id}`);
-  };
-
   if (isLoadingDoc || !majorVersionId) {
     return (
       <div className={styleName}>
@@ -69,7 +65,16 @@ export default function APIDoc() {
   }
 
   if (!apiDocData || !apiDocData.doc || !majorVersion) {
-    return <Empty className="mt-px-32" description={<Button onClick={handleEdit}>新建文档</Button>}></Empty>;
+    return (
+      <Empty
+        className="mt-px-32"
+        description={
+          <Link href={`/editor/${apiDocData?.id}`}>
+            <Button type="text">新建文档</Button>
+          </Link>
+        }
+      ></Empty>
+    );
   }
 
   return (
@@ -77,9 +82,9 @@ export default function APIDoc() {
       <main className={`${styleName}-markdown`}>
         <div className={`${styleName}-markdown-content`}>
           <Button.Group>
-            <Button type="text" onClick={handleEdit}>
-              编辑
-            </Button>
+            <Link href={`/editor/${apiDocData?.id}`}>
+              <Button type="text">编辑</Button>
+            </Link>
             <HistoryButton id={apiDocData.id} componentId={componentId}></HistoryButton>
           </Button.Group>
           <Viewer
