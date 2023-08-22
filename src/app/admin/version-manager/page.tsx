@@ -25,7 +25,7 @@ export default function VersionManager() {
       title: '新建版本',
       content: `确定基于 v${latestMajorVersion}.x 版本组件库文档创建 v${latestMajorVersion + 1}.x 版本组件库文档吗？`,
       onConfirm: async () => {
-        await createMajorVersion();
+        await createMajorVersion(undefined);
         await mutate();
       }
     });

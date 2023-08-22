@@ -86,7 +86,7 @@ export default function MarkdownEditor() {
       files.map((file) => {
         return uploadImage({ file }).then((res) => {
           return {
-            url: res.url,
+            url: res?.url,
             alt: file.name,
             title: file.name
           };

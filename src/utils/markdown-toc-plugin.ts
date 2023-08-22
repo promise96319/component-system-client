@@ -29,7 +29,7 @@ export const rehypeToc = (opts?: { maxLevel?: number; onFinish?: (toc: TocItem[]
 
   return {
     rehype(processor: Processor) {
-      return processor.use((): Transformer<Root> => {
+      return processor.use((): Transformer<any> => {
         return (tree) => {
           visit<Root, 'element'>(tree, 'element', (node) => {
             const { tagName, children } = node;
@@ -40,7 +40,7 @@ export const rehypeToc = (opts?: { maxLevel?: number; onFinish?: (toc: TocItem[]
                 return;
               }
               const id = createHeadingId(idx++);
-              const text = stringifyHeading(node);
+              const text = stringifyHeading(node as any);
               toc.push({ level, id, text });
             }
           });
@@ -57,7 +57,7 @@ export const rehypeHead = (opts?: { maxLevel: number }): BytemdPlugin => {
 
   return {
     rehype(processor: Processor) {
-      return processor.use((): Transformer<Root> => {
+      return processor.use((): Transformer<any> => {
         return (tree) => {
           visit<Root, 'element'>(tree, 'element', (node) => {
             const { tagName, children } = node;

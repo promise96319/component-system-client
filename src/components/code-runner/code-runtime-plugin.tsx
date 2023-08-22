@@ -15,7 +15,7 @@ import type { Processor, Transformer } from 'unified';
 
 const CODE_TAG = 'react-code';
 
-function rehypeCode(): Transformer<Root> {
+function rehypeCode(): Transformer<any> {
   return (tree) => {
     visit<Root, 'element'>(tree, 'element', (node) => {
       if (isElement(node, 'pre') && node.children.length === 1 && isElement(node.children[0], 'code')) {
@@ -71,8 +71,6 @@ export const codeRuntimePlugin = (opts?: {
             const compiledCode: string = transform(code, {
               transforms: ['jsx', 'typescript', 'imports']
             })?.code;
-
-            console.log((window as any).__global_module_QtDesign__);
 
             const req = (name: string) => importCodeDependency(name, jsDependencies);
 

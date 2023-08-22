@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import qs from 'qs';
+import qs from 'query-string';
 import {
   QUERY_KEY_MAJOR_VERSION as VersionKey,
   COOKIE_KEY_MAJOR_VERSION,
@@ -11,7 +11,7 @@ import type { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
   const { search, pathname, origin } = request.nextUrl;
-  const query = qs.parse(search, { ignoreQueryPrefix: true });
+  const query = qs.parse(search);
   const versionList = await serverFetch<MajorVersion[]>('/major-version');
 
   const setMajorVersionCookie = (response: NextResponse, majorVersion: Pick<MajorVersion, 'id' | 'majorVersion'>) => {
@@ -21,8 +21,8 @@ export async function middleware(request: NextRequest) {
 
   const handleVersionNotExist = (majorVersion: Pick<MajorVersion, 'id' | 'majorVersion'>) => {
     const latestVersion = majorVersion.majorVersion;
-    const newQuery = qs.stringify({ ...query, [VersionKey]: latestVersion }, { addQueryPrefix: true });
-    const res = NextResponse.redirect(`${origin}${pathname}${newQuery}`);
+    const newQuery = qs.stringify({ ...query, [VersionKey]: latestVersion });
+    const res = NextResponse.redirect(`${origin}${pathname}?${newQuery}`);
     setMajorVersionCookie(res, majorVersion);
     return res;
   };

@@ -2,7 +2,7 @@
 
 import { Select } from '@arco-design/web-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import qs from 'qs';
+import qs from 'query-string';
 import { QUERY_KEY_MAJOR_VERSION as VersionKey } from '@/constant';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useMajorVersions } from '@/services/version';
@@ -19,8 +19,8 @@ const MajorVersionSelector = () => {
   const router = useRouter();
 
   const switchMajorVersion = (versionId: string) => {
-    const newQuery = qs.stringify({ ...searchParams, [VersionKey]: map.get(versionId) }, { addQueryPrefix: true });
-    router.replace(`${pathname}${newQuery}`);
+    const newQuery = qs.stringify({ ...searchParams, [VersionKey]: map.get(versionId) });
+    router.replace(`${pathname}?${newQuery}`);
   };
 
   if (isLoading) {
