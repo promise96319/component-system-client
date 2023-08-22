@@ -8,11 +8,10 @@ import { getProcessor } from 'bytemd';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { codeRuntimePlugin } from '@/components/code-runner';
-import { DocHistory } from '@/components/doc-history/doc-history';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useDoc, useMajorVersion } from '@/services';
-import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependency';
 import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
+import { HistoryButton } from './history-button';
 
 import 'bytemd/dist/index.css';
 import '@/styles/markdown.scss';
@@ -31,7 +30,6 @@ export default function APIDoc() {
   });
 
   const [toc, setToc] = useState<TocItem[]>([]);
-  const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -82,9 +80,7 @@ export default function APIDoc() {
             <Button type="text" onClick={handleEdit}>
               编辑
             </Button>
-            <Button type="text" onClick={() => setIsHistoryVisible(true)}>
-              更新记录
-            </Button>
+            <HistoryButton id={apiDocData.id} componentId={componentId}></HistoryButton>
           </Button.Group>
           <Viewer
             value={apiDocData.doc.content}
@@ -103,13 +99,6 @@ export default function APIDoc() {
             ))}
           </Anchor>
         </div>
-
-        <DocHistory
-          id={apiDocData.id}
-          componentId={componentId}
-          visible={isHistoryVisible}
-          onCancel={() => setIsHistoryVisible(false)}
-        ></DocHistory>
       </main>
     </div>
   );

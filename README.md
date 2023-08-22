@@ -4,7 +4,7 @@
 
 - 框架：Next.js
 - 请求：SWR
-- 组件库：@qt/design（公司内部组件库）
+- 组件库：@arco-design/web-react
 
 ## 启动
 
@@ -84,4 +84,3 @@ docker-compose up -d
 
 - [SWR](https://swr.vercel.app/)
 - [Server Component](https://nextjs.org/docs/getting-started/react-essentials)
-

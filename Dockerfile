@@ -12,7 +12,7 @@ COPY . .
 
 EXPOSE 3000
 
-RUN npm run build
+RUN pnpm run build
 
 FROM node:alpine as prod
 
@@ -23,5 +23,5 @@ WORKDIR /usr/src/app
 COPY --from=dev /usr/src/app/.next ./.next
 COPY --from=dev /usr/src/app/package.json .
 
-CMD ["npm", "run", "start"]
+CMD ["pnpm", "run", "start"]
 
