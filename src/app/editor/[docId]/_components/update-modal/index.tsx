@@ -2,14 +2,20 @@
 
 import { Button, Form, Input, Message, Modal } from '@arco-design/web-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, redirect } from 'next/navigation';
 import { useState } from 'react';
 import { DemandSelect } from '@/components/demand';
 import { useSaveDoc } from '@/services';
 import { DemandStatus } from '@/services/common';
 import { useDemands } from '@/services/demand';
 
-export const UpdateModal = (props: any) => {
+export const UpdateModal = (props: {
+  value: string;
+  docId: string;
+  doc: any;
+  redirectUrl: string;
+  majorVersionId: string;
+}) => {
   const styleName = 'markdown-editor';
 
   const { value, docId, doc, redirectUrl, majorVersionId } = props;

@@ -6,7 +6,7 @@ import highlight from '@bytemd/plugin-highlight';
 import { Editor } from '@bytemd/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useEffect, useRef, useState } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { codeRuntimePlugin } from '@/components/code-runner';
 import { Viewer } from '@/components/code-runner/viewer';
@@ -18,9 +18,7 @@ import 'bytemd/dist/index.css';
 import 'highlight.js/styles/github.css';
 import './page.scss';
 import '@/styles/markdown.scss';
-
-const plugins = [gfm(), codeRuntimePlugin(), highlight()];
-// const plugins = [gfm(), highlight()];
+import { UpdateModal } from './_components/update-modal';
 
 export default function MarkdownEditor() {
   const styleName = 'markdown-editor';
@@ -28,6 +26,7 @@ export default function MarkdownEditor() {
   const [value, setValue] = useState('');
   const rootCache: React.RefObject<Record<any, Root>> = useRef({});
   const { docId } = useParams();
+  const plugins = useMemo(() => [gfm(), codeRuntimePlugin(), highlight()], []);
   const [majorVersionId] = useMajorVersionId();
   const { data: doc } = useLatestDocById(docId);
   const { data: component } = useComponent(majorVersionId, doc?.componentId);
@@ -63,6 +62,13 @@ export default function MarkdownEditor() {
         <Link href={redirectUrl}>
           <Typography.Title heading={3}>{component?.description}</Typography.Title>
         </Link>
+        <UpdateModal
+          value={value}
+          doc={doc}
+          docId={doc?.id ?? ''}
+          redirectUrl={redirectUrl}
+          majorVersionId={majorVersionId}
+        ></UpdateModal>
       </header>
 
       <main className={`${styleName}-container`}>
