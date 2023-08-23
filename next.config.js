@@ -2,9 +2,6 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // env: {
-  //   host: 'http://localhost:3000'
-  // },
   images: {
     domains: ['ued.qingteng.cn']
   },

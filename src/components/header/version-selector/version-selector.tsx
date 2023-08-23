@@ -1,11 +1,14 @@
 'use client';
 
 import { Select } from '@arco-design/web-react';
+import { getCookie, setCookie } from 'cookies-next';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import qs from 'query-string';
 import { QUERY_KEY_MAJOR_VERSION as VersionKey } from '@/constant';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
+import { MajorVersion } from '@/services/common';
 import { useMajorVersions } from '@/services/version';
+// import { onChange } from './server-action';
 
 const Option = Select.Option;
 
@@ -15,11 +18,16 @@ const MajorVersionSelector = () => {
   const pathname = usePathname();
 
   const { data: versionList = [], isLoading } = useMajorVersions();
-  const [majorVersionId, map] = useMajorVersionId();
+  const [majorVersionId] = useMajorVersionId();
   const router = useRouter();
 
-  const switchMajorVersion = (versionId: string) => {
-    const newQuery = qs.stringify({ ...qs.parse(searchParams.toString()), [VersionKey]: map.get(versionId) });
+  const switchMajorVersion = (version: Pick<MajorVersion, 'id' | 'majorVersion'>) => {
+    setCookie('majorVersion', version.majorVersion);
+    setCookie('majorVersionId', version.id);
+    const newQuery = qs.stringify({ ...qs.parse(searchParams.toString()), [VersionKey]: version.majorVersion });
+
+    console.log(getCookie('majorVersion'));
+
     router.replace(`${pathname}?${newQuery}`);
     window.location.href = `${pathname}?${newQuery}`;
   };
@@ -32,11 +40,11 @@ const MajorVersionSelector = () => {
     <Select
       value={majorVersionId}
       className={styleName}
-      onChange={switchMajorVersion}
+      onChange={(_, option: any) => switchMajorVersion(option.extra)}
       style={{ width: '120px', marginRight: '24px' }}
     >
       {versionList.map((version: any) => (
-        <Option key={version.id} value={version.id}>
+        <Option key={version.id} value={version.id} extra={version}>
           {version.id === majorVersionId ? version.versions[0]?.version : version.majorVersion}
         </Option>
       ))}

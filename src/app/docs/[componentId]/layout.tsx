@@ -1,7 +1,8 @@
 import { cookies } from 'next/headers';
-import { Header, Layout } from '@/components';
+import { Layout } from '@/components';
 import { BackTop } from '@/components/arco';
 import { CodeDependency } from '@/components/code-runner';
+import { Header } from '@/components/header/header';
 import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependency';
 import { ComponentBanner } from './_components/banner';
 import { ComponentSidebar } from './_components/component-sidebar/component-sidebar';

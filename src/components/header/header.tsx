@@ -1,5 +1,4 @@
 import Image from 'next/image';
-// import { Input } from '@arco-design/web-react';
 // import { IconSearch } from '@arco-design/web-react/icon';
 import Link from 'next/link';
 import UserDropDown from './user-dropdown/user-dropdown';

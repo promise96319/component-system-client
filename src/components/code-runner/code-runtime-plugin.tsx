@@ -69,9 +69,7 @@ export const codeRuntimePlugin = (opts?: {
 
           if (cache[index]?.code === code) {
             Component = cache[index].Component;
-            console.log('使用缓存');
           } else {
-            console.log('不使用缓存');
             try {
               const compiledCode: string = transform(code, {
                 transforms: ['jsx', 'typescript', 'imports']
