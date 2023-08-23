@@ -32,7 +32,7 @@ const Page = () => {
   };
 
   const imageElement = (
-    <Upload fileList={[]} customRequest={handleUpdateAvatar}>
+    <Upload fileList={[]} customRequest={handleUpdateAvatar} accept="image/*">
       <UserAvatar src={user?.avatar}></UserAvatar>
     </Upload>
   );

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { MajorVersion, Component } from '@/services/common';
 import { serverFetch } from '@/services/common/fetch.server';
 import { getPath, getQuery } from '@/utils/header';
-import { ActiveLink } from './test';
+import { ActiveLink } from './active-link';
 
 import './component-sidebar.scss';
 

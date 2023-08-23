@@ -1,6 +1,6 @@
 'use client';
-import classNames from 'classnames';
 
+import classNames from 'classnames';
 import { useSelectedLayoutSegment } from 'next/navigation';
 
 export const ActiveLink = (props: { componentId: string; children: React.ReactNode }) => {
