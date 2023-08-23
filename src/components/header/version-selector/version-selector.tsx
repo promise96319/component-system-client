@@ -21,7 +21,7 @@ const MajorVersionSelector = () => {
   const switchMajorVersion = (versionId: string) => {
     const newQuery = qs.stringify({ ...qs.parse(searchParams.toString()), [VersionKey]: map.get(versionId) });
     router.replace(`${pathname}?${newQuery}`);
-    router.refresh();
+    window.location.href = `${pathname}?${newQuery}`;
   };
 
   if (isLoading) {

@@ -1,12 +1,16 @@
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { ComponentDetail } from '@/services/common';
 import { serverFetch } from '@/services/common/fetch.server';
-import { ComponentNav } from './nav';
+import { getPath } from '@/utils/header';
+import { ComponentNav } from './component-nav';
 
-export default async function ComponentBanner({ params }: any) {
+export async function ComponentBanner() {
   const styleName = 'docs';
 
-  const componentId = params.componentId;
+  const headerList = headers();
+  const paths = getPath(headerList) ?? '';
+  const componentId = paths.split('/').slice(-2)[0];
+
   const majorVersionId = cookies().get('majorVersionId');
   const component = await serverFetch<ComponentDetail>(`/component/${componentId}`, {
     query: {
