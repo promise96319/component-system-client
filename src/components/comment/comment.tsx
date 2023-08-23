@@ -6,7 +6,7 @@ import { useState, useMemo } from 'react';
 import { UserAvatar } from '@/components';
 import { useUser } from '@/services';
 import { useEditorStore } from '@/store';
-import { Editor, EditorViewer } from '../editor';
+import { Editor, EditorViewer } from '../rich-text-editor';
 
 import 'quill/dist/quill.snow.css';
 import './comment.scss';

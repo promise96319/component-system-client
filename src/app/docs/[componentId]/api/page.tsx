@@ -3,16 +3,17 @@
 import { Anchor, Button, Empty, Skeleton } from '@arco-design/web-react';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
-import { Viewer } from '@bytemd/react';
+// import { Viewer } from '@bytemd/react';
 import { getProcessor } from 'bytemd';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { codeRuntimePlugin } from '@/components/code-runner';
+import { Viewer } from '@/components/code-runner/viewer';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useDoc, useMajorVersion } from '@/services';
 import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
-import { HistoryButton } from './history-button';
+import { HistoryButton } from '../_components/history-button';
 
 import 'bytemd/dist/index.css';
 import '@/styles/markdown.scss';

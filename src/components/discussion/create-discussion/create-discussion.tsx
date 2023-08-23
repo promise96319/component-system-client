@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useCreateDiscussion } from '@/services/discussion';
 import { useEditorStore } from '@/store';
-import { Editor } from '../../editor';
+import { Editor } from '../../rich-text-editor';
 
 export const CreateDiscussion = (props: { componentId: string; onCreated?: () => Promise<any> }) => {
   const [isAddDiscussion, setIsAddDiscussion] = useState(false);

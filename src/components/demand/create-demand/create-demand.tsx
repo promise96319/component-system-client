@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useCreateDemand } from '@/services/demand';
 import { useEditorStore } from '@/store';
-import { Editor } from '../../editor';
+import { Editor } from '../../rich-text-editor';
 
 export const CreateDemand = (props: { componentId: string; onCreated?: () => Promise<any> }) => {
   const [isAddDemand, setIsAddDemand] = useState(false);

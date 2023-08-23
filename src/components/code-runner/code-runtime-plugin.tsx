@@ -41,7 +41,7 @@ function rehypeCode(): Transformer<any> {
   };
 }
 
-const cache: Record<number, HTMLDivElement> = {};
+const cache: Record<number, Record<string, any>> = {};
 
 export const codeRuntimePlugin = (opts?: {
   jsDependencies?: JSDependency[];
@@ -56,7 +56,7 @@ export const codeRuntimePlugin = (opts?: {
     viewerEffect({ markdownBody }) {
       const renderCode = () => {
         markdownBody.querySelectorAll(CODE_TAG).forEach((el: any, index: number) => {
-          const cachedEl = cache[index];
+          const cachedEl = cache[index]?.el;
           if (cachedEl) {
             el.innerHTML = cachedEl.innerHTML;
           }
@@ -67,21 +67,27 @@ export const codeRuntimePlugin = (opts?: {
           let Component = null;
           let error: Error | undefined = undefined;
 
-          try {
-            const compiledCode: string = transform(code, {
-              transforms: ['jsx', 'typescript', 'imports']
-            })?.code;
+          if (cache[index]?.code === code) {
+            Component = cache[index].Component;
+            console.log('使用缓存');
+          } else {
+            console.log('不使用缓存');
+            try {
+              const compiledCode: string = transform(code, {
+                transforms: ['jsx', 'typescript', 'imports']
+              })?.code;
 
-            const req = (name: string) => importCodeDependency(name, jsDependencies);
+              const req = (name: string) => importCodeDependency(name, jsDependencies);
 
-            Component = eval(`
-            (function(require, exports) {
-              ${compiledCode};
-              return exports.default;
-            })(${req}, {});
-          `);
-          } catch (err: any) {
-            error = err;
+              Component = eval(`
+              (function(require, exports) {
+                ${compiledCode};
+                return exports.default;
+              })(${req}, {});
+            `);
+            } catch (err: any) {
+              error = err;
+            }
           }
 
           const codePreviewer = error ? (
@@ -95,7 +101,11 @@ export const codeRuntimePlugin = (opts?: {
           createRoot(el).render(<CodeBlock source={code}>{codePreviewer}</CodeBlock>);
 
           // 缓存上一次的 html，下次渲染时达到局部更新的效果
-          cache[index] = el;
+          cache[index] = {
+            el,
+            code,
+            Component
+          };
         });
       };
 
