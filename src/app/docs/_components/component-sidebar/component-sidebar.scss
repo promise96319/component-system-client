@@ -23,9 +23,9 @@
     &:hover {
       background: #edf9ff;
     }
+  }
 
-    &.active {
-      color: #0088ce;
-    }
+  &-active &-components {
+    color: #0088ce;
   }
 }
