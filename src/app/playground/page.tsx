@@ -48,19 +48,22 @@ return (<Button>按钮</Button>);
   const [stretchRatio, setStretchRatio] = useState<number>(0.5);
   const [totalWidth, setTotalWidth] = useState<number>(0);
   const { data: majorVersions } = useMajorVersions();
-  const [version, setVersion] = useState<number | undefined>();
+  const [version, setVersion] = useState<number>(3);
+
+  const handleUpdateUrl = ({ code, version }: PersistentState) => {
+    history.replaceState({}, '', `#${encodeState({ code, version: version ?? 3 })}`);
+  };
 
   useEffect(() => {
     const persistentStateStr = typeof window === 'undefined' ? '' : window?.location?.hash.replace('#', '');
-    const persistentState = persistentStateStr ? decodeState(persistentStateStr) : null;
+    const persistentState: PersistentState | null = persistentStateStr ? decodeState(persistentStateStr) : null;
 
     setCode(persistentState?.code ?? defaultCode);
-    setVersion(persistentState?.version);
+    setVersion(persistentState?.version ?? 3);
+    if (!persistentState) {
+      handleUpdateUrl({ code: defaultCode, version: 3 });
+    }
   }, []);
-
-  useEffect(() => {
-    history.replaceState({}, '', `#${encodeState({ code, version: version ?? 3 })}`);
-  }, [code, version]);
 
   useEffect(() => {
     const resizeHandler = debounce(() => setTotalWidth(document.body.offsetWidth), 300);
@@ -80,7 +83,10 @@ return (<Button>按钮</Button>);
             prefix="当前版本"
             style={{ width: 240 }}
             defaultValue={version}
-            onChange={(val) => setVersion(val)}
+            onChange={(val) => {
+              setVersion(val);
+              handleUpdateUrl({ code, version: val });
+            }}
             options={normalizeTreeData(majorVersions, { label: 'majorVersion', value: 'majorVersion' })}
           ></Select>
         )}
@@ -97,7 +103,14 @@ return (<Button>按钮</Button>);
           onMovingEnd={() => setIsDragging(false)}
           panes={[
             <div key="editor" className={classNames(`${styleName}-editor`, { dragging: isDragging })}>
-              <Editor width={stretchRatio * totalWidth} code={code} setCode={setCode}></Editor>
+              <Editor
+                width={stretchRatio * totalWidth}
+                code={code}
+                onChange={(val) => {
+                  setCode(val);
+                  handleUpdateUrl({ code: val, version });
+                }}
+              ></Editor>
             </div>,
             <div key="previewer" className={classNames(`${styleName}-previewer`, { dragging: isDragging })}>
               <Previewer code={code} version={version}></Previewer>

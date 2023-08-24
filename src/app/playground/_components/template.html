@@ -20,11 +20,12 @@
       }
     </style>
 
-    <script src="http://ued.qingteng.cn:37022/library/lodash.umd.js"></script>
-    <script src="http://ued.qingteng.cn:37022/library/react16.dev.umd.js"></script>
-    <script src="http://ued.qingteng.cn:37022/library/react-dom16.dev.umd.js"></script>
-    <script src="http://ued.qingteng.cn:37022/library/dayjs.js"></script>
-    <script src="__QT_DESIGN_JS_DEPENDENCY__"></script>
+    <!-- 设置跨域，否则无法接收到错误信息 https://legacy.reactjs.org/docs/cross-origin-errors.html -->
+    <script crossorigin src="http://ued.qingteng.cn:37022/library/lodash.umd.js"></script>
+    <script crossorigin src="http://ued.qingteng.cn:37022/library/react16.dev.umd.js"></script>
+    <script crossorigin src="http://ued.qingteng.cn:37022/library/react-dom16.dev.umd.js"></script>
+    <script crossorigin src="http://ued.qingteng.cn:37022/library/dayjs.js"></script>
+    <script crossorigin src="__QT_DESIGN_JS_DEPENDENCY__"></script>
   </head>
 
   <body>
@@ -38,8 +39,9 @@
         '@qt/design': window.QtDesign
       };
 
+      const { React, ReactDOM } = window;
+
       // React 18
-      // const { React, ReactDOM } = window;
       // const root = ReactDOM.createRoot(document.getElementById('app'));
       // const renderElement = (element) => {
       //   root.render(element);
@@ -75,17 +77,12 @@
           const req = (name) => __modules__[name];
           const Component = eval(`
           (function (require, exports) {
-            ${compiledCode};
+            ${compiledCode}
             return exports.default;
           })(${req}, {});
         `);
 
-          if (!Component) {
-            renderElement(createErrorComponent({ stack: '组件未定义，请使用 export default 导出想要渲染的组件。' }));
-            return;
-          }
-
-          class CodeErrorBoundary extends window.React.Component {
+          class CodeErrorBoundary extends React.Component {
             state = {
               error: null
             };
@@ -104,6 +101,7 @@
           renderElement(React.createElement(CodeErrorBoundary, null, React.createElement(Component)));
         } catch (err) {
           renderElement(createErrorComponent(err));
+          return;
         }
       };
 

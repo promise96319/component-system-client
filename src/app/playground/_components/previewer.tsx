@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, createElement } from 'react';
 import { transform } from 'sucrase';
 import templateHtml from './template.html';
 
