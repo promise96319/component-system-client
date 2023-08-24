@@ -11,7 +11,7 @@ export const metadata = {
   description: '组件库管理系统'
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode; login: React.ReactNode }) {
   return (
     <html lang="zh-cn">
       <body className={inter.className}>

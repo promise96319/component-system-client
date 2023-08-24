@@ -2,7 +2,7 @@
 
 import { Button, Form, Input } from '@arco-design/web-react';
 import { useRouter } from 'next/navigation';
-import { useTokenStorage } from '@/hooks';
+import { useTokenCookie } from '@/hooks';
 import { Account, useLogin } from '@/services/login';
 
 import './page.scss';
@@ -14,7 +14,7 @@ export default function Login() {
   const router = useRouter();
 
   const { trigger: login, isMutating } = useLogin();
-  const [, setToken] = useTokenStorage();
+  const [, setToken] = useTokenCookie();
 
   const handleSubmit = async (account: Account) => {
     const res = await login(account);

@@ -26,8 +26,6 @@ const MajorVersionSelector = () => {
     setCookie('majorVersionId', version.id);
     const newQuery = qs.stringify({ ...qs.parse(searchParams.toString()), [VersionKey]: version.majorVersion });
 
-    console.log(getCookie('majorVersion'));
-
     router.replace(`${pathname}?${newQuery}`);
     window.location.href = `${pathname}?${newQuery}`;
   };

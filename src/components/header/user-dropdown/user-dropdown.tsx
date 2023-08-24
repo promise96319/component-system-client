@@ -5,7 +5,7 @@ import { IconDown } from '@arco-design/web-react/icon';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { UserAvatar } from '@/components';
-import { useTokenStorage } from '@/hooks';
+import { useTokenCookie } from '@/hooks';
 import { useUser } from '@/services';
 
 import './user-dropdown.scss';
@@ -15,7 +15,7 @@ const styleName = 'user-dropdown';
 const UserDropDown = () => {
   const { data: user, isLoading } = useUser();
   const router = useRouter();
-  const [_, setToken] = useTokenStorage();
+  const [_, setToken] = useTokenCookie();
 
   const handleLogout = () => {
     setToken();

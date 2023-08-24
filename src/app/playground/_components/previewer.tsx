@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, createElement } from 'react';
+import { useEffect, useRef } from 'react';
 import { transform } from 'sucrase';
 import templateHtml from './template.html';
 
@@ -18,11 +18,13 @@ export const Previewer = (props: { code: string; version?: number }) => {
   };
 
   const updateCode = () => {
+    console.log('iframe onload');
     try {
       const compiledCode: string = transform(code, {
         transforms: ['jsx', 'typescript', 'imports']
       })?.code;
       iframeRef.current?.contentWindow?.postMessage({ compiledCode });
+      console.log('iframe postMessage');
     } catch (error: any) {
       iframeRef.current?.contentWindow?.postMessage({ error });
     }
