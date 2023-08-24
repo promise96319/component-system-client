@@ -4,6 +4,8 @@ import './page.scss';
 
 import { Layout, Typography, Select, ResizeBox } from '@arco-design/web-react';
 import classNames from 'classnames';
+import { debounce } from 'lodash-es';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useMajorVersions } from '@/services';
 import { normalizeTreeData } from '@/utils';
@@ -11,7 +13,7 @@ import { utoa, atou } from '@/utils/zlib';
 import { Editor } from './_components/editor';
 import { Previewer } from './_components/previewer';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 interface PersistentState {
   version: number;
@@ -59,7 +61,7 @@ export default class extends React.Component {
   }, [code, version]);
 
   useEffect(() => {
-    const resizeHandler = () => setTotalWidth(document.body.offsetWidth);
+    const resizeHandler = debounce(() => setTotalWidth(document.body.offsetWidth), 300);
     setTotalWidth(document.body.offsetWidth);
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);
@@ -68,7 +70,9 @@ export default class extends React.Component {
   return (
     <Layout className={styleName}>
       <Header className={`${styleName}-header`}>
-        <Typography.Text className="m-0">Playground</Typography.Text>
+        <Link href="/">
+          <Typography.Text className="m-0">Playground</Typography.Text>
+        </Link>
         <Select
           prefix="当前版本"
           style={{ width: 240 }}
