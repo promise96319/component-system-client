@@ -2,7 +2,7 @@ import '@arco-design/web-react/dist/css/arco.css';
 import './global.css';
 
 import { Inter } from 'next/font/google';
-import Auth from '@/components/auth/auth';
+import { Auth } from '@/components/auth/auth';
 
 const inter = Inter({ subsets: ['latin'] });
 

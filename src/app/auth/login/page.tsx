@@ -19,8 +19,8 @@ export default function Login() {
   const handleSubmit = async (account: Account) => {
     const res = await login(account);
     if (res?.accessToken) {
-      router.replace('/');
       setToken(res.accessToken);
+      router.replace('/');
     }
   };
 
