@@ -28,7 +28,7 @@ export default function MarkdownEditor() {
   const { docId } = useParams();
   const plugins = useMemo(() => [gfm(), codeRuntimePlugin(), highlight()], []);
   const [majorVersionId] = useMajorVersionId();
-  const { data: doc } = useLatestDocById(docId);
+  const { data: doc } = useLatestDocById(docId as string);
   const { data: component } = useComponent(majorVersionId, doc?.componentId);
   const { trigger: uploadImage } = useUploadImage();
 

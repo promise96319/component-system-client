@@ -5,7 +5,7 @@ import highlight from '@bytemd/plugin-highlight';
 import { Viewer } from '@bytemd/react';
 import classNames from 'classnames';
 import ClipboardJS from 'clipboard';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useMajorVersion } from '@/services';
 import { utoa } from '@/utils/zlib';
@@ -28,6 +28,7 @@ ${props.source}
   const btnRef = useRef<HTMLDivElement>(null);
   const previewerRef = useRef<HTMLDivElement>(null);
   const clipboard = useRef<ClipboardJS | null>(null);
+  const plugins = useMemo(() => [highlight()], []);
 
   useEffect(() => {
     if (btnRef.current) {
@@ -70,9 +71,11 @@ ${props.source}
           运行代码
         </Button>
       </div>
-      <div className={classNames(`${styleName}-source`, { visible })}>
-        <Viewer value={markdown} plugins={[highlight()]} />
-      </div>
+      {visible && (
+        <div className={classNames(`${styleName}-source`, { visible })}>
+          <Viewer value={markdown} plugins={plugins} />
+        </div>
+      )}
     </div>
   );
 }

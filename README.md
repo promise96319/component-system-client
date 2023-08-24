@@ -3,7 +3,7 @@
 使用技术：
 
 - 框架：Next.js
-- 请求：SWR
+- 请求：SWR/fetch
 - 组件库：@arco-design/web-react
 
 ## 启动
@@ -38,12 +38,12 @@ yarn run dev
 ├── assets  // 静态资源
 ├── components // 全局公用组件
 ├── hooks // 通用 hooks
+├── middleware // 中间件，进行拦截处理
 ├── services // 请求服务
 │   ├── index.ts
-│   ├── api-doc.ts
+│   ├── doc.ts
 │   ├── component.ts
 │   ├── demand.ts
-│   ├── design-doc.ts
 │   ├── discussion.ts
 │   ├── index.ts
 │   ├── user.ts
@@ -75,7 +75,11 @@ yarn run dev
 ## 部署
 
 ```bash
+# 部署启动容器
 docker-compose up -d
+
+# 更新时重新打镜像
+docker-compose up -d --build
 ```
 
 默认会部署到 `37021` 端口。

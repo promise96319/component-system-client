@@ -79,24 +79,23 @@
           })(${req}, {});
         `);
 
-        // class CodeErrorBoundary extends React.Component {
-        //   state = {
-        //     error: null
-        //   };
+        class CodeErrorBoundary extends window.React.Component {
+          state = {
+            error: null
+          };
 
-        //   static getDerivedStateFromError(error) {
-        //     return { error };
-        //   }
+          static getDerivedStateFromError(error) {
+            return { error };
+          }
 
-        //   render() {
-        //     const { children } = this.props;
-        //     const { error } = this.state;
-        //     return error ? createErrorComponent(error) : children;
-        //   }
-        // }
+          render() {
+            const { children } = this.props;
+            const { error } = this.state;
+            return error ? createErrorComponent(error) : children;
+          }
+        }
 
-        // renderElement(React.createElement(CodeErrorBoundary, null, React.createElement(Component)));
-        renderElement(React.createElement(Component));
+        renderElement(React.createElement(CodeErrorBoundary, null, React.createElement(Component)));
       };
 
       window.addEventListener('message', (e) => {
