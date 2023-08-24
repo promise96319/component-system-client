@@ -13,12 +13,12 @@ import { Viewer } from '@/components/code-runner/viewer';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useComponent, useLatestDocById } from '@/services';
 import { useUploadImage } from '@/services/file';
+import { UpdateModal } from './_components/update-modal';
 
 import 'bytemd/dist/index.css';
 import 'highlight.js/styles/github.css';
 import './page.scss';
 import '@/styles/markdown.scss';
-import { UpdateModal } from './_components/update-modal';
 
 export default function MarkdownEditor() {
   const styleName = 'markdown-editor';
@@ -93,7 +93,6 @@ export default function MarkdownEditor() {
             }
             root.render(<Viewer {...props}></Viewer>);
           }}
-          // plugins={[gfm(), codeRuntimePlugin(), highlight()]}
           plugins={plugins}
         />
       </main>

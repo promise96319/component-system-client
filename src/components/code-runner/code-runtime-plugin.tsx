@@ -67,7 +67,7 @@ export const codeRuntimePlugin = (opts?: {
           let Component = null;
           let error: Error | undefined = undefined;
 
-          if (cache[index]?.code === code) {
+          if (cache[index]?.code === code && cache[index].Component) {
             Component = cache[index].Component;
           } else {
             try {

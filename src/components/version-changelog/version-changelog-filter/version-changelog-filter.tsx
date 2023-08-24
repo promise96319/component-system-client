@@ -36,6 +36,7 @@ export const VersionChangelogFilter = (props: {
         style={{ width: 200 }}
         options={normalizeTreeData(filter.versions, { label: 'version', value: 'version' })}
         onChange={(value) => setStartVersion(value)}
+        allowClear
       ></Select>
       <Select
         prefix="结束版本"
@@ -43,6 +44,7 @@ export const VersionChangelogFilter = (props: {
         style={{ width: 200 }}
         options={normalizeTreeData(filter.versions, { label: 'version', value: 'version' })}
         onChange={(value) => setEndVersion(value)}
+        allowClear
       ></Select>
       <Select
         prefix="类别"
@@ -52,6 +54,7 @@ export const VersionChangelogFilter = (props: {
         mode="multiple"
         maxTagCount={2}
         onChange={(value) => setTypes(value)}
+        allowClear
       ></Select>
     </Space>
   );
