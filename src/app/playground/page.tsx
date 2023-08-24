@@ -34,30 +34,32 @@ const decodeState = (state: string) => {
 
 export default function Playground() {
   const styleName = 'playground';
-  const persistentStateStr = typeof window === 'undefined' ? '' : window?.location?.hash.replace('#', '');
-  const persistentState = persistentStateStr ? decodeState(persistentStateStr) : null;
 
-  const defaultCode = persistentState
-    ? persistentState.code
-    : `
+  const defaultCode = `
 import { Button, ButtonGroup } from '@qt/design';
 import React from 'react';
 export default class extends React.Component {
-  render() {
-    return (<Button>按钮</Button>);
-  }
+render() {
+return (<Button>按钮</Button>);
 }
-  `;
-
+}`;
   const [code, setCode] = useState(defaultCode);
   const [isDragging, setIsDragging] = useState(false);
   const [stretchRatio, setStretchRatio] = useState<number>(0.5);
   const [totalWidth, setTotalWidth] = useState<number>(0);
   const { data: majorVersions } = useMajorVersions();
-  const [version, setVersion] = useState<number>(persistentState?.version ?? 3);
+  const [version, setVersion] = useState<number | undefined>();
 
   useEffect(() => {
-    history.replaceState({}, '', `#${encodeState({ code, version })}`);
+    const persistentStateStr = typeof window === 'undefined' ? '' : window?.location?.hash.replace('#', '');
+    const persistentState = persistentStateStr ? decodeState(persistentStateStr) : null;
+
+    setCode(persistentState?.code ?? defaultCode);
+    setVersion(persistentState?.version);
+  }, []);
+
+  useEffect(() => {
+    history.replaceState({}, '', `#${encodeState({ code, version: version ?? 3 })}`);
   }, [code, version]);
 
   useEffect(() => {
@@ -73,13 +75,15 @@ export default class extends React.Component {
         <Link href="/">
           <Typography.Text className="m-0">Playground</Typography.Text>
         </Link>
-        <Select
-          prefix="当前版本"
-          style={{ width: 240 }}
-          value={version}
-          onChange={(val) => setVersion(val)}
-          options={normalizeTreeData(majorVersions, { label: 'majorVersion', value: 'majorVersion' })}
-        ></Select>
+        {version && (
+          <Select
+            prefix="当前版本"
+            style={{ width: 240 }}
+            defaultValue={version}
+            onChange={(val) => setVersion(val)}
+            options={normalizeTreeData(majorVersions, { label: 'majorVersion', value: 'majorVersion' })}
+          ></Select>
+        )}
       </Header>
 
       <Content className={`${styleName}-main`}>

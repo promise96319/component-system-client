@@ -45,9 +45,10 @@ const cache: Record<number, Record<string, any>> = {};
 
 export const codeRuntimePlugin = (opts?: {
   jsDependencies?: JSDependency[];
+  majorVersion?: number;
   CodeBlock?: typeof CodeBlockComponent;
 }): BytemdPlugin => {
-  const { jsDependencies = [], CodeBlock = CodeBlockComponent } = opts || {};
+  const { jsDependencies = [], CodeBlock = CodeBlockComponent, majorVersion } = opts || {};
 
   return {
     rehype(processor: Processor) {
@@ -96,7 +97,11 @@ export const codeRuntimePlugin = (opts?: {
             </CodeErrorBoundary>
           );
 
-          createRoot(el).render(<CodeBlock source={code}>{codePreviewer}</CodeBlock>);
+          createRoot(el).render(
+            <CodeBlock source={code} majorVersion={majorVersion}>
+              {codePreviewer}
+            </CodeBlock>
+          );
 
           // 缓存上一次的 html，下次渲染时达到局部更新的效果
           cache[index] = {

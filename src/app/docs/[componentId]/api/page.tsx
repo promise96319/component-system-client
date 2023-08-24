@@ -6,6 +6,7 @@ import highlight from '@bytemd/plugin-highlight';
 // import { Viewer } from '@bytemd/react';
 import { getProcessor } from 'bytemd';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { codeRuntimePlugin } from '@/components/code-runner';
 import { Viewer } from '@/components/code-runner/viewer';
@@ -29,6 +30,8 @@ export default function APIDoc({ params }: { params: { componentId: string } }) 
     componentId,
     type: DocType.API
   });
+  const majorVersionNumber = Number(useSearchParams().get('v'));
+  const plugins = [gfm(), rehypeHead(), codeRuntimePlugin({ majorVersion: majorVersionNumber }), highlight()];
 
   const [toc, setToc] = useState<TocItem[]>([]);
 
@@ -87,10 +90,7 @@ export default function APIDoc({ params }: { params: { componentId: string } }) 
             </Link>
             <HistoryButton id={apiDocData.id} componentId={componentId}></HistoryButton>
           </Button.Group>
-          <Viewer
-            value={apiDocData.doc.content}
-            plugins={[gfm(), rehypeHead(), codeRuntimePlugin(), highlight()]}
-          ></Viewer>
+          <Viewer value={apiDocData.doc.content} plugins={plugins}></Viewer>
         </div>
         <div className={`${styleName}-markdown-toc`}>
           <Anchor offsetTop={80}>

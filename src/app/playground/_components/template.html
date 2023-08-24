@@ -71,31 +71,40 @@
           return;
         }
 
-        const req = (name) => __modules__[name];
-        const Component = eval(`
+        try {
+          const req = (name) => __modules__[name];
+          const Component = eval(`
           (function (require, exports) {
             ${compiledCode};
             return exports.default;
           })(${req}, {});
         `);
 
-        class CodeErrorBoundary extends window.React.Component {
-          state = {
-            error: null
-          };
-
-          static getDerivedStateFromError(error) {
-            return { error };
+          if (!Component) {
+            renderElement(createErrorComponent({ stack: '组件未定义，请使用 export default 导出想要渲染的组件。' }));
+            return;
           }
 
-          render() {
-            const { children } = this.props;
-            const { error } = this.state;
-            return error ? createErrorComponent(error) : children;
+          class CodeErrorBoundary extends window.React.Component {
+            state = {
+              error: null
+            };
+
+            static getDerivedStateFromError(error) {
+              return { error };
+            }
+
+            render() {
+              const { children } = this.props;
+              const { error } = this.state;
+              return error ? createErrorComponent(error) : children;
+            }
           }
+
+          renderElement(React.createElement(CodeErrorBoundary, null, React.createElement(Component)));
+        } catch (err) {
+          renderElement(createErrorComponent(err));
         }
-
-        renderElement(React.createElement(CodeErrorBoundary, null, React.createElement(Component)));
       };
 
       window.addEventListener('message', (e) => {

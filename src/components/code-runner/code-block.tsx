@@ -6,14 +6,12 @@ import { Viewer } from '@bytemd/react';
 import classNames from 'classnames';
 import ClipboardJS from 'clipboard';
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { useMajorVersionId } from '@/hooks/use-major-version-id';
-import { useMajorVersion } from '@/services';
 import { utoa } from '@/utils/zlib';
 
 import 'highlight.js/styles/github.css';
 import './styles/code-block.scss';
 
-export default function CodeBlock(props: { source: string; children: React.JSX.Element }) {
+export default function CodeBlock(props: { source: string; majorVersion?: number; children: React.JSX.Element }) {
   const styleName = 'code-block';
 
   const markdown = `
@@ -22,8 +20,6 @@ ${props.source}
 \`\`\`
 `;
 
-  const [majorVersionId] = useMajorVersionId();
-  const { data: majorVersion } = useMajorVersion(majorVersionId);
   const [visible, setVisible] = useState(false);
   const btnRef = useRef<HTMLDivElement>(null);
   const previewerRef = useRef<HTMLDivElement>(null);
@@ -52,7 +48,7 @@ ${props.source}
   const handleOpenPlayground = () => {
     const state = {
       code: props.source,
-      version: majorVersion?.majorVersion
+      version: props.majorVersion
     };
     window.open(`/playground#${utoa(JSON.stringify(state))}`);
   };
