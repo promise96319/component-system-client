@@ -13,7 +13,7 @@ import { Viewer } from '@/components/code-runner/viewer';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useDoc, useMajorVersion } from '@/services';
 import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
-import { HistoryButton } from '../../_components/history-button';
+import { HistoryButton } from '../../../_components/history-button';
 
 import 'bytemd/dist/index.css';
 import '@/styles/markdown.scss';
