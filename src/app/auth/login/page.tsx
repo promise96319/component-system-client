@@ -2,7 +2,7 @@
 
 import { Button, Form, Input } from '@arco-design/web-react';
 import { useRouter } from 'next/navigation';
-import { useTokenCookie } from '@/hooks';
+import { useRedirectUrl } from '@/hooks/use-redirect-url';
 import { Account, useLogin } from '@/services/login';
 
 import './page.scss';
@@ -12,15 +12,13 @@ const FormItem = Form.Item;
 export default function Login() {
   const styleName = 'login';
   const router = useRouter();
-
+  const redirect = useRedirectUrl();
   const { trigger: login, isMutating } = useLogin();
-  const [, setToken] = useTokenCookie();
 
   const handleSubmit = async (account: Account) => {
     const res = await login(account);
     if (res?.accessToken) {
-      setToken(res.accessToken);
-      router.replace('/');
+      router.replace(redirect);
     }
   };
 

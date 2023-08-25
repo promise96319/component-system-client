@@ -11,7 +11,8 @@ export const serverFetch = async <T>(
   if (option.token) {
     option.headers = {
       ...option.headers,
-      authorization: `Bearer ${option.token}`
+      // authorization: `Bearer ${option.token}`
+      Cookie: `token=${option.token}`
     };
     delete option.token;
   }

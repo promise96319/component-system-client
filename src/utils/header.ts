@@ -6,7 +6,7 @@ export const logHeaders = (headers: ReturnType<typeof Headers>) => {
   });
 };
 
-export const getQuery = (headers: ReturnType<typeof Headers>) => {
+export const getQuery = (headers: ReturnType<typeof Headers>): Record<string, string> => {
   const query = headers.get('x-invoke-query');
   try {
     return JSON.parse(decodeURIComponent(query ?? ''));
@@ -17,4 +17,8 @@ export const getQuery = (headers: ReturnType<typeof Headers>) => {
 
 export const getPath = (headers: ReturnType<typeof Headers>) => {
   return headers.get('x-invoke-path');
+};
+
+export const getNextUrl = (headers: ReturnType<typeof Headers>) => {
+  return headers.get('next-url') ?? '/';
 };

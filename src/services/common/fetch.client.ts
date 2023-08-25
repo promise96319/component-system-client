@@ -1,12 +1,10 @@
 'use client';
 
 import { Message } from '@arco-design/web-react';
-import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import useSWR, { SWRConfiguration } from 'swr';
 import useSWRMutation, { SWRMutationConfiguration } from 'swr/mutation';
-import { getToken } from '@/cookie/token';
-import { useTokenCookie } from '@/hooks';
+import { useRedirectUrl } from '@/hooks/use-redirect-url';
 import { Response } from './type';
 
 export interface FetchOption extends RequestInit {
@@ -23,7 +21,12 @@ export const stringifyQuery = (query: Record<string, any>) => {
     .join('&');
 };
 
-export const clientFetch = async <D>(url: string, option: FetchOption = {}): Promise<D> => {
+export const clientFetch = async <D>(
+  url: string,
+  option: FetchOption & {
+    callback?: (res: Response<D>) => void;
+  } = {}
+): Promise<D> => {
   if (option.method) {
     option.method = option.method.toUpperCase();
   }
@@ -31,59 +34,66 @@ export const clientFetch = async <D>(url: string, option: FetchOption = {}): Pro
   const res: Response<D> = await fetch(fullUrl, option).then((res) => res.json());
 
   if (res.code !== 200 && !option?.disallowError) {
-    Message.error(res.message);
-
-    if (res.code === 401) {
-      console.log('222', 222);
-      redirect('/auth/login');
-    }
-
-    throw new Error(res.message);
+    option.callback?.(res);
   }
 
   return res.data;
 };
 
+export const useResponse = <T>() => {
+  const router = useRouter();
+  const redirect = useRedirectUrl();
+
+  return (res: Response<T>) => {
+    if (res.code !== 200) {
+      Message.error(res.message);
+      if (res.code === 401) {
+        router.replace(`/auth/login?${redirect}`);
+      }
+      throw new Error(res.message);
+    }
+    return res.data;
+  };
+};
+
 export const useFetch = <D>(url: string, option: FetchOption = {}, swrConfig?: SWRConfiguration) => {
-  // const router = useRouter();
-  // router.replace('/auth/login');
+  const handleResponse = useResponse<D>();
 
   if (option.query) {
     url = `${url}?${stringifyQuery(option.query)}`;
   }
+  option.credentials = 'include';
   const cacheKey = `${option.method ?? 'get'}-${url}`;
-  const token = getToken();
-  console.log('token', token);
 
   const headers: Record<string, any> = option?.headers ?? {};
   headers['Content-Type'] = 'application/json';
 
-  if (token) {
-    headers.authorization = `Bearer ${token}`;
-  }
-
-  return useSWR(option?.stopFetch ? null : cacheKey, () => clientFetch<D>(url, { ...option, headers }), swrConfig);
+  return useSWR(
+    option?.stopFetch ? null : cacheKey,
+    () => clientFetch<D>(url, { ...option, headers, callback: handleResponse }),
+    swrConfig
+  );
 };
 
-export const useMutation = <D, R, E = any>(
+export const useMutation = <D = any, R = any, E = any>(
   url: string,
   option: FetchOption = {},
   swrConfig?: SWRMutationConfiguration<R, E>
 ) => {
+  const handleResponse = useResponse<R>();
+
   option.method = option.method ?? 'post';
   if (option.query) {
     url = `${url}?${stringifyQuery(option.query)}`;
   }
+
+  option.credentials = 'include';
+
   const cacheKey = `${option?.method}-${url}`;
-  const token = getToken();
 
   const headers: Record<string, any> = option?.headers ?? {};
   if (!option.isFormData) {
     headers['Content-Type'] = 'application/json';
-  }
-
-  if (token) {
-    headers.authorization = `Bearer ${token}`;
   }
 
   return useSWRMutation<R, E, any, D>(
@@ -105,7 +115,8 @@ export const useMutation = <D, R, E = any>(
       return clientFetch<R>(url, {
         ...option,
         body,
-        headers
+        headers,
+        callback: handleResponse
       });
     },
     swrConfig

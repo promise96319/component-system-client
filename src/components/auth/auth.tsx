@@ -1,51 +1,37 @@
 import { cookies, headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { serverFetch } from '@/services/common/fetch.server';
-import { getPath } from '@/utils/header';
-
-// import { redirect, usePathname } from 'next/navigation';
-// import { useEffect } from 'react';
-// import { getToken } from '@/cookie/token';
-// import { useUser } from '@/services';
-// import { useTokenCookie } from '../../hooks/use-token-cookie';
+import { getNextUrl, getPath, getQuery } from '@/utils/header';
 
 export async function Auth(props: { children: React.ReactNode }) {
   const headerList = headers();
   const path = getPath(headerList) ?? '';
+  const query = getQuery(headerList);
+  const nextUrl = getNextUrl(headerList);
+  const children = <>{props.children}</>;
 
   const notAuthPath = ['/playground'];
   if (notAuthPath.includes(path)) {
-    return <>{props.children}</>;
+    return children;
   }
 
   const token = cookies().get('token')?.value;
 
   let isAuth = !!token;
-  const user = await serverFetch('/auth/user', { token });
-  console.log('user=========', user);
+  if (token) {
+    const user = await serverFetch('/auth/user', { token });
+    isAuth = !!user;
+  }
 
-  // const { data: user, isLoading: isValidating } = useUser({ stopFetch: !token, disallowError: true });
-  // useEffect(() => {
-  //   console.log('auth1', 111);
-  //   if (['/playground'].includes(path)) {
-  //     return;
-  //   }
+  const whiteList = ['/auth/login'];
 
-  //   const whiteList = ['/auth/login'];
-  //   console.log('333333', 333333);
-  //   if (!isValidating) {
-  //     console.log('auth2', user);
-  //     if (token && user) {
-  //       if (whiteList.includes(path)) {
-  //         redirect('/');
-  //       }
-  //     } else {
-  //       console.log('auth3', 3);
-  //       if (!whiteList.includes(path)) {
-  //         redirect('/auth/login');
-  //       }
-  //     }
-  //   }
-  // }, [path]);
+  if (isAuth && whiteList.includes(path)) {
+    redirect(decodeURIComponent(query.redirect ?? '/'));
+  }
 
-  return <>{props.children}</>;
+  if (!isAuth && !whiteList.includes(path)) {
+    redirect(`/auth/login?redirect=${encodeURIComponent(nextUrl)}`);
+  }
+
+  return children;
 }

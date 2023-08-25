@@ -12,8 +12,6 @@ import type { NextRequest } from 'next/server';
 export async function middleware(request: NextRequest) {
   const { search, pathname, origin } = request.nextUrl;
 
-  console.log(request.cookies.get('token'));
-
   // 版本切换
   const query = qs.parse(search);
   const versionList = await serverFetch<MajorVersion[]>('/major-version');

@@ -8,3 +8,7 @@ export interface Account {
 export const useLogin = () => {
   return useMutation<Account, { accessToken: string }>('/auth/login');
 };
+
+export const useLogout = () => {
+  return useMutation('/auth/logout');
+};

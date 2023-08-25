@@ -5,8 +5,9 @@ import { IconDown } from '@arco-design/web-react/icon';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { UserAvatar } from '@/components';
-import { useTokenCookie } from '@/hooks';
+import { useCurrentUrl } from '@/hooks/use-redirect-url';
 import { useUser } from '@/services';
+import { useLogout } from '@/services/login';
 
 import './user-dropdown.scss';
 
@@ -14,12 +15,17 @@ const styleName = 'user-dropdown';
 
 const UserDropDown = () => {
   const { data: user, isLoading } = useUser();
-  const router = useRouter();
-  const [_, setToken] = useTokenCookie();
+  const { trigger: logout } = useLogout();
 
-  const handleLogout = () => {
-    setToken();
-    router.replace('/auth/login');
+  const router = useRouter();
+  const redirectUrl = useCurrentUrl();
+
+  const handleLogout = async () => {
+    const res = await logout(undefined);
+
+    if (res) {
+      router.replace(`/auth/login?redirect=${redirectUrl}`);
+    }
   };
 
   const dropList = (
