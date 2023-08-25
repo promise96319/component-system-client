@@ -15,7 +15,6 @@ export const CodePreviewer = (props: { code: string }) => {
       })?.code;
 
       const req = (name: string) => importCodeDependency(name);
-      console.log(compiledCode);
 
       const Component = eval(`
       (function(require, exports) {
@@ -28,14 +27,7 @@ export const CodePreviewer = (props: { code: string }) => {
     } catch (err: any) {
       setError(err);
     }
-
-    console.log('Component', Component);
-    return () => {
-      console.log('卸载');
-    };
   }, [props.code]);
-
-  console.log('11', 11);
 
   return error ? (
     <CodeError error={error}></CodeError>

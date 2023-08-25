@@ -7,10 +7,10 @@ import classNames from 'classnames';
 import { debounce } from 'lodash-es';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useMajorVersions } from '@/services';
-import { normalizeTreeData } from '@/utils';
+import { useMajorVersions } from '@/services/version';
+import { normalizeTreeData } from '@/utils/tree';
 import { utoa, atou } from '@/utils/zlib';
-// import { Editor } from './_components/editor';
+import { Editor } from './_components/editor';
 import { Previewer } from './_components/previewer';
 
 const { Header, Content } = Layout;
@@ -33,7 +33,6 @@ const decodeState = (state: string) => {
 };
 
 export default function Playground() {
-  console.log('111', 111);
   const styleName = 'playground';
 
   const defaultCode = `import { Button, ButtonGroup } from '@qt/design';
@@ -45,22 +44,17 @@ export default class extends React.Component {
   }
 }`;
   const [code, setCode] = useState<string>();
-  console.log('2222', code);
   const [isDragging, setIsDragging] = useState(false);
   const [stretchRatio, setStretchRatio] = useState<number>(0.5);
   const [totalWidth, setTotalWidth] = useState<number>(0);
-  const { data: majorVersions } = useMajorVersions();
-  console.log('444', majorVersions);
   const [version, setVersion] = useState<number>(3);
-
-  console.log('333', version);
+  const { data: majorVersions } = useMajorVersions();
 
   const handleUpdateUrl = ({ code, version }: Partial<PersistentState>) => {
     history.replaceState({}, '', `#${encodeState({ code: code ?? defaultCode, version: version ?? 3 })}`);
   };
 
   useEffect(() => {
-    console.log('mount');
     const persistentStateStr = typeof window === 'undefined' ? '' : window?.location?.hash.replace('#', '');
     const persistentState: PersistentState | null = persistentStateStr ? decodeState(persistentStateStr) : null;
 
@@ -72,8 +66,6 @@ export default class extends React.Component {
   }, []);
 
   useEffect(() => {
-    console.log('mount add event', window);
-
     const resizeHandler = debounce(() => setTotalWidth(document.body.offsetWidth), 300);
     setTotalWidth(document.body.offsetWidth);
     window.addEventListener('resize', resizeHandler);
@@ -86,7 +78,7 @@ export default class extends React.Component {
         <Link href="/">
           <Typography.Text className="m-0">Playground</Typography.Text>
         </Link>
-        {version && (
+        {majorVersions.length > 0 && (
           <Select
             prefix="当前版本"
             style={{ width: 240 }}
@@ -112,14 +104,14 @@ export default class extends React.Component {
             onMovingEnd={() => setIsDragging(false)}
             panes={[
               <div key="editor" className={classNames(`${styleName}-editor`, { dragging: isDragging })}>
-                {/* <Editor
+                <Editor
                   width={stretchRatio * totalWidth}
                   code={code}
                   onChange={(val) => {
                     setCode(val);
                     handleUpdateUrl({ code: val, version });
                   }}
-                ></Editor> */}
+                ></Editor>
               </div>,
               <div key="previewer" className={classNames(`${styleName}-previewer`, { dragging: isDragging })}>
                 <Previewer code={code} version={version}></Previewer>

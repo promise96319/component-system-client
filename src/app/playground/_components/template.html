@@ -40,7 +40,6 @@
       };
 
       const { React, ReactDOM } = window;
-      console.log('iframe react version: ', React.version);
 
       // React 18
       // const root = ReactDOM.createRoot(document.getElementById('app'));
@@ -107,8 +106,6 @@
       };
 
       window.addEventListener('message', (e) => {
-        console.log('iframe 监听信息');
-
         updateView(e.data);
       });
     </script>
