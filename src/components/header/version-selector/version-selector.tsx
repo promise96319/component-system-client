@@ -2,7 +2,7 @@
 
 import { Select } from '@arco-design/web-react';
 import { setCookie } from 'cookies-next';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import qs from 'query-string';
 import { QUERY_KEY_MAJOR_VERSION as VersionKey } from '@/constant';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
@@ -18,7 +18,6 @@ const MajorVersionSelector = () => {
 
   const { data: versionList = [], isLoading } = useMajorVersions();
   const [majorVersionId] = useMajorVersionId();
-  const router = useRouter();
 
   const switchMajorVersion = (version: Pick<MajorVersion, 'id' | 'majorVersion'>) => {
     setCookie('majorVersion', version.majorVersion);
