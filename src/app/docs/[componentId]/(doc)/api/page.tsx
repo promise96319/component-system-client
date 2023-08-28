@@ -3,7 +3,6 @@
 import { Anchor, Button, Empty, Skeleton } from '@arco-design/web-react';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
-// import { Viewer } from '@bytemd/react';
 import { getProcessor } from 'bytemd';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';

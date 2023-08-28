@@ -16,7 +16,7 @@
     ]
   },
   "dependencies": {
-    "@arco-design/web-react": "^2.50.2",
+    "@arco-design/web-react": "^2.52.0",
     "@bytemd/plugin-gfm": "^1.21.0",
     "@bytemd/plugin-highlight": "^1.21.0",
     "@bytemd/react": "^1.21.0",

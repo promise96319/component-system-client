@@ -2,8 +2,8 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@arco-design/web-react':
-    specifier: ^2.50.2
-    version: registry.npmmirror.com/@arco-design/web-react@2.50.2(@types/react@18.2.8)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^2.52.0
+    version: registry.npmmirror.com/@arco-design/web-react@2.52.0(@types/react@18.2.8)(react-dom@18.2.0)(react@18.2.0)
   '@bytemd/plugin-gfm':
     specifier: ^1.21.0
     version: registry.npmmirror.com/@bytemd/plugin-gfm@1.21.0(bytemd@1.21.0)
@@ -181,11 +181,11 @@ packages:
       color: registry.npmmirror.com/color@3.2.1
     dev: false
 
-  registry.npmmirror.com/@arco-design/web-react@2.50.2(@types/react@18.2.8)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-ko5IUP4aVGp8v6IMQD95eg7O3bFfUYZjr+qX5bCrXpaz7txPcT99D1tQYwByZ5AP3rIifjKWKdbrXpWH96zEnQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@arco-design/web-react/-/web-react-2.50.2.tgz}
-    id: registry.npmmirror.com/@arco-design/web-react/2.50.2
+  registry.npmmirror.com/@arco-design/web-react@2.52.0(@types/react@18.2.8)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-c5DkPUj6F9fTaUqwKz0mYhYcoVLbCcC9VDt/hJammc94qVk9tFsiGhISSan4nhDQVIql5oWqlmdjE7eJqBDiLQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@arco-design/web-react/-/web-react-2.52.0.tgz}
+    id: registry.npmmirror.com/@arco-design/web-react/2.52.0
     name: '@arco-design/web-react'
-    version: 2.50.2
+    version: 2.52.0
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
