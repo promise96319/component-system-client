@@ -5,6 +5,8 @@ import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { VersionWithChangelogs, useVersionChangelogFilter } from '@/services';
 import { VersionChangelog, VersionChangelogType } from '@/services/common';
 
+import './version-changelog-list.scss';
+
 const { Title, Text, Paragraph } = Typography;
 
 export const ChangelogPrefixIcon = {
@@ -15,6 +17,7 @@ export const ChangelogPrefixIcon = {
 };
 
 export const VersionChangelogItem = (props: { changelogs: VersionChangelog[]; majorVersionId: string }) => {
+  const styleName = 'version-changelog-list-item';
   const { changelogs, majorVersionId } = props;
   const { data: filter } = useVersionChangelogFilter(majorVersionId);
   const typeMap =
@@ -39,16 +42,16 @@ export const VersionChangelogItem = (props: { changelogs: VersionChangelog[]; ma
     }
 
     return (
-      <section key={index}>
-        <Title heading={6}>
+      <section key={index} className={styleName}>
+        <Text className={`${styleName}-title`}>
           {ChangelogPrefixIcon[key]}
           {title}
-        </Title>
+        </Text>
         <Paragraph className="ml-px-24">
           <ul>
             {changelogs.map((changelog: VersionChangelog) => (
               <li key={changelog.id}>
-                <Text>{changelog.content}</Text>
+                <Text>· {changelog.content}</Text>
                 {changelog.demandNo && (
                   <>
                     （<DemandLink no={changelog.demandNo}></DemandLink>）
@@ -72,6 +75,7 @@ export const VersionChangelogItem = (props: { changelogs: VersionChangelog[]; ma
 };
 
 export const VersionChangelogList = (props: { versionChangelogs: VersionWithChangelogs[] }) => {
+  const styleName = 'version-changelog-list';
   const [majorVersionId] = useMajorVersionId();
 
   if (!props.versionChangelogs.length) {
@@ -85,9 +89,11 @@ export const VersionChangelogList = (props: { versionChangelogs: VersionWithChan
     }
 
     return (
-      <section key={version}>
-        <Title heading={4}>{version}</Title>
-        <Text type="secondary">{dayjs(releasedAt).format('YYYY-MM-DD hh:mm:ss')}</Text>
+      <section key={version} className={styleName}>
+        <Text className={`${styleName}-title`}>{version}</Text>
+        <Text className={`${styleName}-time`} type="secondary">
+          发布于：{dayjs(releasedAt).format('YYYY-MM-DD hh:mm:ss')}
+        </Text>
         <VersionChangelogItem
           changelogs={changelog.changelogs}
           key={changelog.version}

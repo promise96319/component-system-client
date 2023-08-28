@@ -1,4 +1,4 @@
-import { ComponentBanner } from '../_components/banner';
+import { ComponentBanner } from './_components/banner/component-banner';
 
 import './layout.scss';
 

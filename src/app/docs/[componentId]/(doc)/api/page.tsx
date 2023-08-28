@@ -1,6 +1,7 @@
 'use client';
 
-import { Anchor, Button, Empty, Skeleton } from '@arco-design/web-react';
+import { Anchor, Button, Empty, Skeleton, Space, Tooltip } from '@arco-design/web-react';
+import { IconEdit } from '@arco-design/web-react/icon';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import { getProcessor } from 'bytemd';
@@ -80,30 +81,30 @@ export default function APIDoc({ params }: { params: { componentId: string } }) 
   }
 
   return (
-    <div className={styleName}>
-      <main className={`${styleName}-markdown`}>
-        <div className={`${styleName}-markdown-content`}>
-          <Button.Group>
+    <main className={styleName}>
+      <div className={`${styleName}-content`}>
+        <Space className={`${styleName}-actions`}>
+          <Tooltip content="编辑文档">
             <Link href={`/editor/${apiDocData?.id}`}>
-              <Button type="text">编辑</Button>
+              <Button shape="round" icon={<IconEdit></IconEdit>}></Button>
             </Link>
-            <HistoryButton id={apiDocData.id} componentId={componentId}></HistoryButton>
-          </Button.Group>
-          <Viewer value={apiDocData.doc.content} plugins={plugins}></Viewer>
-        </div>
-        <div className={`${styleName}-markdown-toc`}>
-          <Anchor offsetTop={80}>
-            {toc.map((item) => (
-              <Anchor.Link
-                href={`#${item.id}`}
-                title={item.text}
-                key={item.id}
-                className={`${styleName}-markdown-toc-${item.level}`}
-              ></Anchor.Link>
-            ))}
-          </Anchor>
-        </div>
-      </main>
-    </div>
+          </Tooltip>
+          <HistoryButton id={apiDocData.id} componentId={componentId}></HistoryButton>
+        </Space>
+        <Viewer value={apiDocData.doc.content} plugins={plugins}></Viewer>
+      </div>
+      <div className={`${styleName}-toc`}>
+        <Anchor offsetTop={80}>
+          {toc.map((item) => (
+            <Anchor.Link
+              href={`#${item.id}`}
+              title={item.text}
+              key={item.id}
+              className={`${styleName}-markdown-toc-${item.level}`}
+            ></Anchor.Link>
+          ))}
+        </Anchor>
+      </div>
+    </main>
   );
 }

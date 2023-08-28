@@ -21,7 +21,9 @@ export default function VersionChangelog({ params }: { params: { componentId: st
   return (
     <div className={styleName}>
       <VersionChangelogFilter onChange={setQuery}></VersionChangelogFilter>
-      <VersionChangelogList versionChangelogs={versionChangelogs}></VersionChangelogList>
+      <section className={`${styleName}-container`}>
+        <VersionChangelogList versionChangelogs={versionChangelogs}></VersionChangelogList>
+      </section>
     </div>
   );
 }

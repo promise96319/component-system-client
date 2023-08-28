@@ -4,9 +4,9 @@ import { Button, Grid, Modal, Table } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useState } from 'react';
-import { AdminContainer } from '@/components/admin/admin-container/admin-container';
 import { Version } from '@/services/common';
 import { useMajorVersions, useCreateMajorVersion } from '@/services/version';
+import { AdminContainer } from '../_components';
 import { ReleaseVersion } from './release-version/release-version';
 
 export default function VersionManager() {
@@ -92,7 +92,7 @@ export default function VersionManager() {
           新建版本
         </Button>
       </Grid.Row>
-      <Table rowKey="id" columns={columns} data={data} loading={isLoading} pagination={false} />
+      <Table rowKey="id" columns={columns} data={data} loading={isLoading} pagination={false} border={false} />
       {currentId && (
         <ReleaseVersion
           visible={!!currentId}

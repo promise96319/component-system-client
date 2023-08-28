@@ -7,5 +7,5 @@ export default function APIDoc() {
 
   console.log('params', params);
 
-  return <div>设计文档</div>;
+  return <div>设计规范</div>;
 }

@@ -4,12 +4,14 @@ $sidebar-width: 260px;
 .layout {
   height: 100%;
   width: 100%;
+
   &-header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
+    box-sizing: border-box;
     height: $header-height;
     display: flex;
     align-items: center;
@@ -23,6 +25,7 @@ $sidebar-width: 260px;
     width: 100%;
     display: flex;
     background-color: #fff;
+    min-height: calc(100% - $header-height);
   }
 
   &-sidebar {
@@ -38,6 +41,7 @@ $sidebar-width: 260px;
       z-index: 1000;
       width: $sidebar-width;
       border-right: 1px solid #ebedf0;
+      background-color: #fff;
     }
   }
 

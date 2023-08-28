@@ -1,7 +1,7 @@
 import { Layout } from '@/components';
-import { AdminSidebar } from '@/components/admin';
 import { BackTop } from '@/components/arco';
 import { Header } from '@/components/header/header';
+import { AdminSidebar } from './_components';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (

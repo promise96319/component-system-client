@@ -1,5 +1,3 @@
-'use client';
-
 import './admin-container.scss';
 
 export const AdminContainer = (props: { children: React.ReactNode; title: React.ReactNode }) => {

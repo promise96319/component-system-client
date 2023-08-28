@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Message } from '@arco-design/web-react';
+import { Button, Message, Space, Tooltip } from '@arco-design/web-react';
 import highlight from '@bytemd/plugin-highlight';
 import { Viewer } from '@bytemd/react';
 import classNames from 'classnames';
@@ -10,6 +10,7 @@ import { utoa } from '@/utils/zlib';
 
 import 'highlight.js/styles/github.css';
 import './styles/code-block.scss';
+import { IconCode, IconCommon, IconCopy } from '../arco';
 
 export default function CodeBlock(props: { source: string; majorVersion?: number; children: React.JSX.Element }) {
   const styleName = 'code-block';
@@ -56,17 +57,17 @@ ${props.source}
   return (
     <div className={styleName}>
       <div className={`${styleName}-previewer`} ref={previewerRef}></div>
-      <div className={`${styleName}-operations`}>
-        <Button type="text" onClick={() => setVisible(!visible)}>
-          {visible ? '隐藏代码' : '显示代码'}
-        </Button>
-        <Button ref={btnRef} type="text">
-          复制代码
-        </Button>
-        <Button type="text" onClick={handleOpenPlayground}>
-          运行代码
-        </Button>
-      </div>
+      <Space className={`${styleName}-operations`}>
+        <Tooltip content={visible ? '隐藏代码' : '显示代码'}>
+          <Button shape="round" onClick={() => setVisible(!visible)} icon={<IconCode></IconCode>}></Button>
+        </Tooltip>
+        <Tooltip content="复制代码">
+          <Button shape="round" ref={btnRef} icon={<IconCopy></IconCopy>}></Button>
+        </Tooltip>
+        <Tooltip content="运行代码">
+          <Button shape="round" onClick={handleOpenPlayground} icon={<IconCommon></IconCommon>}></Button>
+        </Tooltip>
+      </Space>
       {visible && (
         <div className={classNames(`${styleName}-source`, { visible })}>
           <Viewer value={markdown} plugins={plugins} />

@@ -1,5 +1,9 @@
 .version-changelog {
-  max-width: 1000px;
-  padding: 24px;
-  margin: 0 auto;
+  &-container {
+    margin-top: 16px;
+  }
+
+  &-list {
+    border: 1px solid #e5e6eb;
+  }
 }

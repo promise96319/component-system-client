@@ -1,11 +1,14 @@
 import { cookies, headers } from 'next/headers';
+import Image from 'next/image';
 import { ComponentDetail } from '@/services/common';
 import { serverFetch } from '@/services/common/fetch.server';
 import { getPath } from '@/utils/header';
 import { ComponentNav } from './component-nav';
 
+import './component-banner.scss';
+
 export async function ComponentBanner() {
-  const styleName = 'docs';
+  const styleName = 'component-banner';
 
   const headerList = headers();
   const paths = getPath(headerList) ?? '';
@@ -19,10 +22,13 @@ export async function ComponentBanner() {
   });
 
   return (
-    <div className={`${styleName}-banner-content`}>
-      <h1>{component?.description}</h1>
-      <div className={`${styleName}-banner-tab`}>
-        <ComponentNav componentId={componentId}></ComponentNav>
+    <div className={styleName}>
+      <div className={`${styleName}-content`}>
+        <h1 className={`${styleName}-title`}>{component?.description}</h1>
+        <div className={`${styleName}-tab`}>
+          <ComponentNav componentId={componentId}></ComponentNav>
+        </div>
+        <Image className={`${styleName}-img`} width={196} height={196} src="/docs/banner.svg" alt="banner.svg"></Image>
       </div>
     </div>
   );

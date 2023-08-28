@@ -1,7 +1,7 @@
 'use client';
 
-import { Dropdown, Menu, Skeleton } from '@arco-design/web-react';
-import { IconDown } from '@arco-design/web-react/icon';
+import { Dropdown, Menu, Skeleton, Space } from '@arco-design/web-react';
+import { IconDown, IconApps } from '@arco-design/web-react/icon';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { UserAvatar } from '@/components';
@@ -31,19 +31,42 @@ const UserDropDown = () => {
   const dropList = (
     <Menu>
       <Link href="/admin/version-manager">
-        <Menu.Item key="version-manager">版本管理</Menu.Item>
+        <Menu.Item key="version-manager">
+          <Space>
+            <IconApps />
+            版本管理
+          </Space>
+        </Menu.Item>
       </Link>
       <Link href="/admin/demand">
-        <Menu.Item key="demand">需求列表</Menu.Item>
+        <Menu.Item key="demand">
+          <Space>
+            <IconApps />
+            需求列表
+          </Space>
+        </Menu.Item>
       </Link>
       <Link href="/admin/version-changelog">
-        <Menu.Item key="version-changelog">版本记录</Menu.Item>
+        <Menu.Item key="version-changelog">
+          <Space>
+            <IconApps />
+            版本记录
+          </Space>
+        </Menu.Item>
       </Link>
       <Link href="/admin/account">
-        <Menu.Item key="account">账号信息</Menu.Item>
+        <Menu.Item key="account">
+          <Space>
+            <IconApps />
+            账号信息
+          </Space>
+        </Menu.Item>
       </Link>
       <Menu.Item key="logout" onClick={handleLogout}>
-        退出登录
+        <Space>
+          <IconApps />
+          退出登录
+        </Space>
       </Menu.Item>
     </Menu>
   );

@@ -1,0 +1,19 @@
+html {
+  height: 100%;
+  background-color: #f7f8fa;
+}
+
+.admin-container {
+  box-sizing: border-box;
+  padding: 24px 24px 48px;
+  background: #f7f8fa;
+  min-width: 1060px;
+
+  &-title {
+    font-size: 24px;
+    font-weight: 500;
+    color: #1d2129;
+    line-height: 28px;
+    margin-bottom: 24px;
+  }
+}

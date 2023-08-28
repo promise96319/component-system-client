@@ -4,11 +4,11 @@ import { Empty, Input, Select, Space } from '@arco-design/web-react';
 import { IconSearch } from '@arco-design/web-react/icon';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { AdminContainer } from '@/components/admin/admin-container/admin-container';
 import { DemandList } from '@/components/demand';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DemandStatus } from '@/services/common';
 import { useDemands } from '@/services/demand';
+import { AdminContainer } from '../_components';
 
 export default function Demand() {
   const [majorVersionId] = useMajorVersionId();

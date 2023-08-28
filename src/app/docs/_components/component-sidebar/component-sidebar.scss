@@ -7,6 +7,10 @@
 
   .arco-menu-inline-header {
     height: 46px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+
     &:hover {
       font-weight: 500;
       svg.arco-icon {
@@ -26,16 +30,13 @@
   }
 
   .arco-menu-item {
+    font-size: 12px;
     &:hover {
       font-weight: 500;
     }
   }
 
   & &-category {
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-
     svg.arco-icon {
       margin: 0 8px 0 4px;
     }

@@ -2,9 +2,9 @@
 
 import { Descriptions, Message, Upload } from '@arco-design/web-react';
 import { UserAvatar } from '@/components';
-import { AdminContainer } from '@/components/admin/admin-container/admin-container';
 import { useUser, useUpdateUser } from '@/services';
 import { useUploadImage } from '@/services/file';
+import { AdminContainer } from '../_components';
 
 const Page = () => {
   const { data: user, mutate } = useUser();

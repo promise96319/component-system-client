@@ -1,23 +1,30 @@
 .api-doc {
-  &-markdown {
-    display: flex;
-    padding: 24px;
-    &-content {
-      margin: 0 auto;
-      width: 800px;
+  display: flex;
+
+  &-content {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+  }
+
+  &-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &-toc {
+    box-sizing: border-box;
+    padding-left: 60px;
+    width: 200px;
+    &-1 {
+      padding-left: 0;
     }
-    &-toc {
-      padding-left: 40px;
-      width: 160px;
-      &-1 {
-        padding-left: 0;
-      }
-      &-2 {
-        padding-left: 0px;
-      }
-      &-3 {
-        padding-left: 16px;
-      }
+    &-2 {
+      padding-left: 0px;
+    }
+    &-3 {
+      padding-left: 16px;
     }
   }
 }
