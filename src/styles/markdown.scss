@@ -1,18 +1,89 @@
 .markdown-body {
-  ul {
-    list-style: dot;
-    margin-left: 20px;
+  color: #1d2129;
+  font-size: 14px;
+  line-height: 22px;
+
+  // 标题
+  h1 {
+    margin: 32px 0 8px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
   }
 
+  h2 {
+    margin: 8px 0;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  h3 {
+    margin: 8px 0 16px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+  }
+
+  // 列表
+  ul,
+  ol {
+    padding: 8px;
+    li {
+      color: #4e5969;
+      line-height: 22px;
+    }
+  }
+
+  // 装饰
+  strong {
+    font-weight: 600;
+  }
+
+  a {
+    color: #165dff;
+    text-decoration: underline;
+  }
+
+  // 引用
   blockquote {
     margin: 0;
-    padding: 0 1em;
-    color: #6a737d;
-    border-left: 0.25em solid #dfe2e5;
+    padding: 8px 0 8px 16px;
+    color: #4e5969;
+    border-left: 2px solid #e5e6eb;
+    p {
+      margin: 0;
+    }
   }
 
-  h2,
-  h3 {
-    margin: 48px 0 16px;
+  // 段落
+  p {
+    color: #4e5969;
+    margin-bottom: 22px;
+  }
+
+  // input
+  input[type='checkbox'] {
+    margin-right: 2px;
+    transform: translateY(1px);
+  }
+
+  // 表格
+
+  table {
+    border: 1px solid #e5e6eb;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: 8px 16px;
+      border-bottom: 1px solid #e5e6eb;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f3f5;
+      font-weight: 500;
+    }
   }
 }

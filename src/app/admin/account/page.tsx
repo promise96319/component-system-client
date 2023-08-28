@@ -6,7 +6,11 @@ import { useUser, useUpdateUser } from '@/services';
 import { useUploadImage } from '@/services/file';
 import { AdminContainer } from '../_components';
 
+import './page.scss';
+
 const Page = () => {
+  const styleName = 'account';
+
   const { data: user, mutate } = useUser();
   const { trigger: uploadImage } = useUploadImage();
   const { trigger: updateUser } = useUpdateUser(user?.id);
@@ -38,18 +42,20 @@ const Page = () => {
   );
 
   return (
-    <AdminContainer title="账号信息">
-      <Descriptions
-        border
-        data={[
-          { label: '用户头像', value: imageElement },
-          { label: '用户名', value: user.nickname },
-          { label: '邮箱', value: user.email },
-          { label: 'ID', value: user.id },
-          { label: '角色', value: user.role }
-        ]}
-        column={1}
-      ></Descriptions>
+    <AdminContainer title="个人中心">
+      <main className={styleName}>
+        <Descriptions
+          border
+          data={[
+            { label: '用户头像', value: imageElement },
+            { label: '用户名', value: user.nickname },
+            { label: '邮箱', value: user.email },
+            { label: 'ID', value: user.id },
+            { label: '角色', value: user.role }
+          ]}
+          column={1}
+        ></Descriptions>
+      </main>
     </AdminContainer>
   );
 };

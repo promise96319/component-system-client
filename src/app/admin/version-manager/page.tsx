@@ -9,9 +9,11 @@ import { useMajorVersions, useCreateMajorVersion } from '@/services/version';
 import { AdminContainer } from '../_components';
 import { ReleaseVersion } from './release-version/release-version';
 
-export default function VersionManager() {
-  const [currentId, setCurrenId] = useState('');
+import './page.scss';
 
+export default function VersionManager() {
+  const styleName = 'version-manager';
+  const [currentId, setCurrenId] = useState('');
   const { data, isLoading, error, mutate } = useMajorVersions();
   const { trigger: createMajorVersion } = useCreateMajorVersion();
 
@@ -73,7 +75,7 @@ export default function VersionManager() {
         return (
           <>
             <Link href={`/admin/version-changelog?v=${record.majorVersion}`}>
-              <Button type="text">版本记录</Button>
+              <Button type="text">版本变更</Button>
             </Link>
 
             <Button type="text" onClick={() => setCurrenId(id)}>
@@ -87,23 +89,25 @@ export default function VersionManager() {
 
   return (
     <AdminContainer title="版本管理">
-      <Grid.Row justify="end" style={{ marginBottom: 24 }}>
-        <Button type="primary" onClick={handleCreateMajorVersion}>
-          新建版本
-        </Button>
-      </Grid.Row>
-      <Table rowKey="id" columns={columns} data={data} loading={isLoading} pagination={false} border={false} />
-      {currentId && (
-        <ReleaseVersion
-          visible={!!currentId}
-          majorVersionId={currentId}
-          onCancel={() => setCurrenId('')}
-          onConfirm={() => {
-            setCurrenId('');
-            mutate();
-          }}
-        ></ReleaseVersion>
-      )}
+      <main className={styleName}>
+        <Grid.Row justify="end" style={{ marginBottom: 24 }}>
+          <Button type="primary" onClick={handleCreateMajorVersion}>
+            新建版本
+          </Button>
+        </Grid.Row>
+        <Table rowKey="id" columns={columns} data={data} loading={isLoading} pagination={false} border={false} />
+        {currentId && (
+          <ReleaseVersion
+            visible={!!currentId}
+            majorVersionId={currentId}
+            onCancel={() => setCurrenId('')}
+            onConfirm={() => {
+              setCurrenId('');
+              mutate();
+            }}
+          ></ReleaseVersion>
+        )}
+      </main>
     </AdminContainer>
   );
 }

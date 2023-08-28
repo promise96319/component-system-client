@@ -33,7 +33,7 @@ export function AdminSidebar() {
         <Menu.Item key="version-changelog">
           <Space size={12}>
             <IconApps></IconApps>
-            版本记录
+            版本变更
           </Space>
         </Menu.Item>
       </Link>
@@ -41,7 +41,7 @@ export function AdminSidebar() {
         <Menu.Item key="account">
           <Space size={12}>
             <IconApps></IconApps>
-            账号信息
+            个人中心
           </Space>
         </Menu.Item>
       </Link>

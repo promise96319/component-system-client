@@ -50,7 +50,7 @@ const UserDropDown = () => {
         <Menu.Item key="version-changelog">
           <Space>
             <IconApps />
-            版本记录
+            版本变更
           </Space>
         </Menu.Item>
       </Link>
@@ -58,7 +58,7 @@ const UserDropDown = () => {
         <Menu.Item key="account">
           <Space>
             <IconApps />
-            账号信息
+            个人中心
           </Space>
         </Menu.Item>
       </Link>

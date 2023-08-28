@@ -9,7 +9,7 @@ import { Space, Tabs, TabPane } from '@/components/arco';
 const tabsData = [
   { key: 'api', icon: '/assets/link.svg', label: 'API 文档' },
   { key: 'design', icon: '/assets/label.svg', label: '设计规范' },
-  { key: 'version-changelog', icon: '/assets/file.svg', label: '版本记录' },
+  { key: 'version-changelog', icon: '/assets/file.svg', label: '版本变更' },
   { key: 'discussion', icon: '/assets/filter.svg', label: '讨论区' },
   { key: 'demand', icon: '/assets/user.svg', label: '需求' }
 ];
