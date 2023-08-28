@@ -1,7 +1,7 @@
 import { Button, Tooltip } from '@arco-design/web-react';
 import { IconHistory } from '@arco-design/web-react/icon';
 import { useState } from 'react';
-import { DocHistory } from '@/components/doc-history/doc-history';
+import { DocHistory } from './doc-history/doc-history';
 
 export const HistoryButton = (props: { id: string; componentId: string }) => {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
@@ -17,6 +17,7 @@ export const HistoryButton = (props: { id: string; componentId: string }) => {
         componentId={props.componentId}
         visible={isHistoryVisible}
         onCancel={() => setIsHistoryVisible(false)}
+        onOk={() => setIsHistoryVisible(false)}
       ></DocHistory>
     </>
   );

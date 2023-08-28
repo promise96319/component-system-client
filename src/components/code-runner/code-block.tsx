@@ -59,13 +59,13 @@ ${props.source}
       <div className={`${styleName}-previewer`} ref={previewerRef}></div>
       <Space className={`${styleName}-operations`}>
         <Tooltip content={visible ? '隐藏代码' : '显示代码'}>
-          <Button shape="round" onClick={() => setVisible(!visible)} icon={<IconCode></IconCode>}></Button>
+          <Button size="small" shape="round" onClick={() => setVisible(!visible)} icon={<IconCode></IconCode>}></Button>
         </Tooltip>
         <Tooltip content="复制代码">
-          <Button shape="round" ref={btnRef} icon={<IconCopy></IconCopy>}></Button>
+          <Button size="small" shape="round" ref={btnRef} icon={<IconCopy></IconCopy>}></Button>
         </Tooltip>
         <Tooltip content="运行代码">
-          <Button shape="round" onClick={handleOpenPlayground} icon={<IconCommon></IconCommon>}></Button>
+          <Button size="small" shape="round" onClick={handleOpenPlayground} icon={<IconCommon></IconCommon>}></Button>
         </Tooltip>
       </Space>
       {visible && (

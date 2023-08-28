@@ -1,6 +1,6 @@
 'use client';
 
-import { Typography } from '@arco-design/web-react';
+import { Typography, Divider } from '@arco-design/web-react';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import { Editor } from '@bytemd/react';
@@ -61,7 +61,11 @@ export default function MarkdownEditor() {
     <div className={styleName}>
       <header className={`${styleName}-header`}>
         <Link href={redirectUrl}>
-          <Typography.Title heading={3}>{component?.description}</Typography.Title>
+          <Typography.Text className={`${styleName}-header-title`}>
+            {doc?.specType && (doc.specType === DocType.API ? 'API 文档' : '设计规范')}
+            <Divider type="vertical" />
+            {component?.description}
+          </Typography.Text>
         </Link>
         <UpdateModal
           value={value}

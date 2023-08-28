@@ -1,6 +1,8 @@
 html {
   height: 100%;
-  background-color: #f7f8fa;
+  &:has(.admin-container) {
+    background-color: #f7f8fa;
+  }
 }
 
 .admin-container {

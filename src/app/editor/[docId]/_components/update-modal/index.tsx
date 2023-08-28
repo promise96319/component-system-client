@@ -1,8 +1,8 @@
 'use client';
 
-import { Button, Form, Input, Message, Modal } from '@arco-design/web-react';
+import { Button, Form, Input, Message, Modal, Link as ArcoLink } from '@arco-design/web-react';
 import Link from 'next/link';
-import { useRouter, redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { DemandSelect } from '@/components/demand';
 import { useSaveDoc } from '@/services';
@@ -80,7 +80,7 @@ export const UpdateModal = (props: {
               }
             ]}
           >
-            <Input.TextArea></Input.TextArea>
+            <Input.TextArea autoSize={{ minRows: 3, maxRows: 10 }}></Input.TextArea>
           </Form.Item>
           <Form.Item label="关联需求">
             <div className={`${styleName}-relate-issue`}>
@@ -88,7 +88,7 @@ export const UpdateModal = (props: {
                 <DemandSelect mode={undefined} demands={demands}></DemandSelect>
               </Form.Item>
               <Link className={`${styleName}-open-issue`} href={`/docs/${doc?.componentId}/demand`} target="__blank">
-                提需求
+                <Button type="text">提需求</Button>
               </Link>
             </div>
           </Form.Item>
