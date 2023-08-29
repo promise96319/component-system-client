@@ -1,12 +1,13 @@
 'use client';
 
-import { Descriptions, Message, Upload } from '@arco-design/web-react';
+import './page.scss';
+
+import { Descriptions, Message, Upload, Space } from '@arco-design/web-react';
+import { IconEmail, IconIdcard, IconUser } from '@arco-design/web-react/icon';
 import { UserAvatar } from '@/components';
 import { useUser, useUpdateUser } from '@/services';
 import { useUploadImage } from '@/services/file';
 import { AdminContainer } from '../_components';
-
-import './page.scss';
 
 const Page = () => {
   const styleName = 'account';
@@ -44,17 +45,62 @@ const Page = () => {
   return (
     <AdminContainer title="个人中心">
       <main className={styleName}>
-        <Descriptions
-          border
-          data={[
-            { label: '用户头像', value: imageElement },
-            { label: '用户名', value: user.nickname },
-            { label: '邮箱', value: user.email },
-            { label: 'ID', value: user.id },
-            { label: '角色', value: user.role }
-          ]}
-          column={1}
-        ></Descriptions>
+        <section className={`${styleName}-section`}>
+          <h2>基础信息</h2>
+
+          <div className={`${styleName}-user`}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className={`${styleName}-user-bg`} src="/account/account-bg.svg" alt="bg"></img>
+            <div className={`${styleName}-user-avatar`}>
+              <Upload fileList={[]} customRequest={handleUpdateAvatar} accept="image/*">
+                <UserAvatar src={user?.avatar} size={64} style={{ borderRadius: 8 }}></UserAvatar>
+              </Upload>
+            </div>
+            <div className={`${styleName}-user-info`}>
+              <div className={`${styleName}-user-info-nickname`}>{user.nickname}</div>
+              <div className={`${styleName}-user-info-name`}>{user.name}</div>
+            </div>
+          </div>
+        </section>
+        <section className={`${styleName}-section`}>
+          <h2>更多信息</h2>
+
+          <div className={`${styleName}-other`}>
+            <Descriptions
+              labelStyle={{ width: 144 }}
+              data={[
+                {
+                  label: (
+                    <Space>
+                      <IconEmail></IconEmail>
+                      邮箱
+                    </Space>
+                  ),
+                  value: user.email
+                },
+                {
+                  label: (
+                    <Space>
+                      <IconIdcard></IconIdcard>
+                      ID
+                    </Space>
+                  ),
+                  value: user.id
+                },
+                {
+                  label: (
+                    <Space>
+                      <IconUser></IconUser>
+                      角色
+                    </Space>
+                  ),
+                  value: user.role
+                }
+              ]}
+              column={1}
+            ></Descriptions>
+          </div>
+        </section>
       </main>
     </AdminContainer>
   );
