@@ -13,6 +13,7 @@ export const Editor = (props: {
   isEdit?: boolean;
   viewer?: React.ReactNode;
   contentDelta?: any[];
+  placeholder?: string;
   onEditChange?: (isEdit: boolean) => void;
   onSave?: (content: string, contentDelta: any[]) => Promise<boolean | undefined>;
 }) => {
@@ -34,7 +35,8 @@ export const Editor = (props: {
           ['link', 'image']
         ]
       },
-      theme: 'snow'
+      theme: 'snow',
+      placeholder: props.placeholder
     });
     editor.current.setContents(contentDelta as any);
     editor.current.setSelection(editor.current.getLength(), 0);

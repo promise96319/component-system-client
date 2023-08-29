@@ -1,23 +1,23 @@
 'use client';
 
-import { Grid, Modal, Space, Typography } from '@arco-design/web-react';
+import {  Grid, Modal, Space, Typography } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import { useState, useMemo } from 'react';
-import { UserAvatar } from '@/components';
 import { useUser } from '@/services';
+import { User } from '@/services/common';
 import { useEditorStore } from '@/store';
-import { Editor, EditorViewer } from '../rich-text-editor';
+import { Editor, EditorViewer } from '../../rich-text-editor';
+import { UserAvatar } from '../../user/avatar';
 
 import 'quill/dist/quill.snow.css';
 import './comment.scss';
 
 export const Comment = (props: {
   id: string;
-  username: string;
-  userId: string;
+  user: Partial<User>;
   contentDelta: any[];
   updatedAt: Date | string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 
   onSaveComment?: (content: string, contentDelta: any[]) => Promise<boolean | undefined>;
   onUpdateContent?: (content: string, contentDelta: any[]) => Promise<boolean | undefined>;
@@ -27,13 +27,14 @@ export const Comment = (props: {
   const MemoizedEditor = useMemo(() => Editor, []);
   const MemoizedEditorViewer = useMemo(() => EditorViewer, []);
 
-  const { id, username, userId, contentDelta, updatedAt, children } = props;
+  const { id, contentDelta, updatedAt, children } = props;
+  const { nickname: username, id: userId } = props.user;
   const [isEdit, setIsEdit] = useState(false);
   const [isReplyEdit, setIsReplyEdit] = useState(false);
   const setCurrentEditorId = useEditorStore((state) => state.setCurrentId);
   const currentEditorId = useEditorStore((state) => state.currentId);
-  const { data: user } = useUser();
-  const editable = user && user.id === userId;
+  const { data: currentUser } = useUser();
+  const editable = currentUser && currentUser.id === userId;
 
   const handleRemove = () => {
     Modal.confirm({
@@ -55,12 +56,12 @@ export const Comment = (props: {
   );
 
   const viewer = (
-    <Space key="viewer" direction="vertical" style={{ marginTop: 8 }}>
-      <Typography.Text type="secondary" className={`${styleName}-user`}>
-        {username} 发表：
+    <section key="viewer" className={`${styleName}-viewer`}>
+      <Typography.Text className={`${styleName}-viewer-user`} type="secondary">
+        {username}
       </Typography.Text>
       <MemoizedEditorViewer id={id} contentDelta={contentDelta}></MemoizedEditorViewer>
-      <Space align="center" className={`${styleName}-actions`} size={12}>
+      <Space align="center" className={`${styleName}-viewer-actions`} size={12}>
         <Typography.Text
           style={{ cursor: 'pointer' }}
           type="secondary"
@@ -90,16 +91,16 @@ export const Comment = (props: {
             删除
           </Typography.Text>
         )}
-        <Typography.Text type="secondary">{dayjs(updatedAt).format('YYYY-MM-DD HH:mm:ss')}</Typography.Text>
+        <Typography.Text type="secondary">发表于 {dayjs(updatedAt).format('YYYY-MM-DD HH:mm:ss')}</Typography.Text>
       </Space>
 
       {isReplyEdit && currentEditorId === `reply-${id}` && (
         <Grid.Row style={{ marginTop: 16 }}>
-          <UserAvatar className={`${styleName}-avatar`} src={user?.avatar}></UserAvatar>
+          <UserAvatar className={`${styleName}-avatar`} src={currentUser?.avatar}></UserAvatar>
           <div className={`${styleName}-reply`}>{replayEditor}</div>
         </Grid.Row>
       )}
-    </Space>
+    </section>
   );
 
   const editor = (
@@ -119,8 +120,10 @@ export const Comment = (props: {
   return (
     <div className={styleName}>
       <Grid.Row>
-        <UserAvatar className={`${styleName}-avatar`} src={user?.avatar}></UserAvatar>
-        <div style={{ flex: 1 }}>
+        <div className={`${styleName}-avatar`}>
+          <UserAvatar src={props.user?.avatar} size={24}></UserAvatar>
+        </div>
+        <div className={`${styleName}-content`} style={{ flex: 1 }}>
           {editor}
           {children}
         </div>

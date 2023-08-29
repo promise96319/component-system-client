@@ -1,0 +1,30 @@
+.design-doc {
+  display: flex;
+
+  &-content {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+  }
+
+  &-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &-toc {
+    box-sizing: border-box;
+    padding-left: 60px;
+    width: 200px;
+    &-1 {
+      padding-left: 0;
+    }
+    &-2 {
+      padding-left: 0px;
+    }
+    &-3 {
+      padding-left: 16px;
+    }
+  }
+}

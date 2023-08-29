@@ -41,6 +41,7 @@ export const CreateDemand = (props: { componentId: string; onCreated?: () => Pro
   return (
     <MemoizedEditor
       id="add-demand"
+      placeholder="请输入需求内容"
       isEdit={isAddDemand}
       viewer={
         <Input.TextArea
@@ -49,7 +50,8 @@ export const CreateDemand = (props: { componentId: string; onCreated?: () => Pro
             setIsAddDemand(true);
             setCurrentEditorId('add-demand');
           }}
-          placeholder="请填写需求内容"
+          placeholder="请输入需求内容"
+          autoSize={false}
         ></Input.TextArea>
       }
       onEditChange={(isEdit) => setIsAddDemand(isEdit)}

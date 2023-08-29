@@ -59,7 +59,13 @@ ${props.source}
       <div className={`${styleName}-previewer`} ref={previewerRef}></div>
       <Space className={`${styleName}-operations`}>
         <Tooltip content={visible ? '隐藏代码' : '显示代码'}>
-          <Button size="small" shape="round" onClick={() => setVisible(!visible)} icon={<IconCode></IconCode>}></Button>
+          <Button
+            type="secondary"
+            size="small"
+            shape="round"
+            onClick={() => setVisible(!visible)}
+            icon={<IconCode></IconCode>}
+          ></Button>
         </Tooltip>
         <Tooltip content="复制代码">
           <Button size="small" shape="round" ref={btnRef} icon={<IconCopy></IconCopy>}></Button>

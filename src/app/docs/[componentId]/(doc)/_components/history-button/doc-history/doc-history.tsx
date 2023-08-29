@@ -4,7 +4,7 @@ import { Drawer, DrawerProps, Table, Tag, Typography } from '@arco-design/web-re
 import dayjs from 'dayjs';
 import { DocHistory as DocHistoyType, useDocHistory } from '@/services';
 import { Demand, User } from '@/services/common';
-import { DemandLink } from '../../../../../components/demand';
+import { DemandLink } from '../../../../../../../components/demand';
 
 export const DocHistory = (
   props: DrawerProps & {

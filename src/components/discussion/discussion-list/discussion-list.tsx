@@ -3,7 +3,6 @@
 import { Message, Card, Divider } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import React from 'react';
-import { Comment } from '@/components';
 import { DiscussionComment } from '@/services/common';
 import {
   DiscussionCommentBody,
@@ -14,6 +13,7 @@ import {
   useUpdateDiscussion,
   useUpdateDiscussionComment
 } from '@/services/discussion';
+import { Topic, AddComment, Comment } from '../../comment';
 
 import './discussion-list.scss';
 
@@ -116,11 +116,9 @@ export const DiscussionList = (props: {
       .map((comment) => {
         return (
           <React.Fragment key={comment.id}>
-            <Divider></Divider>
             <Comment
               id={comment.id}
-              username={comment.createdBy?.nickname ?? ''}
-              userId={comment.createdById ?? ''}
+              user={comment.createdBy ?? {}}
               contentDelta={comment.contentDelta ?? []}
               updatedAt={comment.updatedAt ?? ''}
               onUpdateContent={(content, contentDelta) =>
@@ -148,17 +146,16 @@ export const DiscussionList = (props: {
       <div className={`${styleName}-list`}>
         {props.discussions.map((discussion) => {
           return (
-            <Card key={discussion.id} style={{ marginTop: 24 }}>
-              <Comment
+            <Card key={discussion.id} style={{ marginTop: 24 }} className={`${styleName}-item`}>
+              <Topic
                 id={discussion.id}
-                username={discussion.createdBy.nickname ?? ''}
-                userId={discussion.createdBy.id ?? ''}
+                user={discussion.createdBy ?? {}}
                 contentDelta={discussion.contentDelta ?? []}
                 updatedAt={discussion.updatedAt ?? ''}
                 onUpdateContent={(content, contentDelta) =>
                   handleUpdateDiscussion(discussion.id, content, contentDelta)
                 }
-                onSaveComment={(content, contentDelta) =>
+                onSaveTopic={(content, contentDelta) =>
                   handleCreateDiscussionComment({
                     discussionId: discussion.id,
                     content,
@@ -167,8 +164,19 @@ export const DiscussionList = (props: {
                 }
                 onRemove={() => handleRemoveDiscussion(discussion.id)}
               >
-                {renderComments(discussion.discussionComments ?? [])}
-              </Comment>
+                <section className={`${styleName}-comments`}>
+                  <AddComment
+                    onSaveComment={(content, contentDelta) =>
+                      handleCreateDiscussionComment({
+                        discussionId: discussion.id,
+                        content,
+                        contentDelta
+                      })
+                    }
+                  ></AddComment>
+                  {renderComments(discussion.discussionComments ?? [])}
+                </section>
+              </Topic>
             </Card>
           );
         })}

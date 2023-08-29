@@ -64,6 +64,13 @@ export default function Demand() {
         ></Select>
         <Input
           prefix={<IconSearch></IconSearch>}
+          placeholder="提出人"
+          onChange={(content) => {
+            setContent(content);
+          }}
+        ></Input>
+        <Input
+          prefix={<IconSearch></IconSearch>}
           placeholder="搜索需求内容"
           onChange={(content) => {
             setContent(content);

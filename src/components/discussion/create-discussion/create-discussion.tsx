@@ -41,6 +41,7 @@ export const CreateDiscussion = (props: { componentId: string; onCreated?: () =>
   return (
     <MemoizedEditor
       id="add-discussion"
+      placeholder="请输入讨论内容"
       isEdit={isAddDiscussion}
       viewer={
         <Input.TextArea
@@ -49,7 +50,7 @@ export const CreateDiscussion = (props: { componentId: string; onCreated?: () =>
             setIsAddDiscussion(true);
             setCurrentEditorId('add-discussion');
           }}
-          placeholder="请填写讨论内容"
+          placeholder="请输入讨论内容"
         ></Input.TextArea>
       }
       onEditChange={(isEdit) => setIsAddDiscussion(isEdit)}

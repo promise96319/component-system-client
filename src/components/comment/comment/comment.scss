@@ -1,0 +1,36 @@
+.comment {
+  margin-top: 24px;
+  font-size: 14px;
+
+  &-viewer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &-user {
+      height: 32px;
+      line-height: 32px;
+      margin-bottom: 6px;
+    }
+
+    > .editor-viewer > .ql-snow > .ql-editor {
+      padding: 0;
+      color: #1d2129;
+    }
+
+    &-actions {
+      margin-top: 8px;
+    }
+  }
+
+  &-avatar {
+    margin-right: 12px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+  }
+
+  &-reply {
+    flex: 1;
+    min-width: 0;
+  }
+}

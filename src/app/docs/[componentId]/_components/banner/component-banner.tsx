@@ -28,6 +28,7 @@ export async function ComponentBanner() {
         <div className={`${styleName}-tab`}>
           <ComponentNav componentId={componentId}></ComponentNav>
         </div>
+        <Image className={`${styleName}-img-bg`} width={734} height={352} src="/docs/banner-bg.svg" alt="banner.svg"></Image>
         <Image className={`${styleName}-img`} width={196} height={196} src="/docs/banner.svg" alt="banner.svg"></Image>
       </div>
     </div>

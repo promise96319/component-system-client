@@ -1,6 +1,5 @@
 'use client';
 
-import { Space } from '@arco-design/web-react';
 import { useState } from 'react';
 import { VersionChangelogFilter, VersionChangelogList } from '@/components/version-changelog';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';

@@ -1,9 +1,8 @@
 'use client';
 
-import { Message, Card, Divider, Grid, Tag } from '@arco-design/web-react';
+import { Message, Card, Grid, Tag } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import React from 'react';
-import { Comment } from '@/components';
 import { DemandComment, DemandStatus } from '@/services/common';
 import {
   DemandCommentBody,
@@ -14,6 +13,7 @@ import {
   useUpdateDemand,
   useUpdateDemandComment
 } from '@/services/demand';
+import { Topic, Comment, AddComment } from '../../comment';
 
 import './demand-list.scss';
 
@@ -113,11 +113,9 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
       .map((comment) => {
         return (
           <React.Fragment key={comment.id}>
-            <Divider></Divider>
             <Comment
               id={comment.id}
-              username={comment.createdBy?.nickname ?? ''}
-              userId={comment.createdById ?? ''}
+              user={comment.createdBy ?? {}}
               contentDelta={comment.contentDelta ?? []}
               updatedAt={comment.updatedAt ?? ''}
               onUpdateContent={(content, contentDelta) => handleUpdateDemandComment(comment.id, content, contentDelta)}
@@ -139,27 +137,18 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
   };
 
   return (
-    <div className={styleName}>
-      <div className={`${styleName}-list`}>
+    <div className={`${styleName}-container`}>
+      <div className={`${styleName}`}>
         {props.demands.map((demand) => {
           return (
-            <Card key={demand.id} style={{ marginTop: 24 }} id={`${demand.no}`}>
-              <Grid.Row className="mb-px-8">
-                <Tag color="blue" className="mr-px-8">
-                  #{demand.no}
-                </Tag>
-                <Tag color={demand.status === DemandStatus.CLOSED ? 'red' : 'green'}>
-                  {demand.status === DemandStatus.CLOSED ? `已解决(v${demand.versionId})` : '待解决'}
-                </Tag>
-              </Grid.Row>
-              <Comment
+            <Card className={`${styleName}-item`} key={demand.id} style={{ marginTop: 24 }} id={`${demand.no}`}>
+              <Topic
                 id={demand.id}
-                username={demand.createdBy.nickname ?? ''}
-                userId={demand.createdBy.id ?? ''}
+                user={demand.createdBy ?? {}}
                 contentDelta={demand.contentDelta ?? []}
                 updatedAt={demand.updatedAt ?? ''}
                 onUpdateContent={(content, contentDelta) => handleUpdateDemand(demand.id, content, contentDelta)}
-                onSaveComment={(content, contentDelta) =>
+                onSaveTopic={(content, contentDelta) =>
                   handleCreateDemandComment({
                     demandId: demand.id,
                     content,
@@ -167,9 +156,30 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
                   })
                 }
                 onRemove={() => handleRemoveDemand(demand.id)}
+                extra={
+                  <Grid.Row>
+                    <Tag color="blue" className="mr-px-8">
+                      #{demand.no}
+                    </Tag>
+                    <Tag color={demand.status === DemandStatus.CLOSED ? 'red' : 'green'}>
+                      {demand.status === DemandStatus.CLOSED ? `已解决(v${demand.versionId})` : '待解决'}
+                    </Tag>
+                  </Grid.Row>
+                }
               >
-                {renderComments(demand.demandComments ?? [])}
-              </Comment>
+                <section className={`${styleName}-comments`}>
+                  <AddComment
+                    onSaveComment={(content, contentDelta) =>
+                      handleCreateDemandComment({
+                        demandId: demand.id,
+                        content,
+                        contentDelta
+                      })
+                    }
+                  ></AddComment>
+                  {renderComments(demand.demandComments ?? [])}
+                </section>
+              </Topic>
             </Card>
           );
         })}
