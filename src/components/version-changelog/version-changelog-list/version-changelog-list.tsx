@@ -7,7 +7,7 @@ import { VersionChangelog, VersionChangelogType } from '@/services/common';
 
 import './version-changelog-list.scss';
 
-const { Title, Text, Paragraph } = Typography;
+const { Text, Paragraph } = Typography;
 
 export const ChangelogPrefixIcon = {
   [VersionChangelogType.FEATURE]: '🆕 ',
@@ -32,8 +32,12 @@ export const VersionChangelogItem = (props: { changelogs: VersionChangelog[]; ma
     [VersionChangelogType.STYLE]: [],
     [VersionChangelogType.REFACTOR]: []
   };
+  console.log('changelogs', changelogs);
+  console.log('data', data);
   changelogs.forEach((changelog: VersionChangelog) => {
-    data[changelog.type].push(changelog);
+    if (data[changelog.type]) {
+      data[changelog.type].push(changelog);
+    }
   });
 
   const renderList = (title: string, key: VersionChangelogType, changelogs: VersionChangelog[], index: number) => {

@@ -1,0 +1,43 @@
+.release-version {
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-section {
+    margin-bottom: 24px;
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 4px;
+
+    h2 {
+      margin: 0 0 24px;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 28px;
+    }
+
+    h3 {
+      margin: 24px 0 16px;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 22px;
+    }
+  }
+
+  &-demand {
+    display: flex;
+    align-items: center;
+    &-label {
+      width: 60px;
+      margin-right: 16px;
+    }
+  }
+
+  .arco-table-th,
+  .arco-table-td {
+    border-left: none;
+    border-right: none;
+  }
+}

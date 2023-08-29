@@ -10,7 +10,10 @@ import { DemandStatus } from '@/services/common';
 import { useDemands } from '@/services/demand';
 import { AdminContainer } from '../_components';
 
+import './page.scss';
+
 export default function Demand() {
+  const styleName = 'admin-demand';
   const [majorVersionId] = useMajorVersionId();
   const [content, setContent] = useState('');
   const [status, setStatus] = useState();
@@ -44,7 +47,7 @@ export default function Demand() {
   }
 
   return (
-    <AdminContainer title="需求列表">
+    <AdminContainer title="需求列表" className={styleName}>
       <Space>
         <Select
           defaultValue="ALL"
@@ -62,13 +65,13 @@ export default function Demand() {
             }
           }}
         ></Select>
-        <Input
+        {/* <Input
           prefix={<IconSearch></IconSearch>}
           placeholder="提出人"
           onChange={(content) => {
             setContent(content);
           }}
-        ></Input>
+        ></Input> */}
         <Input
           prefix={<IconSearch></IconSearch>}
           placeholder="搜索需求内容"

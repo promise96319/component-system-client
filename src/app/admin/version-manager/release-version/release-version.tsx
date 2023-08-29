@@ -1,4 +1,15 @@
-import { Modal, ModalProps, Message, Table, Tabs, Grid, Empty, Typography } from '@arco-design/web-react';
+import {
+  Modal,
+  Space,
+  ModalProps,
+  Button,
+  Message,
+  Table,
+  Tabs,
+  Grid,
+  Empty,
+  Typography
+} from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { DemandLink, DemandSelect } from '@/components/demand';
@@ -8,6 +19,9 @@ import { Demand, DemandStatus, User } from '@/services/common';
 import { useDemandCanBeClosed, useDemands } from '@/services/demand';
 import { useMajorVersion } from '@/services/version';
 import { useVersionChangelog, useVersionChangelogByVersion } from '@/services/version-changelog';
+import { AdminContainer } from '../../_components';
+
+import './release-version.scss';
 
 const { Row, Col } = Grid;
 const { TabPane } = Tabs;
@@ -17,12 +31,13 @@ export const ReleaseVersion = (
     majorVersionId: string;
   }
 ) => {
+  const styleName = 'release-version';
   const { majorVersionId, ...restProps } = props;
   const [demandIds, setDemandIds] = useState<string[]>([]);
   const { data: major } = useMajorVersion(majorVersionId);
   // todo
   // const { data: latestVersion } = useLatestNpmVersions(major?.majorVersion);
-  const latestVersion = '5.1.18';
+  const latestVersion = '3.10.31';
   const { data: versionChangelogs } = useVersionChangelogByVersion(latestVersion);
   const { data: demands } = useDemands({
     majorVersionId,
@@ -117,58 +132,65 @@ export const ReleaseVersion = (
   };
 
   return (
-    <Modal
-      title="发布版本"
-      visible={true}
-      {...restProps}
-      style={{ width: 800 }}
-      okText="发布"
-      onOk={handleRelease}
-      okButtonProps={{
-        loading: isReleasing
-      }}
+    <AdminContainer
+      title={
+        <div className={`${styleName}-header`}>
+          <div className={`${styleName}-header-version`}>{latestVersion ? `v${latestVersion}` : '-'}</div>
+          <Space>
+            <Button onClick={props.onCancel}>取消</Button>
+            <Button type="primary" onClick={handleRelease}>
+              发布
+            </Button>
+          </Space>
+        </div>
+      }
     >
-      <Row gutter={12}>
-        <Col span={4}>组件库版本</Col>
-        <Col span={20}>{latestVersion ? `v${latestVersion}` : '-'}</Col>
-      </Row>
-      <Row align="center" gutter={12} className="mt-px-16">
-        <Col span={4}>关联需求</Col>
-        <Col span={20}>
+      <section className={`${styleName}-section`}>
+        <h2>组件变更</h2>
+
+        <div>
+          {versionChangelogs && versionChangelogs.length > 0 ? (
+            <VersionChangelogItem changelogs={versionChangelogs} majorVersionId={majorVersionId}></VersionChangelogItem>
+          ) : (
+            <Empty description="暂无变更"></Empty>
+          )}
+        </div>
+      </section>
+
+      <section className={`${styleName}-section`}>
+        <h2>文档变更</h2>
+
+        <section className={`${styleName}-demand`}>
+          <Typography.Text className={`${styleName}-demand-label`} type="secondary">
+            关联需求
+          </Typography.Text>
           <DemandSelect demands={demands} value={demandIds} onChange={setDemandIds}></DemandSelect>
-        </Col>
-      </Row>
-      <Row gutter={12} className="mt-px-16">
-        <Col span={4}>变更内容</Col>
-        <Col span={20}>
-          <Tabs type="card">
-            <TabPane key="version-changelog" title="组件变更">
-              {versionChangelogs && versionChangelogs.length > 0 ? (
-                <VersionChangelogItem
-                  changelogs={versionChangelogs}
-                  majorVersionId={majorVersionId}
-                ></VersionChangelogItem>
-              ) : (
-                <Empty></Empty>
-              )}
-            </TabPane>
-            <TabPane key="api-doc" title="API 文档">
-              <Table
-                rowKey="id"
-                data={docs?.filter((doc) => doc.spec.specType === DocType.API)}
-                columns={columns}
-              ></Table>
-            </TabPane>
-            <TabPane key="design-doc" title="设计规范">
-              <Table
-                rowKey="id"
-                data={docs?.filter((doc) => doc.spec.specType === DocType.DESIGN)}
-                columns={columns}
-              ></Table>
-            </TabPane>
-          </Tabs>
-        </Col>
-      </Row>
+        </section>
+
+        <section>
+          <h3>API 文档</h3>
+
+          <Table
+            rowKey="id"
+            border={false}
+            data={docs?.filter((doc) => doc.spec.specType === DocType.API)}
+            columns={columns}
+            pagination={{ pageSize: 5 }}
+          ></Table>
+        </section>
+
+        <section>
+          <h3>设计规范</h3>
+
+          <Table
+            rowKey="id"
+            border={false}
+            data={docs?.filter((doc) => doc.spec.specType === DocType.DESIGN)}
+            columns={columns}
+            pagination={{ pageSize: 5 }}
+          ></Table>
+        </section>
+      </section>
 
       <Modal
         title="以下需求有冲突"
@@ -197,6 +219,6 @@ export const ReleaseVersion = (
           </TabPane>
         </Tabs>
       </Modal>
-    </Modal>
+    </AdminContainer>
   );
 };

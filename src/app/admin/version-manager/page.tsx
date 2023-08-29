@@ -7,9 +7,10 @@ import { useState } from 'react';
 import { Version } from '@/services/common';
 import { useMajorVersions, useCreateMajorVersion } from '@/services/version';
 import { AdminContainer } from '../_components';
-import { ReleaseVersion } from './release-version/release-version';
+// import { ReleaseVersion } from './release-version/page';
 
 import './page.scss';
+import { ReleaseVersion } from './release-version/release-version';
 
 export default function VersionManager() {
   const styleName = 'version-manager';
@@ -87,7 +88,17 @@ export default function VersionManager() {
     }
   ];
 
-  return (
+  return currentId ? (
+    <ReleaseVersion
+      visible={!!currentId}
+      majorVersionId={currentId}
+      onCancel={() => setCurrenId('')}
+      onConfirm={() => {
+        setCurrenId('');
+        mutate();
+      }}
+    ></ReleaseVersion>
+  ) : (
     <AdminContainer title="版本管理">
       <main className={styleName}>
         <Grid.Row justify="end" style={{ marginBottom: 24 }}>
@@ -96,17 +107,6 @@ export default function VersionManager() {
           </Button>
         </Grid.Row>
         <Table rowKey="id" columns={columns} data={data} loading={isLoading} pagination={false} border={false} />
-        {currentId && (
-          <ReleaseVersion
-            visible={!!currentId}
-            majorVersionId={currentId}
-            onCancel={() => setCurrenId('')}
-            onConfirm={() => {
-              setCurrenId('');
-              mutate();
-            }}
-          ></ReleaseVersion>
-        )}
       </main>
     </AdminContainer>
   );
