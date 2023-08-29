@@ -100,7 +100,7 @@ export default function DesignDoc({ params }: { params: { componentId: string } 
               href={`#${item.id}`}
               title={item.text}
               key={item.id}
-              className={`${styleName}-markdown-toc-${item.level}`}
+              className={`${styleName}-toc-${item.level}`}
             ></Anchor.Link>
           ))}
         </Anchor>

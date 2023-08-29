@@ -8,6 +8,7 @@ $sidebar-width: 200px;
   padding: 0 72px;
   max-width: 1440px;
   margin: 0 auto;
+  z-index: 2;
 
   &-content {
     box-sizing: border-box;
@@ -37,11 +38,20 @@ $sidebar-width: 200px;
     }
   }
 
-  &-img,
-  &-img-bg {
+  &-bg {
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+  }
+
+  &-bg &-img,
+  &-bg &-img-bg {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 0;
   }
 }
