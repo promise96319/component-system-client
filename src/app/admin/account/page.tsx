@@ -36,12 +36,6 @@ const Page = () => {
     onError('更新失败');
   };
 
-  const imageElement = (
-    <Upload fileList={[]} customRequest={handleUpdateAvatar} accept="image/*">
-      <UserAvatar src={user?.avatar}></UserAvatar>
-    </Upload>
-  );
-
   return (
     <AdminContainer title="个人中心">
       <main className={styleName}>
