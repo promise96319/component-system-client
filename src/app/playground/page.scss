@@ -14,8 +14,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #eee;
-    font-size: 24px;
+    border-bottom: 1px solid #e5e6eb;
+
+    &-title {
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 28px;
+    }
   }
 
   &-main {
@@ -26,6 +31,11 @@ body {
   &-editor {
     height: 100%;
     width: 100%;
+
+    * {
+      font-family: Menlo, Monaco, 'Courier New', monospace;
+      font-size: 14px;
+    }
 
     &-root {
       height: 100% !important;

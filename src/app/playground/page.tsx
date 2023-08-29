@@ -76,12 +76,12 @@ export default class extends React.Component {
     <Layout className={styleName}>
       <Header className={`${styleName}-header`}>
         <Link href="/">
-          <Typography.Text className="m-0">Playground</Typography.Text>
+          <Typography.Text className={`${styleName}-header-title`}>Playground</Typography.Text>
         </Link>
         {majorVersions.length > 0 && (
           <Select
             prefix="当前版本"
-            style={{ width: 240 }}
+            style={{ width: 200 }}
             defaultValue={version}
             onChange={(val) => {
               setVersion(val);

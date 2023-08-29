@@ -26,8 +26,13 @@
   }
 
   // 列表
+  ul {
+    list-style: disc;
+  }
+
   ul,
   ol {
+    margin-left: 8px;
     padding: 8px;
     li {
       color: #4e5969;
@@ -85,5 +90,10 @@
       background-color: #f2f3f5;
       font-weight: 500;
     }
+  }
+
+  // code
+  code {
+    color: red;
   }
 }
