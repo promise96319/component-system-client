@@ -3,7 +3,11 @@
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useSearchParams, useSelectedLayoutSegment } from 'next/navigation';
-import { Menu, SubMenu, MenuItem, IconApps } from '@/components/arco';
+import IconData from '@/assets/sidebar/data.svg';
+import IconGeneral from '@/assets/sidebar/general.svg';
+import IconInput from '@/assets/sidebar/input.svg';
+import IconNav from '@/assets/sidebar/nav.svg';
+import { Menu, SubMenu, MenuItem, IconLayout, IconMessage } from '@/components/arco';
 import { Component } from '@/services/common';
 
 export const ComponentMenu = (props: { components: Component[] }) => {
@@ -13,15 +17,24 @@ export const ComponentMenu = (props: { components: Component[] }) => {
   const category = components.map((item) => item.category);
   const segment = useSelectedLayoutSegment();
 
+  const icons = [
+    <IconGeneral key="general" style={{ fontSize: 18 }}></IconGeneral>,
+    <IconLayout key="layout" style={{ fontSize: 18 }}></IconLayout>,
+    <IconNav key="nav" style={{ fontSize: 18 }}></IconNav>,
+    <IconInput key="input" style={{ fontSize: 18 }}></IconInput>,
+    <IconData key="data" style={{ fontSize: 18 }}></IconData>,
+    <IconMessage key="feedback" style={{ fontSize: 18 }} />
+  ];
+
   return (
     <Menu defaultOpenKeys={category} defaultSelectedKeys={['通用', 'button']}>
-      {(components ?? []).map((comp) => {
+      {(components ?? []).map((comp, index) => {
         return (
           <SubMenu
             key={comp.category}
             title={
               <div className={`${styleName}-category`}>
-                <IconApps></IconApps>
+                {icons[index]}
                 {comp.category}
               </div>
             }

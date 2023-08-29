@@ -12,7 +12,7 @@ export const Header = () => {
     <nav className={styleName}>
       <div>
         <Link href="/">
-          <Image src="/logo.svg" width={126} height={28} alt="logo" />
+          <Image src="/logo.png" width={126} height={28} alt="logo" />
         </Link>
       </div>
       <div className={`${styleName}-rightContent`}>

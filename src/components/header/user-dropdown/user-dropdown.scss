@@ -11,4 +11,11 @@
   &.arco-dropdown-popup-visible .arco-icon-down {
     transform: rotate(-180deg);
   }
+
+  &-menu {
+    .arco-space-item {
+      display: flex;
+      align-items: center;
+    }
+  }
 }

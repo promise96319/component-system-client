@@ -44,7 +44,7 @@ const Page = () => {
 
           <div className={`${styleName}-user`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className={`${styleName}-user-bg`} src="/account/account-bg.svg" alt="bg"></img>
+            <img className={`${styleName}-user-bg`} src="/account/account-bg.png" alt="bg"></img>
             <div className={`${styleName}-user-avatar`}>
               <Upload fileList={[]} customRequest={handleUpdateAvatar} accept="image/*">
                 <UserAvatar src={user?.avatar} size={64} style={{ borderRadius: 8 }}></UserAvatar>

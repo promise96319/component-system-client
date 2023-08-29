@@ -50,6 +50,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
+    "@svgr/webpack": "^8.1.0",
     "@types/hast": "^3.0.0",
     "@types/lodash-es": "^4.17.8",
     "@types/node": "20.2.5",

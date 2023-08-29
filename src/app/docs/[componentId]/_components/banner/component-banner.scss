@@ -23,12 +23,14 @@ $sidebar-width: 200px;
     font-weight: 500;
     color: #2a2a2a;
     line-height: 42px;
+    z-index: 1;
   }
 
   &-tab {
     position: absolute;
     bottom: -1px;
     left: -16px;
+    z-index: 1;
 
     .arco-tabs-header-nav::before {
       display: none;
@@ -40,5 +42,6 @@ $sidebar-width: 200px;
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 0;
   }
 }
