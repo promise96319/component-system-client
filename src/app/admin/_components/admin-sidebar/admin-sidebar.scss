@@ -1,6 +1,6 @@
-.layout-sidebar {
+.layout-sidebar:has(.admin-sidebar) {
   width: 220px;
-  &-content {
+  .layout-sidebar-content {
     width: 220px;
   }
 }

@@ -133,6 +133,7 @@ export const ReleaseVersion = (
 
   return (
     <AdminContainer
+      className={styleName}
       title={
         <div className={`${styleName}-header`}>
           <div className={`${styleName}-header-version`}>{latestVersion ? `v${latestVersion}` : '-'}</div>

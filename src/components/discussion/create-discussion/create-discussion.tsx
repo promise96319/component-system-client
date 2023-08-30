@@ -70,6 +70,7 @@ export const CreateDiscussion = (props: { componentId: string; onCreated?: () =>
           editorRef={editorRef}
           id="add-discussion"
           placeholder="请输入讨论内容"
+          footer={null}
           isEdit={true}
           onEditChange={(isEdit) => setIsAddDiscussion(isEdit)}
         ></Editor>

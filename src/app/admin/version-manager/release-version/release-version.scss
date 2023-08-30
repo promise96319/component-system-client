@@ -37,7 +37,6 @@
 
   .arco-table-th,
   .arco-table-td {
-    border-left: none;
-    border-right: none;
+    border: none !important;
   }
 }

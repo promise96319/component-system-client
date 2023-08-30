@@ -1,5 +1,6 @@
 'use client';
 
+import { Empty } from '@arco-design/web-react';
 import React from 'react';
 import { CreateDiscussion, DiscussionList } from '@/components/discussion';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
@@ -14,6 +15,7 @@ export default function Discussion({ params }: { params: { componentId: string }
 
   const {
     data: discussions,
+    isLoading,
     error,
     mutate: updateDiscussions
   } = useDiscussions({
@@ -21,15 +23,23 @@ export default function Discussion({ params }: { params: { componentId: string }
     componentId: params.componentId
   });
 
-  if (error) {
+  if (error || isLoading) {
     return null;
+  }
+
+  const createDiscussion = (
+    <CreateDiscussion componentId={params.componentId} onCreated={updateDiscussions}></CreateDiscussion>
+  );
+
+  if (discussions.length === 0) {
+    return <Empty style={{ marginTop: 128 }} description={createDiscussion}></Empty>;
   }
 
   return (
     <div className={styleName}>
       <div className={`${styleName}-header`}>
         <h2>讨论（{discussions.length}）</h2>
-        <CreateDiscussion componentId={params.componentId} onCreated={updateDiscussions}></CreateDiscussion>
+        {createDiscussion}
       </div>
       <DiscussionList discussions={discussions} onUpdateDiscussions={updateDiscussions}></DiscussionList>
     </div>

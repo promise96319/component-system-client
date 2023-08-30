@@ -6,6 +6,8 @@ import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { VersionChangelogQuery, useVersionChangelog } from '@/services';
 import { AdminContainer } from '../_components';
 
+import './page.scss';
+
 export default function VersionChangelog() {
   const [majorVersionId] = useMajorVersionId();
   const [query, setQuery] = useState<VersionChangelogQuery>({});

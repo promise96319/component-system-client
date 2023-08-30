@@ -32,8 +32,6 @@ export const VersionChangelogItem = (props: { changelogs: VersionChangelog[]; ma
     [VersionChangelogType.STYLE]: [],
     [VersionChangelogType.REFACTOR]: []
   };
-  console.log('changelogs', changelogs);
-  console.log('data', data);
   changelogs.forEach((changelog: VersionChangelog) => {
     if (data[changelog.type]) {
       data[changelog.type].push(changelog);

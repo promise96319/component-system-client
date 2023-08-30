@@ -2,4 +2,11 @@
   padding: 24px;
   border-radius: 4px;
   background-color: #fff;
+  min-height: calc(100vh - 188px);
+  box-sizing: border-box;
+
+  .arco-table-td,
+  .arco-table-th {
+    border: none !important;
+  }
 }

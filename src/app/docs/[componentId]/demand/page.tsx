@@ -15,6 +15,7 @@ export default function Demand({ params }: { params: { componentId: string } }) 
 
   const {
     data: demands,
+    isLoading,
     error,
     mutate: updateDemands
   } = useDemands({
@@ -22,19 +23,21 @@ export default function Demand({ params }: { params: { componentId: string } }) 
     componentId: params.componentId
   });
 
-  if (error) {
+  if (error || isLoading) {
     return null;
   }
 
+  const createDemand = <CreateDemand componentId={params.componentId} onCreated={updateDemands}></CreateDemand>;
+
   if (demands.length === 0) {
-    return <Empty style={{ marginTop: 128 }} description="暂无需求"></Empty>;
+    return <Empty style={{ marginTop: 128 }} description={createDemand}></Empty>;
   }
 
   return (
     <div className={styleName}>
       <div className={`${styleName}-header`}>
         <h2>需求（{demands.length}）</h2>
-        <CreateDemand componentId={params.componentId} onCreated={updateDemands}></CreateDemand>
+        {createDemand}
       </div>
       <DemandList demands={demands} onUpdateDemands={updateDemands}></DemandList>
     </div>

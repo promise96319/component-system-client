@@ -84,7 +84,9 @@ export const Editor = forwardRef(
           className={`${styleName}-container ${styleName}-container-${id}`}
           onClick={() => editor.current?.focus()}
         ></div>
-        {props.footer !== undefined && (
+        {props.footer !== undefined ? (
+          props.footer
+        ) : (
           <Grid.Row justify="end" className={`${styleName}-actions`}>
             <Space>
               <Button size="small" onClick={() => props.onEditChange?.(false)}>

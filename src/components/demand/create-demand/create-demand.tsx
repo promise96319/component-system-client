@@ -73,6 +73,7 @@ export const CreateDemand = (props: { componentId: string; onCreated?: () => Pro
           id="add-demand"
           placeholder="请输入需求内容"
           isEdit={true}
+          footer={null}
           onEditChange={(isEdit) => setIsAddDemand(isEdit)}
           onSave={handleCreateDemand}
         ></Editor>
