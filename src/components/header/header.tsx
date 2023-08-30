@@ -11,7 +11,7 @@ export const Header = () => {
   return (
     <nav className={styleName}>
       <Link href="/" className={`${styleName}-logo`}>
-        <Image src="/logo.png" width={126} height={28} alt="logo" />
+        <Image src="/logo.png" width={126} height={28} alt="logo" quality={100} priority={true} />
       </Link>
       <div className={`${styleName}-rightContent`}>
         <VersionSelector />
