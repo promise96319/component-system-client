@@ -1,6 +1,6 @@
 'use client';
 
-import { Message, Card, Grid, Tag } from '@arco-design/web-react';
+import { Message, Card, Grid, Tag, Empty } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import React from 'react';
 import { DemandComment, DemandStatus } from '@/services/common';
@@ -135,6 +135,10 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
         );
       });
   };
+
+  if (!props.demands.length) {
+    return <Empty description="暂无需求" style={{ marginTop: 128 }}></Empty>;
+  }
 
   return (
     <div className={`${styleName}-container`}>

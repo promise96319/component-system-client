@@ -37,6 +37,11 @@ $sidebar-width: 200px;
     .arco-tabs-header-nav::before {
       display: none;
     }
+
+    .arco-space-item {
+      display: flex;
+      align-items: center;
+    }
   }
 
   &-bg {

@@ -1,10 +1,10 @@
 version: '3'
 
 services:
-  nextjs-deploy:
-    container_name: component-system-client-dev
+  component-system-client-prod:
+    container_name: component-system-client-prod
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 37021:3000
+      - 37026:3000

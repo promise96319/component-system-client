@@ -27,7 +27,10 @@ export default function Discussion({ params }: { params: { componentId: string }
 
   return (
     <div className={styleName}>
-      <CreateDiscussion componentId={params.componentId} onCreated={updateDiscussions}></CreateDiscussion>
+      <div className={`${styleName}-header`}>
+        <h2>讨论（{discussions.length}）</h2>
+        <CreateDiscussion componentId={params.componentId} onCreated={updateDiscussions}></CreateDiscussion>
+      </div>
       <DiscussionList discussions={discussions} onUpdateDiscussions={updateDiscussions}></DiscussionList>
     </div>
   );

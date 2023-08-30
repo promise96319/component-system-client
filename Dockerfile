@@ -14,14 +14,5 @@ EXPOSE 3000
 
 RUN pnpm run build
 
-FROM node:alpine as prod
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_/ENV}
-
-WORKDIR /usr/src/app
-COPY --from=dev /usr/src/app/.next ./.next
-COPY --from=dev /usr/src/app/package.json .
-
 CMD ["pnpm", "run", "start"]
 

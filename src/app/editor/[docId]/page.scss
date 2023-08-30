@@ -8,6 +8,12 @@ body:has(.markdown-editor) {
   display: flex;
   flex-direction: column;
 
+  .bytemd-toolbar {
+    svg {
+      fill: none;
+    }
+  }
+
   &-header {
     height: 64px;
     display: flex;

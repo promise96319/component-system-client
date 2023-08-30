@@ -11,6 +11,11 @@
   .arco-menu-item {
     margin-bottom: 8px;
 
+    .arco-space-item {
+      display: flex;
+      align-items: center;
+    }
+
     .arco-icon {
       margin-right: 0px;
     }

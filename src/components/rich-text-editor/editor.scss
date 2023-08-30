@@ -12,6 +12,11 @@
     border-color: #e5e6eb;
   }
 
+  .ql-editor::before {
+    color: #a9aeb8;
+    font-style: normal;
+  }
+
   &-actions {
     border: 1px solid #e5e6eb;
     border-top: none;

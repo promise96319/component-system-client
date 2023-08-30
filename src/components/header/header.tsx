@@ -10,11 +10,9 @@ export const Header = () => {
 
   return (
     <nav className={styleName}>
-      <div>
-        <Link href="/">
-          <Image src="/logo.png" width={126} height={28} alt="logo" />
-        </Link>
-      </div>
+      <Link href="/" className={`${styleName}-logo`}>
+        <Image src="/logo.png" width={126} height={28} alt="logo" />
+      </Link>
       <div className={`${styleName}-rightContent`}>
         <VersionSelector />
         <UserDropDown />

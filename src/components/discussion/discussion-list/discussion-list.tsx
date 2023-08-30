@@ -1,6 +1,6 @@
 'use client';
 
-import { Message, Card, Divider } from '@arco-design/web-react';
+import { Message, Card, Divider, Empty } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import React from 'react';
 import { DiscussionComment } from '@/services/common';
@@ -140,6 +140,10 @@ export const DiscussionList = (props: {
         );
       });
   };
+
+  if (!props.discussions.length) {
+    return <Empty description="暂无讨论" style={{ marginTop: 128 }}></Empty>;
+  }
 
   return (
     <div className={styleName}>

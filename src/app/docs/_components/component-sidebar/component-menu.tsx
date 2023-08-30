@@ -27,7 +27,7 @@ export const ComponentMenu = (props: { components: Component[] }) => {
   ];
 
   return (
-    <Menu defaultOpenKeys={category} defaultSelectedKeys={['通用', 'button']}>
+    <Menu defaultOpenKeys={category} defaultSelectedKeys={segment ? [segment] : []}>
       {(components ?? []).map((comp, index) => {
         return (
           <SubMenu
