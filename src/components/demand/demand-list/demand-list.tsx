@@ -1,6 +1,6 @@
 'use client';
 
-import { Message, Card, Grid, Tag, Empty } from '@arco-design/web-react';
+import { Message, Card, Tag, Empty, Space } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import React from 'react';
 import { DemandComment, DemandStatus } from '@/services/common';
@@ -161,14 +161,14 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
                 }
                 onRemove={() => handleRemoveDemand(demand.id)}
                 extra={
-                  <Grid.Row>
+                  <Space>
                     <Tag color="blue" className="mr-px-8">
                       #{demand.no}
                     </Tag>
                     <Tag color={demand.status === DemandStatus.CLOSED ? 'red' : 'green'}>
                       {demand.status === DemandStatus.CLOSED ? `已解决(v${demand.versionId})` : '待解决'}
                     </Tag>
-                  </Grid.Row>
+                  </Space>
                 }
               >
                 <section className={`${styleName}-comments`}>

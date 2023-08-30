@@ -1,24 +1,40 @@
-.markdown-body {
+:where(.markdown-body) {
   color: #1d2129;
   font-size: 14px;
   line-height: 22px;
 
+  > h1:first-child {
+    margin-top: 0;
+  }
+
+  > h2:first-child {
+    margin-top: 0;
+  }
+
   // 标题
   h2 {
+    margin: 40px 0 8px;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+  }
+
+  // 标题
+  h3 {
     margin: 40px 0 8px;
     font-size: 20px;
     font-weight: 500;
     line-height: 28px;
   }
 
-  h3 {
+  h4 {
     margin: 16px 0 8px;
     font-size: 16px;
     font-weight: 500;
     line-height: 24px;
   }
 
-  h4 {
+  h5 {
     margin: 12px 0 8px;
     font-size: 14px;
     font-weight: 500;
@@ -79,6 +95,7 @@
   table {
     border: 1px solid #e5e6eb;
     border-collapse: collapse;
+    width: 100%;
 
     th,
     td {
