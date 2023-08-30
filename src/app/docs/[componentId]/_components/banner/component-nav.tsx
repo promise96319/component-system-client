@@ -1,7 +1,5 @@
 'use client';
 
-import { IconApps } from '@arco-design/web-react/icon';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useSelectedLayoutSegments } from 'next/navigation';
 import IconChangelog from '@/assets/admin/changelog.svg';
@@ -15,7 +13,7 @@ const tabsData = [
   { key: 'api', icon: <IconApi style={{ fontSize: 16 }} />, label: 'API 文档' },
   { key: 'design', icon: <IconDesign style={{ fontSize: 16 }} />, label: '设计规范' },
   { key: 'version-changelog', icon: <IconChangelog style={{ fontSize: 16 }} />, label: '版本变更' },
-  { key: 'discussion', icon: <IconDiscussion style={{ fontSize: 16 }} />, label: '讨论区' },
+  { key: 'discussion', icon: <IconDiscussion style={{ fontSize: 16 }} />, label: '讨论' },
   { key: 'demand', icon: <IconDemand style={{ fontSize: 16 }} />, label: '需求' }
 ];
 

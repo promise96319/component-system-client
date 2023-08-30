@@ -70,7 +70,7 @@ export default function DesignDoc({ params }: { params: { componentId: string } 
   if (!designDocData || !designDocData.doc || !majorVersion) {
     return (
       <Empty
-        style={{ marginTop: 64 }}
+        style={{ marginTop: 128 }}
         description={
           <Link href={`/editor/${designDocData?.id}`}>
             <Button type="primary">新建文档</Button>

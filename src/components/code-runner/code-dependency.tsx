@@ -161,7 +161,7 @@ export function CodeDependency(props: { jsDependencies?: JSDependency[]; cssDepe
   props.cssDependencies?.forEach((url) => ReactDom.preload(url, { as: 'style' }));
 
   return (
-    <>
+    <div className="dependencies">
       {/* preload 只会进行样式加载，但是不会应用。link 放到头部，next.js 又不生效  */}
       {/* <Head> */}
       {props.cssDependencies?.map((url, index) => (
@@ -170,6 +170,6 @@ export function CodeDependency(props: { jsDependencies?: JSDependency[]; cssDepe
       {/* </Head> */}
       {createScripts(builtInJsDependencies)}
       {createScripts(props.jsDependencies)}
-    </>
+    </div>
   );
 }

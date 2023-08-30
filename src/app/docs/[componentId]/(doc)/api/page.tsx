@@ -70,7 +70,7 @@ export default function APIDoc({ params }: { params: { componentId: string } }) 
   if (!apiDocData || !apiDocData.doc || !majorVersion) {
     return (
       <Empty
-        style={{ marginTop: 64 }}
+        style={{ marginTop: 128 }}
         description={
           <Link href={`/editor/${apiDocData?.id}`}>
             <Button type="primary">新建文档</Button>
