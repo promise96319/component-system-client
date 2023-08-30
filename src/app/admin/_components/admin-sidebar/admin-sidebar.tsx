@@ -13,9 +13,10 @@ import './admin-sidebar.scss';
 export function AdminSidebar() {
   const styleName = 'admin-sidebar';
   const segment = useSelectedLayoutSegment();
+  console.log('value', segment);
 
   return (
-    <Menu defaultSelectedKeys={segment ? [segment] : []} className={styleName}>
+    <Menu selectedKeys={segment ? [segment] : []} className={styleName}>
       <Link href="/admin/version-manager">
         <Menu.Item key="version-manager">
           <Space size={12}>
