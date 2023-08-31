@@ -64,6 +64,7 @@ export default function Demand() {
               setStatus(value);
             }
           }}
+          allowClear
         ></Select>
         {/* <Input
           prefix={<IconSearch></IconSearch>}

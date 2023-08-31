@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-before-interactive-script-outside-document */
-import Head from 'next/head';
 import Script from 'next/script';
 import ReactDom from 'react-dom';
 
@@ -163,11 +162,9 @@ export function CodeDependency(props: { jsDependencies?: JSDependency[]; cssDepe
   return (
     <div className="dependencies">
       {/* preload 只会进行样式加载，但是不会应用。link 放到头部，next.js 又不生效  */}
-      {/* <Head> */}
       {props.cssDependencies?.map((url, index) => (
         <link key={index} rel="stylesheet" href={url}></link>
       ))}
-      {/* </Head> */}
       {createScripts(builtInJsDependencies)}
       {createScripts(props.jsDependencies)}
     </div>

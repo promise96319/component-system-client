@@ -13,6 +13,7 @@ import {
   useUpdateDemand,
   useUpdateDemandComment
 } from '@/services/demand';
+import { getTreeNodeCount } from '@/utils';
 import { Topic, Comment, AddComment } from '../../comment';
 
 import './demand-list.scss';
@@ -150,6 +151,7 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
                 id={demand.id}
                 user={demand.createdBy ?? {}}
                 contentDelta={demand.contentDelta ?? []}
+                commentCount={getTreeNodeCount(demand.demandComments ?? [], { children: 'comments' })}
                 updatedAt={demand.updatedAt ?? ''}
                 onUpdateContent={(content, contentDelta) => handleUpdateDemand(demand.id, content, contentDelta)}
                 onSaveTopic={(content, contentDelta) =>

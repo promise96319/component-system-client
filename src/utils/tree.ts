@@ -31,3 +31,17 @@ export const normalizeTreeData = (data: any[] = [], filedNames?: FieldNames): Fi
 
   return traverse(cloneDeep(data));
 };
+
+export const getTreeNodeCount = (data: any[], fieldNames: any) => {
+  let count = 0;
+  const traverse = (data: any[]) => {
+    data.forEach((item) => {
+      count++;
+      if (item[fieldNames.children ?? 'children']) {
+        traverse(item[fieldNames.children ?? 'children']);
+      }
+    });
+  };
+  traverse(data);
+  return count;
+};

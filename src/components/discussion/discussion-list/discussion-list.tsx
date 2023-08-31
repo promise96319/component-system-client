@@ -13,6 +13,7 @@ import {
   useUpdateDiscussion,
   useUpdateDiscussionComment
 } from '@/services/discussion';
+import { getTreeNodeCount } from '@/utils';
 import { Topic, AddComment, Comment } from '../../comment';
 
 import './discussion-list.scss';
@@ -155,6 +156,7 @@ export const DiscussionList = (props: {
                 id={discussion.id}
                 user={discussion.createdBy ?? {}}
                 contentDelta={discussion.contentDelta ?? []}
+                commentCount={getTreeNodeCount(discussion.discussionComments ?? [], { children: 'comments' })}
                 updatedAt={discussion.updatedAt ?? ''}
                 onUpdateContent={(content, contentDelta) =>
                   handleUpdateDiscussion(discussion.id, content, contentDelta)

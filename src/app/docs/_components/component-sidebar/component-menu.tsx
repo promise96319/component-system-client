@@ -4,10 +4,13 @@ import classNames from 'classnames';
 import Link from 'next/link';
 import { useSearchParams, useSelectedLayoutSegment } from 'next/navigation';
 import IconData from '@/assets/sidebar/data.svg';
+import IconFeedback from '@/assets/sidebar/feedback.svg';
 import IconGeneral from '@/assets/sidebar/general.svg';
 import IconInput from '@/assets/sidebar/input.svg';
+import IconLayout from '@/assets/sidebar/layout.svg';
 import IconNav from '@/assets/sidebar/nav.svg';
-import { Menu, SubMenu, MenuItem, IconLayout, IconMessage } from '@/components/arco';
+
+import { Menu, SubMenu, MenuItem, IconMessage } from '@/components/arco';
 import { Component } from '@/services/common';
 
 export const ComponentMenu = (props: { components: Component[] }) => {
@@ -23,7 +26,7 @@ export const ComponentMenu = (props: { components: Component[] }) => {
     <IconNav key="nav" style={{ fontSize: 18 }}></IconNav>,
     <IconInput key="input" style={{ fontSize: 18 }}></IconInput>,
     <IconData key="data" style={{ fontSize: 18 }}></IconData>,
-    <IconMessage key="feedback" style={{ fontSize: 18 }} />
+    <IconFeedback key="feedback" style={{ fontSize: 18 }} />
   ];
 
   return (

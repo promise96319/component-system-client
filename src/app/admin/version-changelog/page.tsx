@@ -18,7 +18,7 @@ export default function VersionChangelog() {
   });
 
   return (
-    <AdminContainer title="版本变更">
+    <AdminContainer title="版本变更" className="admin-version-changelog">
       <VersionChangelogFilter onChange={setQuery}></VersionChangelogFilter>
       <div style={{ height: 16 }}></div>
       <VersionChangelogList versionChangelogs={versionChangelogs}></VersionChangelogList>

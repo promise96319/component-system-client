@@ -19,6 +19,7 @@ export const Topic = (props: {
   updatedAt: Date | string;
   children?: React.ReactNode;
   extra?: React.ReactNode;
+  commentCount?: number;
 
   onSaveTopic?: (content: string, contentDelta: any[]) => Promise<boolean | undefined>;
   onUpdateContent?: (content: string, contentDelta: any[]) => Promise<boolean | undefined>;
@@ -29,7 +30,7 @@ export const Topic = (props: {
   const MemoizedEditorViewer = useMemo(() => EditorViewer, []);
 
   const { id, user, contentDelta, updatedAt, children } = props;
-  const { id: userId, nickname: username } = user || {};
+  const { id: userId } = user || {};
   const [isEdit, setIsEdit] = useState(false);
   const [isCommentsShow, setIsCommentsShow] = useState(false);
   const setCurrentEditorId = useEditorStore((state) => state.setCurrentId);
@@ -55,7 +56,8 @@ export const Topic = (props: {
             setIsEdit(false);
           }}
         >
-          {isCommentsShow ? '收起评论' : '评论'}
+          {isCommentsShow ? '收起评论' : '查看评论'}
+          {props.commentCount ? `(${props.commentCount})` : ''}
         </Typography.Text>
         {editable && (
           <Typography.Text
