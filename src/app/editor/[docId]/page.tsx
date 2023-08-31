@@ -9,7 +9,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import React, { useCallback, useMemo, useEffect, useRef, useState } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { codeRuntimePlugin } from '@/components/code-runner';
-import { Viewer } from '@/components/code-runner/viewer';
+import { MemoizedViewer } from '@/components/code-runner/viewer';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useComponent, useLatestDocById } from '@/services';
 import { useUploadImage } from '@/services/file';
@@ -96,7 +96,7 @@ export default function MarkdownEditor() {
                 rootCache.current.el = root;
               }
             }
-            root.render(<Viewer {...props}></Viewer>);
+            root.render(<MemoizedViewer {...props}></MemoizedViewer>);
           }}
           plugins={plugins}
         />

@@ -1,13 +1,14 @@
 'use client';
 
 import * as bytemd from 'bytemd';
-import React, { useMemo, useLayoutEffect, useRef, FC } from 'react';
+import React, { useMemo, useLayoutEffect, useRef, FC, memo } from 'react';
 
 export interface ViewerProps extends bytemd.ViewerProps {}
 
 export const Viewer: FC<ViewerProps> = ({ value, sanitize, plugins, remarkRehype }) => {
   const elRef = useRef<HTMLDivElement>(null);
   const file = useMemo(() => {
+    console.log('2', 2);
     try {
       return bytemd.getProcessor({ sanitize, plugins, remarkRehype }).processSync(value);
     } catch (err) {
@@ -42,3 +43,7 @@ export const Viewer: FC<ViewerProps> = ({ value, sanitize, plugins, remarkRehype
     ></div>
   );
 };
+
+export const MemoizedViewer = memo(Viewer, (prev, next) => {
+  return prev.value === next.value;
+});

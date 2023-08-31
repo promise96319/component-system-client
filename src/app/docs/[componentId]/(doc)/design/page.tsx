@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { codeRuntimePlugin } from '@/components/code-runner';
-import { Viewer } from '@/components/code-runner/viewer';
+import { MemoizedViewer } from '@/components/code-runner/viewer';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useDoc, useMajorVersion } from '@/services';
 import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
@@ -52,7 +52,7 @@ export default function DesignDoc({ params }: { params: { componentId: string } 
     } catch (err) {
       console.log('Markdown 编译错误：', err);
     }
-  }, [designDocData]);
+  }, [designDocData?.doc?.content]);
 
   if (isLoadingDoc || !majorVersionId) {
     return (
@@ -91,7 +91,7 @@ export default function DesignDoc({ params }: { params: { componentId: string } 
           </Tooltip>
           <HistoryButton id={designDocData.id} componentId={componentId}></HistoryButton>
         </Space>
-        <Viewer value={designDocData.doc.content} plugins={plugins}></Viewer>
+        <MemoizedViewer value={designDocData.doc.content} plugins={plugins}></MemoizedViewer>
       </div>
       <div className={`${styleName}-toc`}>
         <Anchor offsetTop={80}>

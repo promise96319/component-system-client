@@ -7,9 +7,9 @@ import highlight from '@bytemd/plugin-highlight';
 import { getProcessor } from 'bytemd';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { codeRuntimePlugin } from '@/components/code-runner';
-import { Viewer } from '@/components/code-runner/viewer';
+import { MemoizedViewer } from '@/components/code-runner/viewer';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useDoc, useMajorVersion } from '@/services';
 import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
@@ -32,7 +32,6 @@ export default function APIDoc({ params }: { params: { componentId: string } }) 
   });
   const majorVersionNumber = Number(useSearchParams().get('v'));
   const plugins = [gfm(), rehypeHead(), codeRuntimePlugin({ majorVersion: majorVersionNumber }), highlight()];
-
   const [toc, setToc] = useState<TocItem[]>([]);
 
   useEffect(() => {
@@ -52,7 +51,7 @@ export default function APIDoc({ params }: { params: { componentId: string } }) 
     } catch (err) {
       console.log('Markdown 编译错误：', err);
     }
-  }, [apiDocData]);
+  }, [apiDocData?.doc?.content]);
 
   if (isLoadingDoc || !majorVersionId) {
     return (
@@ -91,7 +90,7 @@ export default function APIDoc({ params }: { params: { componentId: string } }) 
           </Tooltip>
           <HistoryButton id={apiDocData.id} componentId={componentId}></HistoryButton>
         </Space>
-        <Viewer value={apiDocData.doc.content} plugins={plugins}></Viewer>
+        <MemoizedViewer value={apiDocData.doc.content} plugins={plugins}></MemoizedViewer>
       </div>
       <div className={`${styleName}-toc`}>
         <Anchor offsetTop={80}>
