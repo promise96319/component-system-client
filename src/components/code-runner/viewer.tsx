@@ -8,7 +8,6 @@ export interface ViewerProps extends bytemd.ViewerProps {}
 export const Viewer: FC<ViewerProps> = ({ value, sanitize, plugins, remarkRehype }) => {
   const elRef = useRef<HTMLDivElement>(null);
   const file = useMemo(() => {
-    console.log('2', 2);
     try {
       return bytemd.getProcessor({ sanitize, plugins, remarkRehype }).processSync(value);
     } catch (err) {

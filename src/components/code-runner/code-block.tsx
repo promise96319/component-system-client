@@ -1,25 +1,23 @@
 'use client';
 
+import 'highlight.js/styles/github.css';
+import './styles/code-block.scss';
+
 import { Button, Message, Space, Tooltip } from '@arco-design/web-react';
 import highlight from '@bytemd/plugin-highlight';
-import { Viewer } from '@bytemd/react';
 import classNames from 'classnames';
 import ClipboardJS from 'clipboard';
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { utoa } from '@/utils/zlib';
-
-import 'highlight.js/styles/github.css';
-import './styles/code-block.scss';
 import { IconCode, IconCommon, IconCopy } from '../arco';
+import { MemoizedViewer } from './viewer';
 
 export default function CodeBlock(props: { source: string; majorVersion?: number; children: React.JSX.Element }) {
   const styleName = 'code-block';
 
-  const markdown = `
-\`\`\` tsx
+  const markdown = `\`\`\` tsx
 ${props.source}
-\`\`\`
-`;
+\`\`\``;
 
   const [visible, setVisible] = useState(false);
   const btnRef = useRef<HTMLDivElement>(null);
@@ -76,7 +74,7 @@ ${props.source}
       </Space>
       {visible && (
         <div className={classNames(`${styleName}-source`, { visible })}>
-          <Viewer value={markdown} plugins={plugins} />
+          <MemoizedViewer value={markdown} plugins={plugins} />
         </div>
       )}
     </div>

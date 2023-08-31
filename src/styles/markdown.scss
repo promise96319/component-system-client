@@ -91,8 +91,8 @@
   }
 
   // 表格
-
-  table {
+  // todo：其他样式也应该处理
+  table:not(.code-block table) {
     border: 1px solid #e5e6eb;
     border-collapse: collapse;
     width: 100%;
@@ -100,8 +100,14 @@
     th,
     td {
       padding: 8px 16px;
-      border-bottom: 1px solid #e5e6eb;
       text-align: left;
+    }
+
+    thead th {
+      border-bottom: 1px solid #e5e6eb;
+    }
+    tbody td {
+      border-bottom: 1px solid #e5e6eb;
     }
 
     th {
