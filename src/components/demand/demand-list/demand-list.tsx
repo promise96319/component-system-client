@@ -18,7 +18,11 @@ import { Topic, Comment, AddComment } from '../../comment';
 
 import './demand-list.scss';
 
-export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDemands: () => Promise<any> }) => {
+export const DemandList = (props: {
+  demands: DemandWithComments[];
+  showComponentTag?: boolean;
+  onUpdateDemands: () => Promise<any>;
+}) => {
   const styleName = 'demand-list';
 
   const { trigger: updateDemand, isMutating: isUpdatingDemand } = useUpdateDemand();
@@ -170,6 +174,7 @@ export const DemandList = (props: { demands: DemandWithComments[]; onUpdateDeman
                     <Tag color={demand.status === DemandStatus.CLOSED ? 'red' : 'green'}>
                       {demand.status === DemandStatus.CLOSED ? `已解决(v${demand.versionId})` : '待解决'}
                     </Tag>
+                    {props.showComponentTag && <Tag color="orangered">{demand.componentId}</Tag>}
                   </Space>
                 }
               >

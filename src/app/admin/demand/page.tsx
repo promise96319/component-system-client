@@ -85,7 +85,7 @@ export default function Demand() {
       {demands.length === 0 ? (
         <Empty style={{ marginTop: 160 }}></Empty>
       ) : (
-        <DemandList demands={demands} onUpdateDemands={updateDemands}></DemandList>
+        <DemandList demands={demands} onUpdateDemands={updateDemands} showComponentTag></DemandList>
       )}
     </AdminContainer>
   );

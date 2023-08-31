@@ -14,11 +14,14 @@
   }
 
   &:hover {
+    background-color: #fff;
+    border: 1px solid #ebedf0;
+  }
+
+  &.hasText:hover {
     width: auto;
     padding: 0 16px;
     border-radius: 18px;
-    background-color: #fff;
-    border: 1px solid #ebedf0;
 
     .float-button-children {
       display: inline-block;
