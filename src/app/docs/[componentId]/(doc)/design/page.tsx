@@ -1,6 +1,6 @@
 'use client';
 
-import { Anchor, Button, Empty, Skeleton, Space, Tooltip } from '@arco-design/web-react';
+import { Anchor, Button, Empty, Skeleton } from '@arco-design/web-react';
 import { IconEdit } from '@arco-design/web-react/icon';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { codeRuntimePlugin } from '@/components/code-runner';
 import { MemoizedViewer } from '@/components/code-runner/viewer';
+import { FloatButton } from '@/components/float-button/float-button';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useDoc, useMajorVersion } from '@/services';
 import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
@@ -83,14 +84,12 @@ export default function DesignDoc({ params }: { params: { componentId: string } 
   return (
     <main className={styleName}>
       <div className={`${styleName}-content`}>
-        <Space className={`${styleName}-actions`}>
-          <Tooltip content="编辑文档">
-            <Link href={`/editor/${designDocData?.id}`}>
-              <Button shape="round" icon={<IconEdit></IconEdit>}></Button>
-            </Link>
-          </Tooltip>
-          <HistoryButton id={designDocData.id} componentId={componentId}></HistoryButton>
-        </Space>
+        <Link href={`/editor/${designDocData?.id}`}>
+          <FloatButton bottom={144} icon={<IconEdit></IconEdit>}>
+            编辑文档
+          </FloatButton>
+        </Link>
+        <HistoryButton id={designDocData.id} componentId={componentId}></HistoryButton>
         <MemoizedViewer value={designDocData.doc.content} plugins={plugins}></MemoizedViewer>
       </div>
       <div className={`${styleName}-toc`}>

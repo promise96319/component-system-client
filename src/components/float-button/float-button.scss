@@ -1,0 +1,27 @@
+.float-button.arco-btn.arco-btn-secondary {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background-color: #fff;
+  border: 1px solid #ebedf0;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  transition: width 0.3s, padding 0.3s;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  .float-button-children {
+    display: none;
+  }
+
+  &:hover {
+    width: auto;
+    padding: 0 16px;
+    border-radius: 18px;
+    background-color: #fff;
+    border: 1px solid #ebedf0;
+
+    .float-button-children {
+      display: inline-block;
+    }
+  }
+}

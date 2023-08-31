@@ -8,9 +8,9 @@
   }
 
   &-actions {
-    position: absolute;
-    right: 0;
-    top: 0;
+    position: fixed;
+    right: 24px;
+    bottom: 120px;
   }
 
   &-toc {

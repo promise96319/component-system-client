@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, memo } from 'react';
 import { codeRuntimePlugin } from '@/components/code-runner';
 import { MemoizedViewer } from '@/components/code-runner/viewer';
+import { FloatButton } from '@/components/float-button/float-button';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useDoc, useMajorVersion } from '@/services';
 import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
@@ -82,14 +83,12 @@ export default function APIDoc({ params }: { params: { componentId: string } }) 
   return (
     <main className={styleName}>
       <div className={`${styleName}-content`}>
-        <Space className={`${styleName}-actions`}>
-          <Tooltip content="编辑文档">
-            <Link href={`/editor/${apiDocData?.id}`}>
-              <Button shape="round" icon={<IconEdit></IconEdit>}></Button>
-            </Link>
-          </Tooltip>
-          <HistoryButton id={apiDocData.id} componentId={componentId}></HistoryButton>
-        </Space>
+        <Link href={`/editor/${apiDocData?.id}`}>
+          <FloatButton bottom={144} icon={<IconEdit></IconEdit>}>
+            编辑文档
+          </FloatButton>
+        </Link>
+        <HistoryButton id={apiDocData.id} componentId={componentId}></HistoryButton>
         <MemoizedViewer value={apiDocData.doc.content} plugins={plugins}></MemoizedViewer>
       </div>
       <div className={`${styleName}-toc`}>

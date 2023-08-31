@@ -1,6 +1,6 @@
-import { Button, Tooltip } from '@arco-design/web-react';
 import { IconHistory } from '@arco-design/web-react/icon';
 import { useState } from 'react';
+import { FloatButton } from '@/components/float-button/float-button';
 import { DocHistory } from './doc-history/doc-history';
 
 export const HistoryButton = (props: { id: string; componentId: string }) => {
@@ -8,9 +8,9 @@ export const HistoryButton = (props: { id: string; componentId: string }) => {
 
   return (
     <>
-      <Tooltip content="文档更新记录">
-        <Button shape="round" icon={<IconHistory></IconHistory>} onClick={() => setIsHistoryVisible(true)}></Button>
-      </Tooltip>
+      <FloatButton bottom={84} icon={<IconHistory></IconHistory>} onClick={() => setIsHistoryVisible(true)}>
+        文档更新记录
+      </FloatButton>
 
       <DocHistory
         id={props.id}

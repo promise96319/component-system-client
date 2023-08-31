@@ -1,5 +1,5 @@
 import { Layout } from '@/components';
-import { BackTop } from '@/components/arco';
+import { BackTop } from '@/components/back-top/back-top';
 import { Header } from '@/components/header/header';
 import { ComponentSidebar } from './_components/component-sidebar/component-sidebar';
 
