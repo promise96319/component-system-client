@@ -18,13 +18,13 @@ export const builtInJsDependencies: JSDependency[] = [
   },
   {
     module: 'umd',
-    url: 'http://ued.qingteng.cn:37022/library/react16.dev.umd.js',
+    url: 'http://ued.qingteng.cn:37022/library/react16.umd.js',
     globalName: 'React',
     importName: 'react'
   },
   {
     module: 'umd',
-    url: 'http://ued.qingteng.cn:37022/library/react-dom16.dev.umd.js',
+    url: 'http://ued.qingteng.cn:37022/library/react-dom16.umd.js',
     globalName: 'ReactDOM',
     importName: 'react-dom'
   },
