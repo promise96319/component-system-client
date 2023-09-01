@@ -47,5 +47,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
+  // https://github.com/vercel/next.js/issues/48077
   matcher: ['/admin/:path*', '/docs/:path*', '/editor/:path*', '/auth/:path*', '/playground/:path*']
 };
