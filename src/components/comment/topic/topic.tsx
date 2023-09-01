@@ -1,8 +1,11 @@
 'use client';
 
-import { Modal, Space, Typography } from '@arco-design/web-react';
+import { Modal, Space, Tooltip, Typography } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import { useState, useMemo } from 'react';
+import IconComment from '@/assets/docs/comment.svg';
+import IconDelete from '@/assets/docs/delete.svg';
+import IconEdit from '@/assets/docs/edit.svg';
 import { useUser } from '@/services';
 import { User } from '@/services/common';
 import { useEditorStore } from '@/store';
@@ -47,34 +50,36 @@ export const Topic = (props: {
   const viewer = (
     <section key="viewer" className={`${styleName}-viewer`}>
       <MemoizedEditorViewer id={id} contentDelta={contentDelta}></MemoizedEditorViewer>
-      <Space align="center" className={`${styleName}-viewer-actions`} size={12}>
+      <Space align="center" className={`${styleName}-viewer-actions`} size={16}>
         <Typography.Text
           style={{ cursor: 'pointer' }}
-          type="secondary"
           onClick={() => {
             setIsCommentsShow(!isCommentsShow);
             setIsEdit(false);
           }}
         >
-          {isCommentsShow ? '收起评论' : '查看评论'}
-          {props.commentCount ? `(${props.commentCount})` : ''}
+          <IconComment style={{ fontSize: 18, marginRight: 4 }}></IconComment>
+          {isCommentsShow ? '收起评论' : props.commentCount}
         </Typography.Text>
         {editable && (
-          <Typography.Text
-            style={{ cursor: 'pointer' }}
-            type="secondary"
-            onClick={() => {
-              setIsEdit(true);
-              setCurrentEditorId(id);
-            }}
-          >
-            编辑
-          </Typography.Text>
+          <Tooltip content="编辑">
+            <Typography.Text
+              style={{ cursor: 'pointer', fontSize: 18 }}
+              onClick={() => {
+                setIsEdit(true);
+                setCurrentEditorId(id);
+              }}
+            >
+              <IconEdit></IconEdit>
+            </Typography.Text>
+          </Tooltip>
         )}
         {editable && (
-          <Typography.Text style={{ cursor: 'pointer' }} type="secondary" onClick={handleRemove}>
-            删除
-          </Typography.Text>
+          <Tooltip content="删除">
+            <Typography.Text style={{ cursor: 'pointer', fontSize: 18 }} onClick={handleRemove}>
+              <IconDelete></IconDelete>
+            </Typography.Text>
+          </Tooltip>
         )}
       </Space>
     </section>

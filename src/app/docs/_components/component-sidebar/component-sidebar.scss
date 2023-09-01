@@ -3,14 +3,13 @@
   height: 100%;
   padding: 12px 0px;
   overflow-y: auto;
-  font-size: 12px;
+  font-size: 14px;
   user-select: none;
 
   .arco-menu-inline-header {
     height: 46px;
     display: flex;
     align-items: center;
-    font-size: 14px;
 
     &:hover {
       font-weight: 500;
@@ -31,7 +30,6 @@
   }
 
   .arco-menu-item {
-    font-size: 12px;
     &:hover {
       font-weight: 500;
     }

@@ -61,12 +61,12 @@ const Page = () => {
 
           <div className={`${styleName}-other`}>
             <Descriptions
-              labelStyle={{ width: 144 }}
+              labelStyle={{ width: 88 }}
               data={[
                 {
                   label: (
                     <Space>
-                      <IconEmail></IconEmail>
+                      <IconEmail style={{ fontSize: 16 }}></IconEmail>
                       邮箱
                     </Space>
                   ),
@@ -75,7 +75,7 @@ const Page = () => {
                 {
                   label: (
                     <Space>
-                      <IconIdcard></IconIdcard>
+                      <IconIdcard style={{ fontSize: 16 }}></IconIdcard>
                       ID
                     </Space>
                   ),
@@ -84,7 +84,7 @@ const Page = () => {
                 {
                   label: (
                     <Space>
-                      <IconUser></IconUser>
+                      <IconUser style={{ fontSize: 16 }}></IconUser>
                       角色
                     </Space>
                   ),

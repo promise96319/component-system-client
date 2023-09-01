@@ -93,7 +93,7 @@ export const Editor = forwardRef(
                 取消
               </Button>
               <Button size="small" type="primary" onClick={handleSaveContent}>
-                保存
+                发布
               </Button>
             </Space>
           </Grid.Row>

@@ -10,11 +10,11 @@ import IconDiscussion from '@/assets/docs/topic.svg';
 import { Space, Tabs, TabPane } from '@/components/arco';
 
 const tabsData = [
-  { key: 'api', icon: <IconApi style={{ fontSize: 16 }} />, label: 'API 文档' },
-  { key: 'design', icon: <IconDesign style={{ fontSize: 16 }} />, label: '设计规范' },
-  { key: 'version-changelog', icon: <IconChangelog style={{ fontSize: 16 }} />, label: '版本变更' },
-  { key: 'discussion', icon: <IconDiscussion style={{ fontSize: 16 }} />, label: '讨论' },
-  { key: 'demand', icon: <IconDemand style={{ fontSize: 16 }} />, label: '需求' }
+  { key: 'api', icon: <IconApi style={{ fontSize: 18 }} />, label: 'API 文档' },
+  { key: 'design', icon: <IconDesign style={{ fontSize: 18 }} />, label: '设计规范' },
+  { key: 'version-changelog', icon: <IconChangelog style={{ fontSize: 18 }} />, label: '版本变更' },
+  { key: 'discussion', icon: <IconDiscussion style={{ fontSize: 18 }} />, label: '讨论' },
+  { key: 'demand', icon: <IconDemand style={{ fontSize: 18 }} />, label: '需求' }
 ];
 
 export const ComponentNav = (props: { componentId: string }) => {
@@ -32,7 +32,7 @@ export const ComponentNav = (props: { componentId: string }) => {
             <Link href={`/docs/${componentId}/${tab.key}`}>
               <Space size={4}>
                 {tab.icon}
-                <span>{tab.label}</span>
+                <span style={{ fontSize: 16 }}>{tab.label}</span>
               </Space>
             </Link>
           }
