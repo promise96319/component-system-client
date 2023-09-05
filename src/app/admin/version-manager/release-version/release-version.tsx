@@ -1,18 +1,9 @@
-import {
-  Modal,
-  Space,
-  ModalProps,
-  Button,
-  Message,
-  Table,
-  Tabs,
-  Grid,
-  Empty,
-  Typography
-} from '@arco-design/web-react';
+import { Modal, Space, ModalProps, Button, Message, Table, Tabs, Grid, Typography } from '@arco-design/web-react';
+
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { DemandLink, DemandSelect } from '@/components/demand';
+import { Empty } from '@/components/empty/empty';
 import { VersionChangelogItem } from '@/components/version-changelog';
 import { DocType, useDocContents, useLatestNpmVersions, useReleaseVersion } from '@/services';
 import { Demand, DemandStatus, User } from '@/services/common';

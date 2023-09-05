@@ -1,8 +1,8 @@
 'use client';
 
-import { Empty } from '@arco-design/web-react';
 import React from 'react';
 import { CreateDiscussion, DiscussionList } from '@/components/discussion';
+import { Empty } from '@/components/empty/empty';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useDiscussions } from '@/services/discussion';
 

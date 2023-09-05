@@ -1,8 +1,8 @@
 'use client';
 
-import { Empty } from '@arco-design/web-react';
 import React from 'react';
 import { CreateDemand, DemandList } from '@/components/demand';
+import { Empty } from '@/components/empty/empty';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { useDemands } from '@/services/demand';
 

@@ -1,6 +1,7 @@
-import { Empty, Typography } from '@arco-design/web-react';
+import { Typography } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import { DemandLink } from '@/components/demand';
+import { Empty } from '@/components/empty/empty';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { VersionWithChangelogs, useVersionChangelogFilter } from '@/services';
 import { VersionChangelog, VersionChangelogType } from '@/services/common';

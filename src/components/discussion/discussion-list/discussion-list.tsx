@@ -1,8 +1,9 @@
 'use client';
 
-import { Message, Card, Divider, Empty } from '@arco-design/web-react';
+import { Message, Card } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import React from 'react';
+import { Empty } from '@/components/empty/empty';
 import { DiscussionComment } from '@/services/common';
 import {
   DiscussionCommentBody,

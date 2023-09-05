@@ -1,6 +1,6 @@
 'use client';
 
-import { Anchor, Button, Empty, Skeleton, Space, Tooltip } from '@arco-design/web-react';
+import { Anchor, Button, Skeleton } from '@arco-design/web-react';
 import { IconEdit } from '@arco-design/web-react/icon';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, memo } from 'react';
 import { codeRuntimePlugin } from '@/components/code-runner';
 import { MemoizedViewer } from '@/components/code-runner/viewer';
+import { Empty } from '@/components/empty/empty';
 import { FloatButton } from '@/components/float-button/float-button';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useDoc, useMajorVersion } from '@/services';
@@ -70,7 +71,7 @@ export default function APIDoc({ params }: { params: { componentId: string } }) 
   if (!apiDocData || !apiDocData.doc || !majorVersion) {
     return (
       <Empty
-        style={{ marginTop: 128 }}
+        style={{ marginTop: 148 }}
         description={
           <Link href={`/editor/${apiDocData?.id}`}>
             <Button type="primary">新建文档</Button>
@@ -92,7 +93,7 @@ export default function APIDoc({ params }: { params: { componentId: string } }) 
         <MemoizedViewer value={apiDocData.doc.content} plugins={plugins}></MemoizedViewer>
       </div>
       <div className={`${styleName}-toc`}>
-        <Anchor offsetTop={80}>
+        <Anchor offsetTop={80} boundary={120}>
           {toc.map((item) => (
             <Anchor.Link
               href={`#${item.id}`}

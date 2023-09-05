@@ -1,6 +1,6 @@
 'use client';
 
-import { Anchor, Button, Empty, Skeleton } from '@arco-design/web-react';
+import { Anchor, Button, Skeleton } from '@arco-design/web-react';
 import { IconEdit } from '@arco-design/web-react/icon';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { codeRuntimePlugin } from '@/components/code-runner';
 import { MemoizedViewer } from '@/components/code-runner/viewer';
+import { Empty } from '@/components/empty/empty';
 import { FloatButton } from '@/components/float-button/float-button';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useDoc, useMajorVersion } from '@/services';

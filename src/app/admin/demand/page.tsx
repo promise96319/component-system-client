@@ -1,10 +1,11 @@
 'use client';
 
-import { Empty, Input, Select, Space } from '@arco-design/web-react';
+import { Input, Select, Space } from '@arco-design/web-react';
 import { IconSearch } from '@arco-design/web-react/icon';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { DemandList } from '@/components/demand';
+import { Empty } from '@/components/empty/empty';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DemandStatus } from '@/services/common';
 import { useDemands } from '@/services/demand';

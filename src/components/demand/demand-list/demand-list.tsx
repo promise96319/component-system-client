@@ -1,8 +1,9 @@
 'use client';
 
-import { Message, Card, Tag, Empty, Space } from '@arco-design/web-react';
+import { Message, Card, Tag, Space } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import React from 'react';
+import { Empty } from '@/components/empty/empty';
 import { DemandComment, DemandStatus } from '@/services/common';
 import {
   DemandCommentBody,
