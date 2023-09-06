@@ -22,7 +22,7 @@ export const Topic = (props: {
   updatedAt: Date | string;
   children?: React.ReactNode;
   extra?: React.ReactNode;
-  commentCount?: number;
+  commentCount: number;
 
   onSaveTopic?: (content: string, contentDelta: any[]) => Promise<boolean | undefined>;
   onUpdateContent?: (content: string, contentDelta: any[]) => Promise<boolean | undefined>;
@@ -59,7 +59,7 @@ export const Topic = (props: {
           }}
         >
           <IconComment style={{ fontSize: 18, marginRight: 4 }}></IconComment>
-          {isCommentsShow ? '收起评论' : props.commentCount}
+          {isCommentsShow ? '收起评论' : props.commentCount > 0 ? props.commentCount : '添加评论'}
         </Typography.Text>
         {editable && (
           <Tooltip content="编辑">

@@ -173,6 +173,7 @@ export const DiscussionList = (props: {
               >
                 <section className={`${styleName}-comments`}>
                   <AddComment
+                    defaultEdit={discussion.discussionComments?.length === 0}
                     onSaveComment={(content, contentDelta) =>
                       handleCreateDiscussionComment({
                         discussionId: discussion.id,

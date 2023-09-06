@@ -41,3 +41,14 @@ export const useVersionChangelog = (query: VersionChangelogQuery) => {
 export const useVersionChangelogByVersion = (versionId: string) => {
   return useFetch<VersionChangelog[]>(`/version-changelog/${versionId}`);
 };
+
+export const useGitlabBranches = () => {
+  return useFetch<string[]>('/version-changelog/gitlab/branches');
+};
+
+export const useGitlabChangelog = (query: { branch: string; majorVersion: number }) => {
+  return useFetch<Partial<VersionChangelog>[]>('/version-changelog/gitlab/changelog', {
+    query,
+    stopFetch: !query.branch || !query.majorVersion
+  });
+};

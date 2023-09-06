@@ -181,6 +181,7 @@ export const DemandList = (props: {
               >
                 <section className={`${styleName}-comments`}>
                   <AddComment
+                    defaultEdit={demand.demandComments.length === 0}
                     onSaveComment={(content, contentDelta) =>
                       handleCreateDemandComment({
                         demandId: demand.id,

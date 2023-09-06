@@ -50,7 +50,7 @@ export const VersionChangelogItem = (props: { changelogs: VersionChangelog[]; ma
           {ChangelogPrefixIcon[key]}
           {title}
         </Text>
-        <Paragraph className="ml-px-24">
+        <Paragraph style={{ marginLeft: 24 }}>
           <ul>
             {changelogs.map((changelog: VersionChangelog) => (
               <li key={changelog.id}>

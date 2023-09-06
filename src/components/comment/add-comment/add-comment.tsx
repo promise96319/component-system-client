@@ -3,17 +3,18 @@
 import './add-comment.scss';
 
 import { Grid, Input } from '@arco-design/web-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useUser } from '@/services';
 import { useEditorStore } from '@/store';
 import { Editor } from '../../rich-text-editor';
 import { UserAvatar } from '../../user';
 
 export const AddComment = (props: {
+  defaultEdit?: boolean;
   onSaveComment?: (content: string, contentDelta: any[]) => Promise<boolean | undefined>;
 }) => {
   const styleName = 'add-comment';
-  const [isAddComment, setIsAddComment] = useState(false);
+  const [isAddComment, setIsAddComment] = useState(!!props.defaultEdit);
   const setCurrentEditorId = useEditorStore((state) => state.setCurrentId);
   const MemoizedEditor = useMemo(() => Editor, []);
   const { data: user } = useUser();
@@ -26,7 +27,6 @@ export const AddComment = (props: {
         <Input
           onFocus={() => {
             setIsAddComment(true);
-            setCurrentEditorId('add-comment');
           }}
           placeholder="请输入你的评论"
         ></Input>
@@ -35,6 +35,12 @@ export const AddComment = (props: {
       onSave={props.onSaveComment}
     ></MemoizedEditor>
   );
+
+  useEffect(() => {
+    if (isAddComment) {
+      setCurrentEditorId('add-comment');
+    }
+  }, [isAddComment]);
 
   return (
     <div className={styleName}>

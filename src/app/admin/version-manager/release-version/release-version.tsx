@@ -1,7 +1,7 @@
-import { Modal, Space, ModalProps, Button, Message, Table, Tabs, Grid, Typography } from '@arco-design/web-react';
+import { Modal, Space, ModalProps, Button, Message, Table, Tabs, Typography, Select } from '@arco-design/web-react';
 
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DemandLink, DemandSelect } from '@/components/demand';
 import { Empty } from '@/components/empty/empty';
 import { VersionChangelogItem } from '@/components/version-changelog';
@@ -9,12 +9,12 @@ import { DocType, useDocContents, useLatestNpmVersions, useReleaseVersion } from
 import { Demand, DemandStatus, User } from '@/services/common';
 import { useDemandCanBeClosed, useDemands } from '@/services/demand';
 import { useMajorVersion } from '@/services/version';
-import { useVersionChangelog, useVersionChangelogByVersion } from '@/services/version-changelog';
+import { useGitlabBranches, useGitlabChangelog } from '@/services/version-changelog';
+import { normalizeTreeData } from '@/utils';
 import { AdminContainer } from '../../_components';
 
 import './release-version.scss';
 
-const { Row, Col } = Grid;
 const { TabPane } = Tabs;
 
 export const ReleaseVersion = (
@@ -23,17 +23,18 @@ export const ReleaseVersion = (
   }
 ) => {
   const styleName = 'release-version';
-  const { majorVersionId, ...restProps } = props;
+  const { majorVersionId } = props;
   const [demandIds, setDemandIds] = useState<string[]>([]);
+  const [branch, setBranch] = useState<string>('');
+
   const { data: major } = useMajorVersion(majorVersionId);
-  // todo
-  // const { data: latestVersion } = useLatestNpmVersions(major?.majorVersion);
-  const latestVersion = '3.10.31';
-  const { data: versionChangelogs } = useVersionChangelogByVersion(latestVersion);
+  const { data: latestVersion } = useLatestNpmVersions(major?.majorVersion);
+  const { data: versionChangelogs } = useGitlabChangelog({ branch, majorVersion: Number(major?.majorVersion) });
   const { data: demands } = useDemands({
     majorVersionId,
     status: DemandStatus.OPENED
   });
+  const { data: branches } = useGitlabBranches();
   const { data: docs } = useDocContents({ demandIds });
   const { trigger: releaseVersion, isMutating: isReleasing } = useReleaseVersion();
   const { trigger: isDemandCanBeClosed, data: conflictDocs } = useDemandCanBeClosed();
@@ -122,6 +123,13 @@ export const ReleaseVersion = (
     );
   };
 
+  useEffect(() => {
+    if (latestVersion) {
+      const [major, minor] = latestVersion.split('.');
+      setBranch(`release-v${major}.${minor}.x`);
+    }
+  }, [latestVersion]);
+
   return (
     <AdminContainer
       className={styleName}
@@ -140,9 +148,30 @@ export const ReleaseVersion = (
       <section className={`${styleName}-section`}>
         <h2>组件变更</h2>
 
+        <section className={`${styleName}-changelog`}>
+          <Typography.Text className={`${styleName}-changelog-label`} type="secondary">
+            代码分支
+          </Typography.Text>
+          <Select
+            placeholder="请选择代码分支"
+            value={branch}
+            options={normalizeTreeData(branches, { label: 'name', value: 'name' })}
+            onChange={(branch) => setBranch(branch)}
+            allowClear
+          ></Select>
+        </section>
+
         <div>
           {versionChangelogs && versionChangelogs.length > 0 ? (
-            <VersionChangelogItem changelogs={versionChangelogs} majorVersionId={majorVersionId}></VersionChangelogItem>
+            <VersionChangelogItem
+              changelogs={
+                versionChangelogs.map((item, index) => {
+                  item.id = `${index}`;
+                  return item;
+                }) as any
+              }
+              majorVersionId={majorVersionId}
+            ></VersionChangelogItem>
           ) : (
             <Empty description="暂无变更"></Empty>
           )}
