@@ -23,5 +23,8 @@ export const useCreateMajorVersion = () => {
 };
 
 export const useReleaseVersion = () => {
-  return useMutation<{ version: string; demandIds: string[] }, Version>('/major-version/release', {});
+  return useMutation<{ version: string; demandIds: string[]; changelogs: any[] }, Version>(
+    '/major-version/release',
+    {}
+  );
 };

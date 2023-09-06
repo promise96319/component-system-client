@@ -61,7 +61,8 @@ export const ReleaseVersion = (
 
     await releaseVersion({
       version: latestVersion,
-      demandIds
+      demandIds,
+      changelogs: versionChangelogs ?? []
     });
 
     Message.success('发布成功');
@@ -166,8 +167,9 @@ export const ReleaseVersion = (
             <VersionChangelogItem
               changelogs={
                 versionChangelogs.map((item, index) => {
-                  item.id = `${index}`;
-                  return item;
+                  const newItem: any = { ...item };
+                  newItem.id = `${index}`;
+                  return newItem;
                 }) as any
               }
               majorVersionId={majorVersionId}
