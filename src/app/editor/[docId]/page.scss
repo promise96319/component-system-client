@@ -8,10 +8,12 @@ body:has(.markdown-editor) {
   display: flex;
   flex-direction: column;
 
-  .bytemd-toolbar {
-    svg {
-      fill: none;
-    }
+  .bytemd-toolbar svg {
+    fill: none;
+  }
+
+  .bytemd-sidebar svg {
+    fill: none;
   }
 
   &-header {

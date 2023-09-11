@@ -10,7 +10,7 @@ import IconInput from '@/assets/sidebar/input.svg';
 import IconLayout from '@/assets/sidebar/layout.svg';
 import IconNav from '@/assets/sidebar/nav.svg';
 
-import { Menu, SubMenu, MenuItem, IconMessage } from '@/components/arco';
+import { Menu, SubMenu, MenuItem } from '@/components/arco';
 import { Component } from '@/services/common';
 
 export const ComponentMenu = (props: { components: Component[] }) => {
