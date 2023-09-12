@@ -1,5 +1,10 @@
+.arco-backtop {
+  z-index: 9999;
+}
+
 .float-button.arco-btn.arco-btn-secondary {
   position: fixed;
+  z-index: 9999;
   right: 24px;
   bottom: 24px;
   background-color: #fff;
