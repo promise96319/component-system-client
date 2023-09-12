@@ -4,10 +4,11 @@ import { Anchor, Button, Skeleton } from '@arco-design/web-react';
 import { IconEdit } from '@arco-design/web-react/icon';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
+import mediumZoom from '@bytemd/plugin-medium-zoom';
 import { getProcessor } from 'bytemd';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState, memo } from 'react';
+import { useEffect, useState } from 'react';
 import { codeRuntimePlugin } from '@/components/code-runner';
 import { MemoizedViewer } from '@/components/code-runner/viewer';
 import { Empty } from '@/components/empty/empty';
@@ -33,7 +34,13 @@ export default function APIDoc({ params }: { params: { componentId: string } }) 
     type: DocType.API
   });
   const majorVersionNumber = Number(useSearchParams().get('v'));
-  const plugins = [gfm(), rehypeHead(), codeRuntimePlugin({ majorVersion: majorVersionNumber }), highlight()];
+  const plugins = [
+    gfm(),
+    mediumZoom(),
+    rehypeHead(),
+    codeRuntimePlugin({ majorVersion: majorVersionNumber }),
+    highlight()
+  ];
   const [toc, setToc] = useState<TocItem[]>([]);
 
   useEffect(() => {

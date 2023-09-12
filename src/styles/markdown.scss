@@ -102,6 +102,10 @@
     td {
       padding: 8px 16px;
       text-align: left;
+      border-right: 1px solid #e5e6eb;
+      &:last-child {
+        border-right: none;
+      }
     }
 
     thead th {
@@ -128,5 +132,14 @@
 
   img:not(.code-block img) {
     max-width: 100%;
+  }
+}
+
+.medium-zoom {
+  &-overlay {
+    z-index: 999999;
+  }
+  &-image--opened {
+    z-index: 999999;
   }
 }

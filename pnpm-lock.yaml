@@ -10,6 +10,9 @@ dependencies:
   '@bytemd/plugin-highlight':
     specifier: ^1.21.0
     version: registry.npmmirror.com/@bytemd/plugin-highlight@1.21.0(bytemd@1.21.0)
+  '@bytemd/plugin-medium-zoom':
+    specifier: ^1.21.0
+    version: registry.npmmirror.com/@bytemd/plugin-medium-zoom@1.21.0(bytemd@1.21.0)
   '@bytemd/react':
     specifier: ^1.21.0
     version: registry.npmmirror.com/@bytemd/react@1.21.0(react@18.2.0)
@@ -1835,6 +1838,18 @@ packages:
     dependencies:
       bytemd: registry.npmmirror.com/bytemd@1.21.0
       highlight.js: registry.npmmirror.com/highlight.js@11.8.0
+    dev: false
+
+  registry.npmmirror.com/@bytemd/plugin-medium-zoom@1.21.0(bytemd@1.21.0):
+    resolution: {integrity: sha512-7x8iuw3eKfYyjDIcDa5EIa399db6SEk9Y2ntaZoJvJAf02ASXOZHwBht9PYredoPEjXgZS6awJ5Adr/fM/QJ4A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@bytemd/plugin-medium-zoom/-/plugin-medium-zoom-1.21.0.tgz}
+    id: registry.npmmirror.com/@bytemd/plugin-medium-zoom/1.21.0
+    name: '@bytemd/plugin-medium-zoom'
+    version: 1.21.0
+    peerDependencies:
+      bytemd: ^1.5.0
+    dependencies:
+      bytemd: registry.npmmirror.com/bytemd@1.21.0
+      medium-zoom: registry.npmmirror.com/medium-zoom@1.0.8
     dev: false
 
   registry.npmmirror.com/@bytemd/react@1.21.0(react@18.2.0):
@@ -6535,6 +6550,12 @@ packages:
     name: mdn-data
     version: 2.0.30
     dev: true
+
+  registry.npmmirror.com/medium-zoom@1.0.8:
+    resolution: {integrity: sha512-CjFVuFq/IfrdqesAXfg+hzlDKu6A2n80ZIq0Kl9kWjoHh9j1N9Uvk5X0/MmN0hOfm5F9YBswlClhcwnmtwz7gA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/medium-zoom/-/medium-zoom-1.0.8.tgz}
+    name: medium-zoom
+    version: 1.0.8
+    dev: false
 
   registry.npmmirror.com/meow@8.1.2:
     resolution: {integrity: sha512-r85E3NdZ+mpYk1C6RjPFEMSE+s1iZMuHtsHAqY0DT3jZczl0diWUZ8g6oU7h0M9cD2EL+PzaYghhCLzR0ZNn5Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/meow/-/meow-8.1.2.tgz}
