@@ -8,7 +8,10 @@ import { DesignDependency } from './editor/_components/dependency';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: '组件库管理系统',
+  title: {
+    template: '%s | 组件库管理系统',
+    default: '组件库管理系统'
+  },
   description: '组件库管理系统'
 };
 
