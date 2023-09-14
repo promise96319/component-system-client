@@ -13,37 +13,44 @@
 
   // 标题
   h1 {
-    margin: 40px 0 8px;
+    margin: 40px 0 12px;
     font-size: 24px;
     font-weight: 500;
-    line-height: 28px;
+    line-height: 32px;
   }
 
   // 标题
   h2 {
-    margin: 40px 0 8px;
+    margin: 40px 0 12px;
     font-size: 24px;
     font-weight: 500;
-    line-height: 28px;
+    line-height: 32px;
   }
 
   // 标题
   h3 {
-    margin: 40px 0 8px;
+    margin: 32px 0 12px;
     font-size: 20px;
     font-weight: 500;
     line-height: 28px;
   }
 
   h4 {
-    margin: 16px 0 8px;
+    margin: 24px 0 12px;
     font-size: 16px;
     font-weight: 500;
     line-height: 24px;
   }
 
   h5 {
-    margin: 12px 0 8px;
+    margin: 16px 0 12px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+  }
+
+  h6 {
+    margin: 16px 0 12px;
     font-size: 14px;
     font-weight: 500;
     line-height: 22px;
@@ -56,9 +63,8 @@
 
   ul:not(.code-block ul),
   ol:not(.code-block ul) {
-    margin: 0;
-    margin-left: 8px;
-    padding: 8px;
+    margin: 8px 0 8px 8px;
+    padding: 0 8px;
     li {
       color: #4e5969;
       line-height: 22px;
