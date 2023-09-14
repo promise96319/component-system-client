@@ -1,11 +1,11 @@
 'use client';
 
-import { Typography, Divider } from '@arco-design/web-react';
+import { Typography, Divider, Space, Button, Modal } from '@arco-design/web-react';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import { Editor } from '@bytemd/react';
 import Link from 'next/link';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import React, { useCallback, useMemo, useEffect, useRef, useState } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { codeRuntimePlugin } from '@/components/code-runner';
@@ -25,6 +25,8 @@ export default function MarkdownEditor() {
   const styleName = 'markdown-editor';
 
   const [value, setValue] = useState('');
+  // fixme: <Editor /> 首次渲染时会触发 onChange，导致 hasEdited 为 true，
+  const [hasEdited, setHasEdited] = useState(-2);
   const rootCache: React.RefObject<Record<any, Root>> = useRef({});
   const { docId } = useParams();
   const [majorVersionId] = useMajorVersionId();
@@ -36,6 +38,7 @@ export default function MarkdownEditor() {
   const { data: doc } = useLatestDocById(docId as string);
   const { data: component } = useComponent(majorVersionId, doc?.componentId);
   const { trigger: uploadImage } = useUploadImage();
+  const router = useRouter();
 
   const redirectUrl = `/docs/${doc?.componentId}/${doc?.specType === DocType.API ? 'api' : 'design'}`;
 
@@ -45,7 +48,41 @@ export default function MarkdownEditor() {
     }
   }, [doc?.doc?.content]);
 
-  const handleChange = useCallback((val: string) => setValue(val), []);
+  const handleBack = () => {
+    if (hasEdited > 0) {
+      Modal.confirm({
+        title: '您有未保存的更改，确认要离开吗？',
+        onOk() {
+          router.push(redirectUrl);
+        }
+      });
+    } else {
+      router.push(redirectUrl);
+    }
+  };
+
+  useEffect(() => {
+    const handleRouteChange = (e: BeforeUnloadEvent) => {
+      if (hasEdited > 0) {
+        e.preventDefault();
+        e.returnValue = '';
+        return '您有未保存的更改，确认要离开吗？';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleRouteChange);
+    return () => window.removeEventListener('beforeunload', handleRouteChange);
+  }, [hasEdited]);
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setHasEdited(hasEdited + 1);
+    }
+  }, [value]);
+
+  const handleChange = useCallback((val: string) => {
+    setValue(val);
+  }, []);
 
   const handleUploadImage = useCallback(async (files: File[]) => {
     return Promise.all(
@@ -64,20 +101,21 @@ export default function MarkdownEditor() {
   return (
     <div className={styleName}>
       <header className={`${styleName}-header`}>
-        <Link href={redirectUrl}>
-          <Typography.Text className={`${styleName}-header-title`}>
-            {doc?.specType && (doc.specType === DocType.API ? 'API 文档' : '设计规范')}
-            <Divider type="vertical" />
-            {component?.description}
-          </Typography.Text>
-        </Link>
-        <UpdateModal
-          value={value}
-          doc={doc}
-          docId={doc?.id ?? ''}
-          redirectUrl={redirectUrl}
-          majorVersionId={majorVersionId}
-        ></UpdateModal>
+        <Typography.Text className={`${styleName}-header-title`} onClick={handleBack}>
+          {doc?.specType && (doc.specType === DocType.API ? 'API 文档' : '设计规范')}
+          <Divider type="vertical" />
+          {component?.description}
+        </Typography.Text>
+        <Space size={8}>
+          <Button onClick={handleBack}>返回</Button>
+          <UpdateModal
+            value={value}
+            doc={doc}
+            docId={doc?.id ?? ''}
+            redirectUrl={redirectUrl}
+            majorVersionId={majorVersionId}
+          ></UpdateModal>
+        </Space>
       </header>
 
       <main className={`${styleName}-container`}>

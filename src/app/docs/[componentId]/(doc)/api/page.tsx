@@ -15,6 +15,7 @@ import { Empty } from '@/components/empty/empty';
 import { FloatButton } from '@/components/float-button/float-button';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useDoc, useMajorVersion } from '@/services';
+import { linkPlugin } from '@/utils/markdown-plugin';
 import { rehypeHead, rehypeToc, TocItem } from '@/utils/markdown-toc-plugin';
 import { HistoryButton } from '../_components/history-button';
 
@@ -36,6 +37,7 @@ export default function APIDoc({ params }: { params: { componentId: string } }) 
   const majorVersionNumber = Number(useSearchParams().get('v'));
   const plugins = [
     gfm(),
+    linkPlugin(),
     mediumZoom(),
     rehypeHead(),
     codeRuntimePlugin({ majorVersion: majorVersionNumber }),

@@ -24,6 +24,7 @@ body:has(.markdown-editor) {
     padding: 0 24px;
 
     &-title {
+      cursor: pointer;
       font-size: 20px;
       font-weight: 500;
       line-height: 28px;
