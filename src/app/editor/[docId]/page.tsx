@@ -13,6 +13,7 @@ import { MemoizedViewer } from '@/components/code-runner/viewer';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';
 import { DocType, useComponent, useLatestDocById } from '@/services';
 import { useUploadImage } from '@/services/file';
+import { linkPlugin } from '@/utils/markdown-plugin';
 import { UpdateModal } from './_components/update-modal';
 
 import 'bytemd/dist/index.css';
@@ -28,7 +29,10 @@ export default function MarkdownEditor() {
   const { docId } = useParams();
   const [majorVersionId] = useMajorVersionId();
   const majorVersion = useSearchParams().get('v');
-  const plugins = useMemo(() => [gfm(), codeRuntimePlugin({ majorVersion: Number(majorVersion) }), highlight()], []);
+  const plugins = useMemo(
+    () => [gfm(), linkPlugin(), codeRuntimePlugin({ majorVersion: Number(majorVersion) }), highlight()],
+    []
+  );
   const { data: doc } = useLatestDocById(docId as string);
   const { data: component } = useComponent(majorVersionId, doc?.componentId);
   const { trigger: uploadImage } = useUploadImage();
