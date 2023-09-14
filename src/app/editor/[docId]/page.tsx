@@ -140,6 +140,10 @@ export default function MarkdownEditor() {
             }
             root.render(<MemoizedViewer {...props}></MemoizedViewer>);
           }}
+          sanitize={(schema: any) => {
+            schema.attributes['*'].push('style');
+            return schema;
+          }}
           plugins={plugins}
         />
       </main>

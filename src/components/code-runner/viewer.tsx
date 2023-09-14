@@ -9,7 +9,16 @@ export const Viewer: FC<ViewerProps> = ({ value, sanitize, plugins, remarkRehype
   const elRef = useRef<HTMLDivElement>(null);
   const file = useMemo(() => {
     try {
-      return bytemd.getProcessor({ sanitize, plugins, remarkRehype }).processSync(value);
+      return bytemd
+        .getProcessor({
+          sanitize: (schema: any) => {
+            schema.attributes['*'].push('style');
+            return schema;
+          },
+          plugins,
+          remarkRehype
+        })
+        .processSync(value);
     } catch (err) {
       console.error(err);
     }
