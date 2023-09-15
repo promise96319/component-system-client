@@ -103,7 +103,7 @@ export default function DesignDoc({ params }: { params: { componentId: string } 
         <MemoizedViewer value={designDocData.doc.content} plugins={plugins}></MemoizedViewer>
       </div>
       <div className={`${styleName}-toc`}>
-        <Anchor offsetTop={80}>
+        <Anchor offsetTop={80} boundary={120}>
           {toc.map((item) => (
             <Anchor.Link
               href={`#${item.id}`}
