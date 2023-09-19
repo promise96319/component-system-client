@@ -15,8 +15,9 @@ export async function generateMetadata({ params }: { params: { docId: string } }
   });
 
   return {
-    title: component.description,
-    absolute: `${component.description} | 编辑`
+    title: {
+      absolute: `${component.description} | 编辑`
+    }
   };
 }
 
