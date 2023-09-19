@@ -1,6 +1,6 @@
 'use client';
 
-import { Modal, Space, Tooltip, Typography } from '@arco-design/web-react';
+import { Modal, Space, Typography } from '@arco-design/web-react';
 import dayjs from 'dayjs';
 import { useState, useMemo } from 'react';
 import IconComment from '@/assets/docs/comment.svg';
@@ -52,7 +52,7 @@ export const Topic = (props: {
       <MemoizedEditorViewer id={id} contentDelta={contentDelta}></MemoizedEditorViewer>
       <Space align="center" className={`${styleName}-viewer-actions`} size={16}>
         <Typography.Text
-          style={{ cursor: 'pointer' }}
+          className={`${styleName}-viewer-action-item`}
           onClick={() => {
             setIsCommentsShow(!isCommentsShow);
             setIsEdit(false);
@@ -62,24 +62,22 @@ export const Topic = (props: {
           {isCommentsShow ? '收起评论' : props.commentCount > 0 ? props.commentCount : '添加评论'}
         </Typography.Text>
         {editable && (
-          <Tooltip content="编辑">
-            <Typography.Text
-              style={{ cursor: 'pointer', fontSize: 18 }}
-              onClick={() => {
-                setIsEdit(true);
-                setCurrentEditorId(id);
-              }}
-            >
-              <IconEdit></IconEdit>
-            </Typography.Text>
-          </Tooltip>
+          <Typography.Text
+            className={`${styleName}-viewer-action-item`}
+            onClick={() => {
+              setIsEdit(true);
+              setCurrentEditorId(id);
+            }}
+          >
+            <IconEdit style={{ fontSize: 18, marginRight: 4 }}></IconEdit>
+            编辑
+          </Typography.Text>
         )}
         {editable && (
-          <Tooltip content="删除">
-            <Typography.Text style={{ cursor: 'pointer', fontSize: 18 }} onClick={handleRemove}>
-              <IconDelete></IconDelete>
-            </Typography.Text>
-          </Tooltip>
+          <Typography.Text className={`${styleName}-viewer-action-item`} onClick={handleRemove}>
+            <IconDelete style={{ fontSize: 18, marginRight: 4 }}></IconDelete>
+            删除
+          </Typography.Text>
         )}
       </Space>
     </section>

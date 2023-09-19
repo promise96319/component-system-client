@@ -1,5 +1,6 @@
 'use client';
 
+import './create-discussion.scss'
 import { Button, Modal, Message } from '@arco-design/web-react';
 import { useRef, useState } from 'react';
 import { useMajorVersionId } from '@/hooks/use-major-version-id';

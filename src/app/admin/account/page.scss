@@ -6,7 +6,8 @@
   min-height: calc(100vh - 188px);
 
   &-section {
-    margin-bottom: 32px;
+    margin: 0 auto 32px;
+    max-width: 820px;
 
     h2 {
       font-size: 16px;

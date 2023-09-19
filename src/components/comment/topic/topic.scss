@@ -52,6 +52,13 @@
         align-items: center;
       }
     }
+
+    &-action-item {
+      cursor: pointer;
+      &:hover {
+        color: #165dff;
+      }
+    }
   }
 
   &-container {

@@ -17,6 +17,9 @@
     font-size: 24px;
     font-weight: 500;
     line-height: 32px;
+    strong {
+      font-weight: 500;
+    }
   }
 
   // 标题
@@ -25,6 +28,9 @@
     font-size: 24px;
     font-weight: 500;
     line-height: 32px;
+    strong {
+      font-weight: 500;
+    }
   }
 
   // 标题
@@ -33,6 +39,9 @@
     font-size: 20px;
     font-weight: 500;
     line-height: 28px;
+    strong {
+      font-weight: 500;
+    }
   }
 
   h4 {
@@ -40,6 +49,9 @@
     font-size: 16px;
     font-weight: 500;
     line-height: 24px;
+    strong {
+      font-weight: 500;
+    }
   }
 
   h5 {
@@ -47,6 +59,9 @@
     font-size: 14px;
     font-weight: 500;
     line-height: 22px;
+    strong {
+      font-weight: 500;
+    }
   }
 
   h6 {
@@ -54,6 +69,10 @@
     font-size: 14px;
     font-weight: 500;
     line-height: 22px;
+    color: #4e5969;
+    strong {
+      font-weight: 500;
+    }
   }
 
   // 列表
@@ -85,9 +104,10 @@
   blockquote:not(.code-block blockquote) {
     margin: 0;
     padding: 8px 0 8px 16px;
-    color: #4e5969;
+    color: #86909c;
     border-left: 2px solid #e5e6eb;
     p {
+      color: #86909c;
       margin: 0;
     }
   }

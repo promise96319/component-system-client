@@ -25,6 +25,8 @@ export default function MarkdownEditor() {
   const styleName = 'markdown-editor';
 
   const [value, setValue] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const modalRef = useRef<any>();
   // fixme: <Editor /> 首次渲染时会触发 onChange，导致 hasEdited 为 true，
   const [hasEdited, setHasEdited] = useState(-2);
   const rootCache: React.RefObject<Record<any, Root>> = useRef({});
@@ -75,6 +77,21 @@ export default function MarkdownEditor() {
   }, [hasEdited]);
 
   useEffect(() => {
+    const handler = (e: any) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        if (!modalVisible) {
+          setModalVisible(true);
+        } else {
+          modalRef.current?.save();
+        }
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [modalVisible]);
+
+  useEffect(() => {
     if (value !== undefined) {
       setHasEdited(hasEdited + 1);
     }
@@ -109,6 +126,9 @@ export default function MarkdownEditor() {
         <Space size={8}>
           <Button onClick={handleBack}>返回</Button>
           <UpdateModal
+            ref={modalRef}
+            visible={modalVisible}
+            onVisibleChange={setModalVisible}
             value={value}
             doc={doc}
             docId={doc?.id ?? ''}
