@@ -1,0 +1,54 @@
+.component-sidebar {
+  width: 100%;
+  height: 100%;
+  padding: 12px 0px;
+  overflow-y: auto;
+  font-size: 14px;
+  user-select: none;
+
+  .arco-menu-inline-header {
+    height: 46px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      font-weight: 500;
+      svg.arco-icon {
+        font-weight: 500;
+      }
+    }
+
+    &:not(.arco-menu-selected) {
+      color: #1d2129;
+      svg.arco-icon {
+        color: #1d2129;
+        &:hover {
+          color: #1d2129;
+        }
+      }
+    }
+  }
+
+  .arco-menu-item {
+    &:hover {
+      font-weight: 500;
+    }
+  }
+
+  & &-category {
+    display: flex;
+    align-items: center;
+
+    > svg {
+      margin: 0 8px 0 4px;
+    }
+
+    > svg.arco-icon {
+      margin: 0 8px 0 4px;
+    }
+  }
+
+  & &-component {
+    margin-left: 12px;
+  }
+}

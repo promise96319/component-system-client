@@ -1,0 +1,180 @@
+:where(.markdown-body) {
+  color: #1d2129;
+  font-size: 14px;
+  line-height: 22px;
+
+  > h1:first-child {
+    margin-top: 0;
+  }
+
+  > h2:first-child {
+    margin-top: 0;
+  }
+
+  // 标题
+  h1 {
+    margin: 40px 0 12px;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    strong {
+      font-weight: 500;
+    }
+  }
+
+  // 标题
+  h2 {
+    margin: 40px 0 12px;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    strong {
+      font-weight: 500;
+    }
+  }
+
+  // 标题
+  h3 {
+    margin: 32px 0 12px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+    strong {
+      font-weight: 500;
+    }
+  }
+
+  h4 {
+    margin: 24px 0 12px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    strong {
+      font-weight: 500;
+    }
+  }
+
+  h5 {
+    margin: 16px 0 12px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    strong {
+      font-weight: 500;
+    }
+  }
+
+  h6 {
+    margin: 16px 0 12px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    color: #4e5969;
+    strong {
+      font-weight: 500;
+    }
+  }
+
+  // 列表
+  ul:not(.code-block ul) {
+    list-style: disc;
+  }
+
+  ul:not(.code-block ul),
+  ol:not(.code-block ul) {
+    margin: 8px 0 8px 8px;
+    padding: 0 8px;
+    li {
+      color: #4e5969;
+      line-height: 22px;
+    }
+  }
+
+  // 装饰
+  strong {
+    font-weight: 600;
+  }
+
+  a {
+    color: #165dff;
+    text-decoration: underline;
+  }
+
+  // 引用
+  blockquote:not(.code-block blockquote) {
+    margin: 0;
+    padding: 8px 0 8px 16px;
+    color: #86909c;
+    border-left: 2px solid #e5e6eb;
+    p {
+      color: #86909c;
+      margin: 0;
+    }
+  }
+
+  // 段落
+  p:not(.code-block p) {
+    color: #4e5969;
+    margin: 12px 0;
+  }
+
+  // input
+  input[type='checkbox'] {
+    margin-right: 2px;
+    transform: translateY(1px);
+  }
+
+  // 表格
+  // todo：其他样式也应该处理
+  table:not(.code-block table) {
+    border: 1px solid #e5e6eb;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 8px;
+
+    th,
+    td {
+      padding: 8px 16px;
+      text-align: left;
+      vertical-align: top;
+      border-right: 1px solid #e5e6eb;
+      &:last-child {
+        border-right: none;
+      }
+    }
+
+    thead th {
+      border-bottom: 1px solid #e5e6eb;
+    }
+    tbody td {
+      border-bottom: 1px solid #e5e6eb;
+    }
+
+    th {
+      background-color: #f2f3f5;
+      font-weight: 500;
+    }
+  }
+
+  // code
+  code {
+    // color: #722ed1;
+    background: #f2f3f5;
+    border-radius: 2px;
+    padding: 2px 8px;
+    margin: 0 4px;
+  }
+
+  img:not(.code-block img) {
+    max-width: 100%;
+  }
+}
+
+.medium-zoom {
+  &-overlay {
+    z-index: 999999;
+  }
+  &-image--opened {
+    z-index: 999999;
+  }
+}

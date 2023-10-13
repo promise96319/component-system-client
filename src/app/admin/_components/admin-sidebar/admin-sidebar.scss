@@ -1,0 +1,38 @@
+.layout-sidebar:has(.admin-sidebar) {
+  width: 220px;
+  .layout-sidebar-content {
+    width: 220px;
+  }
+}
+
+.admin-sidebar {
+  padding: 12px 0;
+
+  .arco-menu-item {
+    margin-bottom: 8px;
+
+    .arco-space-item {
+      display: flex;
+      align-items: center;
+    }
+
+    .arco-icon {
+      margin-right: 0px;
+    }
+
+    &:not(.arco-menu-selected) {
+      color: #1d2129;
+      svg.arco-icon {
+        color: #1d2129;
+        &:hover {
+          color: #1d2129;
+        }
+      }
+    }
+
+    &.arco-menu-selected {
+      background: #e8f3ff;
+      font-weight: 500;
+    }
+  }
+}

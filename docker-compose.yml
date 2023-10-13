@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  component-system-client-prod:
+    container_name: component-system-client-prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 37026:3000

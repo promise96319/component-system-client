@@ -1,3 +1,13 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "./node_modules/eslint-config-next/core-web-vitals.js",
+  "rules": {
+    "react-hooks/exhaustive-deps": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"],
+        "alphabetize": { "order": "asc", "caseInsensitive": false }
+      }
+    ]
+  }
 }

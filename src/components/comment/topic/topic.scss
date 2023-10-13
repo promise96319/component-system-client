@@ -1,0 +1,77 @@
+.topic {
+  font-size: 14px;
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    margin-bottom: 8px;
+  }
+
+  &-user {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    &-avatar {
+      margin-right: 8px;
+    }
+    &-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    &-name {
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    &-time {
+      font-size: 12px;
+      line-height: 20px;
+    }
+  }
+
+  &-viewer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    > .editor-viewer > .ql-snow > .ql-editor {
+      padding: 0;
+      color: #1d2129;
+    }
+
+    &-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 16px;
+
+      .arco-typography {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    &-action-item {
+      cursor: pointer;
+      &:hover {
+        color: #165dff;
+      }
+    }
+  }
+
+  &-container {
+    padding: 24px;
+  }
+
+  &-comments {
+    border-top: 1px solid #e5e6eb;
+    padding: 0 24px;
+
+    > section > .comment:not(:last-child) > div > .comment-content {
+      padding-bottom: 24px;
+      border-bottom: 1px solid #e5e6eb;
+    }
+  }
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Previewer</title>
+    <link type="text/css" rel="stylesheet" href="__QT_DESIGN_CSS_DEPENDENCY__" />
+    <style>
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      #app {
+        box-sizing: border-box;
+        padding: 24px;
+        height: 100%;
+        overflow: auto;
+      }
+    </style>
+
+    <!-- 设置跨域，否则无法接收到错误信息 https://legacy.reactjs.org/docs/cross-origin-errors.html -->
+    <script crossorigin src="http://ued.qingteng.cn:37022/library/lodash.umd.js"></script>
+    <script crossorigin src="http://ued.qingteng.cn:37022/library/react16.dev.umd.js"></script>
+    <script crossorigin src="http://ued.qingteng.cn:37022/library/react-dom16.dev.umd.js"></script>
+    <script crossorigin src="http://ued.qingteng.cn:37022/library/dayjs.js"></script>
+    <script crossorigin src="__QT_DESIGN_JS_DEPENDENCY__"></script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+
+    <script type="module" crossorigin>
+      const __modules__ = {
+        react: window.React,
+        'react-dom': window.ReactDOM,
+        dayjs: window.dayjs,
+        '@qt/design': window.QtDesign
+      };
+
+      const { React, ReactDOM } = window;
+
+      // React 18
+      // const root = ReactDOM.createRoot(document.getElementById('app'));
+      // const renderElement = (element) => {
+      //   root.render(element);
+      // };
+
+      // React 16
+      const root = document.getElementById('app');
+      const renderElement = (element) => {
+        ReactDOM.render(element, root);
+      };
+
+      const updateView = (data) => {
+        const { compiledCode, error } = data;
+        const createErrorComponent = (error) =>
+          React.createElement(
+            'div',
+            {
+              style: {
+                whiteSpace: 'pre',
+                overflow: 'auto',
+                maxHeight: '100%'
+              }
+            },
+            error.stack
+          );
+
+        if (error) {
+          renderElement(createErrorComponent(error));
+          return;
+        }
+
+        try {
+          const req = (name) => __modules__[name];
+          const Component = eval(`
+          (function (require, exports) {
+            ${compiledCode}
+            return exports.default;
+          })(${req}, {});
+        `);
+
+          class CodeErrorBoundary extends React.Component {
+            state = {
+              error: null
+            };
+
+            static getDerivedStateFromError(error) {
+              return { error };
+            }
+
+            render() {
+              const { children } = this.props;
+              const { error } = this.state;
+              return error ? createErrorComponent(error) : children;
+            }
+          }
+
+          renderElement(React.createElement(CodeErrorBoundary, null, React.createElement(Component)));
+        } catch (err) {
+          renderElement(createErrorComponent(err));
+          return;
+        }
+      };
+
+      window.addEventListener('message', (e) => {
+        updateView(e.data);
+      });
+    </script>
+  </body>
+</html>

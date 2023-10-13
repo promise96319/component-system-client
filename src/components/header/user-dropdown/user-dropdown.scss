@@ -1,0 +1,21 @@
+.user-dropdown {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  > img {
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+
+  &.arco-dropdown-popup-visible .arco-icon-down {
+    transform: rotate(-180deg);
+  }
+
+  &-menu {
+    .arco-space-item {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

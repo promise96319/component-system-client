@@ -1,0 +1,13 @@
+.demand-list {
+  &-item {
+    border: 1px solid #e5e6eb;
+    border-radius: 4px;
+    .arco-card-body {
+      padding: 0;
+    }
+  }
+
+  &-comments {
+    padding: 24px 0;
+  }
+}
