@@ -19,6 +19,7 @@ export type Version = {
 export type ComponentDetail = {
   componentId: string;
   description: string;
+  isNew?: boolean;
 };
 
 /**

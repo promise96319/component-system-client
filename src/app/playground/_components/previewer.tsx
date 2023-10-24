@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { transform } from 'sucrase';
+import { getDesignHost } from '@/utils/dependency';
 import templateHtml from './template.html';
 
 import './previewer.scss';
@@ -13,8 +14,8 @@ export const Previewer = (props: { code: string; version?: number }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const desingDependency = {
-    css: `http://ued.qingteng.cn:37022/qt-design/v${version}/index.css`,
-    js: `http://ued.qingteng.cn:37022/qt-design/v${version}/index.umd.js`
+    css: `${getDesignHost(version)}/index.css`,
+    js: `${getDesignHost(version)}/index.umd.js`
   };
 
   const updateCode = () => {
@@ -22,6 +23,7 @@ export const Previewer = (props: { code: string; version?: number }) => {
       const compiledCode: string = transform(code, {
         transforms: ['jsx', 'typescript', 'imports']
       })?.code;
+      console.log('compiledCode', compiledCode);
       iframeRef.current?.contentWindow?.postMessage({ compiledCode });
     } catch (error: any) {
       iframeRef.current?.contentWindow?.postMessage({ error });

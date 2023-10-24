@@ -30,6 +30,7 @@ export const clientFetch = async <D>(
   if (option.method) {
     option.method = option.method.toUpperCase();
   }
+
   const fullUrl = (process.env.NEXT_PUBLIC_SERVER_HOST ?? '') + url;
   const res: Response<D> = await fetch(fullUrl, option).then((res) => res.json());
 

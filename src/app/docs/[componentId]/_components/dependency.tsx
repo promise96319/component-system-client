@@ -4,7 +4,6 @@ import { getDesignCssDependency, getDesignJsDependency } from '@/utils/dependenc
 
 export const DesignDependency = () => {
   const majorVersion = Number(cookies().get('majorVersion')?.value);
-  console.log('majorVersion', majorVersion);
   const designCssDependency = majorVersion ? [getDesignCssDependency(majorVersion)] : [];
   const designJsDependency = majorVersion ? [getDesignJsDependency(majorVersion)] : [];
   return <CodeDependency cssDependencies={designCssDependency} jsDependencies={designJsDependency} />;

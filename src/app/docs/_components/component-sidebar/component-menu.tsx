@@ -1,5 +1,7 @@
 'use client';
 
+import { Tag } from '@arco-design/web-react';
+import { IconMore, IconExperiment } from '@arco-design/web-react/icon';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useSearchParams, useSelectedLayoutSegment } from 'next/navigation';
@@ -26,7 +28,9 @@ export const ComponentMenu = (props: { components: Component[] }) => {
     <IconNav key="nav" style={{ fontSize: 18 }}></IconNav>,
     <IconInput key="input" style={{ fontSize: 18 }}></IconInput>,
     <IconData key="data" style={{ fontSize: 18 }}></IconData>,
-    <IconFeedback key="feedback" style={{ fontSize: 18 }} />
+    <IconFeedback key="feedback" style={{ fontSize: 18 }} />,
+    <IconMore key="other" style={{ fontSize: 18 }} />,
+    <IconExperiment key="experiment" style={{ fontSize: 18 }} />
   ];
 
   return (
@@ -52,7 +56,14 @@ export const ComponentMenu = (props: { components: Component[] }) => {
                 >
                   <Link href={`/docs/${item.componentId}/api?v=${searchParams.get('v')}`}>
                     <MenuItem key={item.componentId}>
-                      <span className={`${styleName}-component`}>{item.description}</span>
+                      <span className={`${styleName}-component`}>
+                        <span className={`${styleName}-component-description`}>{item.description}</span>
+                        {item.isNew && (
+                          <Tag className={`${styleName}-component-new`} color="green">
+                            New
+                          </Tag>
+                        )}
+                      </span>
                     </MenuItem>
                   </Link>
                 </div>
