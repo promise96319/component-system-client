@@ -1,7 +1,7 @@
 'use client';
 
 import { Tag } from '@arco-design/web-react';
-import { IconMore, IconExperiment } from '@arco-design/web-react/icon';
+import { IconExperiment } from '@arco-design/web-react/icon';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useSearchParams, useSelectedLayoutSegment } from 'next/navigation';
@@ -11,6 +11,7 @@ import IconGeneral from '@/assets/sidebar/general.svg';
 import IconInput from '@/assets/sidebar/input.svg';
 import IconLayout from '@/assets/sidebar/layout.svg';
 import IconNav from '@/assets/sidebar/nav.svg';
+import IconOther from '@/assets/sidebar/other.svg';
 
 import { Menu, SubMenu, MenuItem } from '@/components/arco';
 import { Component } from '@/services/common';
@@ -29,7 +30,7 @@ export const ComponentMenu = (props: { components: Component[] }) => {
     <IconInput key="input" style={{ fontSize: 18 }}></IconInput>,
     <IconData key="data" style={{ fontSize: 18 }}></IconData>,
     <IconFeedback key="feedback" style={{ fontSize: 18 }} />,
-    <IconMore key="other" style={{ fontSize: 18 }} />,
+    <IconOther key="other" style={{ fontSize: 18 }} />,
     <IconExperiment key="experiment" style={{ fontSize: 18 }} />
   ];
 

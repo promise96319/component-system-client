@@ -12,7 +12,7 @@
     align-items: center;
 
     &:hover {
-      font-weight: 500;
+      // font-weight: 500;
       svg.arco-icon {
         font-weight: 500;
       }
@@ -29,11 +29,11 @@
     }
   }
 
-  .arco-menu-item {
-    &:hover {
-      font-weight: 500;
-    }
-  }
+  // .arco-menu-item {
+  //   &:hover {
+  //     font-weight: 500;
+  //   }
+  // }
 
   & &-category {
     display: flex;
