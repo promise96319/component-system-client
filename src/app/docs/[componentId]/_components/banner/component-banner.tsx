@@ -1,18 +1,13 @@
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import Image from 'next/image';
 import { ComponentDetail } from '@/services/common';
 import { serverFetch } from '@/services/common/fetch.server';
-import { getPath } from '@/utils/header';
 import { ComponentNav } from './component-nav';
 
 import './component-banner.scss';
 
-export async function ComponentBanner() {
+export async function ComponentBanner({ componentId }: { componentId: string }) {
   const styleName = 'component-banner';
-
-  const headerList = headers();
-  const paths = getPath(headerList) ?? '';
-  const componentId = paths.split('/').slice(-2)[0];
 
   const majorVersionId = cookies().get('majorVersionId');
   const component = await serverFetch<ComponentDetail>(`/component/${componentId}`, {

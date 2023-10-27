@@ -19,7 +19,7 @@ import { Component } from '@/services/common';
 export const ComponentMenu = (props: { components: Component[] }) => {
   const styleName = 'component-sidebar';
   const searchParams = useSearchParams();
-  const { components } = props;
+  const { components = [] } = props;
   const category = components.map((item) => item.category);
   const segment = useSelectedLayoutSegment();
 

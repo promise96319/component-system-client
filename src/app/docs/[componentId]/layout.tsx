@@ -19,13 +19,19 @@ export async function generateMetadata({ params }: { params: { componentId: stri
   };
 }
 
-export default function DocsLayout({ children }: { children: React.ReactNode }) {
+export default function DocsLayout({
+  children,
+  params
+}: {
+  children: React.ReactNode;
+  params: { componentId: string };
+}) {
   const styleName = 'docs';
 
   return (
     <div className={styleName}>
       <div className={`${styleName}-banner`}>
-        <ComponentBanner></ComponentBanner>
+        <ComponentBanner componentId={params.componentId}></ComponentBanner>
       </div>
       <div className={`${styleName}-content`}>{children}</div>
     </div>
