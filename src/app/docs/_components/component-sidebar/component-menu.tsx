@@ -1,5 +1,7 @@
 'use client';
 
+import { Tag } from '@arco-design/web-react';
+import { IconExperiment } from '@arco-design/web-react/icon';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useSearchParams, useSelectedLayoutSegment } from 'next/navigation';
@@ -9,6 +11,7 @@ import IconGeneral from '@/assets/sidebar/general.svg';
 import IconInput from '@/assets/sidebar/input.svg';
 import IconLayout from '@/assets/sidebar/layout.svg';
 import IconNav from '@/assets/sidebar/nav.svg';
+import IconOther from '@/assets/sidebar/other.svg';
 
 import { Menu, SubMenu, MenuItem } from '@/components/arco';
 import { Component } from '@/services/common';
@@ -26,7 +29,9 @@ export const ComponentMenu = (props: { components: Component[] }) => {
     <IconNav key="nav" style={{ fontSize: 18 }}></IconNav>,
     <IconInput key="input" style={{ fontSize: 18 }}></IconInput>,
     <IconData key="data" style={{ fontSize: 18 }}></IconData>,
-    <IconFeedback key="feedback" style={{ fontSize: 18 }} />
+    <IconFeedback key="feedback" style={{ fontSize: 18 }} />,
+    <IconOther key="other" style={{ fontSize: 18 }} />,
+    <IconExperiment key="experiment" style={{ fontSize: 18 }} />
   ];
 
   return (
@@ -52,7 +57,14 @@ export const ComponentMenu = (props: { components: Component[] }) => {
                 >
                   <Link href={`/docs/${item.componentId}/api?v=${searchParams.get('v')}`}>
                     <MenuItem key={item.componentId}>
-                      <span className={`${styleName}-component`}>{item.description}</span>
+                      <span className={`${styleName}-component`}>
+                        <span className={`${styleName}-component-description`}>{item.description}</span>
+                        {item.isNew && (
+                          <Tag className={`${styleName}-component-new`} color="green">
+                            New
+                          </Tag>
+                        )}
+                      </span>
                     </MenuItem>
                   </Link>
                 </div>

@@ -6,8 +6,6 @@ import { ComponentBanner } from './_components/banner/component-banner';
 import './layout.scss';
 
 export async function generateMetadata({ params }: { params: { componentId: string } }) {
-  cookies;
-
   const { componentId } = params;
   const majorVersionId = cookies().get('majorVersionId');
   const component = await serverFetch<ComponentDetail>(`/component/${componentId}`, {
