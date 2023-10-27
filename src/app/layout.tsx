@@ -2,7 +2,6 @@ import '@arco-design/web-react/dist/css/arco.css';
 import './global.css';
 
 import { Inter } from 'next/font/google';
-import { Auth } from '@/components/auth/auth';
 import { DesignDependency } from './editor/_components/dependency';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -19,11 +18,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="zh-cn">
       <body className={inter.className}>
-        <Auth>
-          {/* https://nextjs.org/docs/pages/api-reference/components/script */}
-          <DesignDependency></DesignDependency>
-          {children}
-        </Auth>
+        {/* https://nextjs.org/docs/pages/api-reference/components/script */}
+        <DesignDependency></DesignDependency>
+        {children}
       </body>
     </html>
   );
